@@ -1,0 +1,13 @@
+name: GravityGuild
+main: com.johncorby.gravityguild.GravityGuild
+version: 2.0
+author: JohnCorby
+
+commands:
+    gravityguild:
+        description: Base GravityGuild command.
+
+permissions:
+    gravityguild.admin:
+        description: You can do everything.
+        default: false
