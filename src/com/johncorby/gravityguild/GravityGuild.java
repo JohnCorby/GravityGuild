@@ -51,7 +51,7 @@ public class GravityGuild extends JavaPlugin {
 	    commandHandler = new CommandHandler();
         eventHandler = new EventHandler();
 
-		// Set up config
+        // Set up config
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 

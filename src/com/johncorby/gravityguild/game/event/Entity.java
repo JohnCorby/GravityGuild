@@ -3,7 +3,6 @@ package com.johncorby.gravityguild.game.event;
 import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
 import com.johncorby.gravityguild.game.arena.CoolDownHandler;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -12,12 +11,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 
-import java.util.List;
-
 import static com.johncorby.gravityguild.GravityGuild.WORLD;
 import static com.johncorby.gravityguild.MessageHandler.MessageType.GAME;
 import static com.johncorby.gravityguild.MessageHandler.msg;
-import static com.johncorby.gravityguild.Utils.debug;
 import static com.johncorby.gravityguild.Utils.randInt;
 import static com.johncorby.gravityguild.arenaapi.arena.ArenaHandler.broadcast;
 
@@ -76,8 +72,8 @@ public class Entity implements Listener {
         aI.removeEntity(event.getEntity());
 
         // Add exploded blocks to arena's changed blocks list
-        List<Block> bL = event.blockList();
-        for (Block b : bL) aI.addChangedBlock(b);
+        //List<Block> bL = event.blockList();
+        //for (Block b : bL) aI.addChangedBlock(b);
     }
 
 
@@ -147,8 +143,8 @@ public class Entity implements Listener {
     @Deprecated
     @EventHandler
     public void onSpawn(EntitySpawnEvent event) {
-        debug("Entity spawn " + event.getEntity().getType());
-        ArenaHandler.Arena aI = ArenaHandler.arenaInC(event.getEntity());
+        //debug("Entity spawn " + event.getEntity().getType());
+        ArenaHandler.Arena aI = ArenaHandler.arenaInC(event.getEntity().getLocation());
         if (aI == null) return;
         aI.addEntity(event.getEntity());
     }
@@ -159,8 +155,8 @@ public class Entity implements Listener {
     @Deprecated
     @EventHandler
     public void onDeath(EntityDeathEvent event) {
-        debug("Entity death " + event.getEntity().getType());
-        ArenaHandler.Arena aI = ArenaHandler.arenaInC(event.getEntity());
+        //debug("Entity death " + event.getEntity().getType());
+        ArenaHandler.Arena aI = ArenaHandler.arenaInC(event.getEntity().getLocation());
         //ArenaHandler.Arena aI = ArenaHandler.arenaIn(event.getEntity());
         if (aI == null) return;
         aI.removeEntity(event.getEntity());

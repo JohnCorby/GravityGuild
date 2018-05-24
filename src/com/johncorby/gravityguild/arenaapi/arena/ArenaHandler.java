@@ -7,7 +7,6 @@ import com.johncorby.gravityguild.arenaapi.command.Lobby;
 import com.johncorby.gravityguild.game.arena.JoinLeave;
 import com.johncorby.gravityguild.game.arena.StateChange;
 import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -63,13 +62,10 @@ public class ArenaHandler {
     }
 
     // Get arena entity is in via coords
-    @Deprecated
-    public static Arena arenaInC(Entity entity) {
+    public static Arena arenaInC(Location location) {
         for (Arena a : arenas) {
             Integer[] r = a.region;
-            Integer[] l = {entity.getLocation().getBlockX(), entity.getLocation().getBlockZ()};
-            debug(r);
-            debug(l);
+            Integer[] l = {location.getBlockX(), location.getBlockZ()};
             if (l[0] >= r[0] &&
                     l[0] <= r[2] &&
                     l[1] >= r[1] &&
@@ -113,6 +109,7 @@ public class ArenaHandler {
         private State state = State.STOPPED;
         private CopyOnWriteArrayList<Entity> entities = new CopyOnWriteArrayList<>();
         private CopyOnWriteArrayList<BlockState> changedBlocks = new CopyOnWriteArrayList<>();
+        //private CopyOnWriteArrayList<BlockState> blocks = new CopyOnWriteArrayList<>();
 
         private Sign sign;
         private Integer[] region;
@@ -167,8 +164,32 @@ public class ArenaHandler {
                     for (Entity e : entities)
                         removeEntity(e);
 
-                    // Lets try using chunks instead
-                    WORLD.refreshChunk()
+                    /*
+                    // This probably wont work lol
+                    // Set blocks
+                    debug("Resetting blocks");
+                    new BukkitRunnable() {
+                        int i = 0,
+                        percentDone = 0,
+                        percentTotal = blocks.size();
+                        @Override
+                        public void run() {
+                            for (int t = 0; t < 1000; t++) {
+                                if (i >= blocks.size() || percentDone >= percentTotal) {
+                                    debug("Done resetting");
+                                    cancel();
+                                    return;
+                                }
+                                blocks.get(i).update();
+                                i++;
+                                percentDone++;
+                            }
+                            debug(percentDone + "/" + percentTotal);
+                        }
+                    }.runTaskTimer(gravityGuild, 0, 0);
+                    //for (BlockState b : blocks)
+                    //    b.update(true, false);
+                    */
 
                     // Set back all changed blocks
                     for (BlockState b : changedBlocks)
@@ -214,6 +235,42 @@ public class ArenaHandler {
             this.region = region;
             configLoc.set("Region", region);
             gravityGuild.saveConfig();
+
+            /*
+            // This probably wont work lol
+            // Get blocks
+            blocks.clear();
+            debug("Getting blocks");
+            new BukkitRunnable() {
+                int x = region[0],
+                y = 0,
+                z = region[1],
+                percentDone = 0,
+                percentTotal = 256 * (region[2] - region[0]) * (region[3] - region[1]);
+                @Override
+                public void run() {
+                    for (int t = 0; t < 1000; t++) {
+                        if (y >= 256) {
+                            x++;
+                            y = 0;
+                        }
+                        if (x >= region[2]) {
+                            z++;
+                            x = region[0];
+                        }
+                        if (z >= region[3] || percentDone >= percentTotal) {
+                            debug("Done getting");
+                            cancel();
+                            return;
+                        }
+                        blocks.add(WORLD.getBlockAt(x, y, z).getState());
+                        y++;
+                        percentDone++;
+                    }
+                    debug(percentDone + "/" + percentTotal);
+                }
+            }.runTaskTimer(gravityGuild, 0, 0);
+            */
         }
 
         public void setSign(Sign sign) {
@@ -316,7 +373,21 @@ public class ArenaHandler {
         }
 
         public void addChangedBlock(BlockState blockState) {
+            // Ignore if arena is stopped
+            if (state == State.STOPPED) return;
+
+            // Don't add to list if block is already there
+            int locI = Utils.map(changedBlocks, BlockState::getLocation).indexOf(blockState.getLocation());
+            if (locI != -1) {
+                //changedBlocks.set(locI, blockState);
+                //Utils.debug("Updated changed block: " + blockState.getBlock());
+                Utils.debug("Didn't add: " + blockState.getBlock());
+                return;
+            }
+
+            // Else, add BlockState to list
             changedBlocks.add(blockState);
+            Utils.debug("Added: " + blockState.getBlock());
         }
     }
 }

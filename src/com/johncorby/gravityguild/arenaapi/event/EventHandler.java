@@ -15,6 +15,8 @@ public class EventHandler {
         register(new com.johncorby.gravityguild.game.event.Player());
         register(new Entity());
         register(new com.johncorby.gravityguild.game.event.Block());
+
+        new Any();
     }
 
     private static void register(Listener event) {
