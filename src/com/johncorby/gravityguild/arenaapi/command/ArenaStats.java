@@ -1,8 +1,8 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
+import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
 import org.bukkit.Location;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -23,7 +23,7 @@ public class ArenaStats extends BaseCommand {
         msg(sender, GENERAL, "----- Arena stats -----");
 
         // Error if no arenas
-        if (arenas.isEmpty()) return error(sender, "There are no arenas");
+        if (arenas.isEmpty()) return MessageHandler.commandError(sender, "There are no arenas");
 
         // Get stats of each arena
         for (ArenaHandler.Arena a : arenas) {
@@ -54,6 +54,7 @@ public class ArenaStats extends BaseCommand {
                         (int) l.getYaw()));
             }
 
+            /*
             List<BlockState> bl = a.getChangedBlocks();
             sl.add("    Changed blocks: " + (bl.isEmpty() ? "None" : ""));
             //sl.add("    Changed blocks: " + bl);
@@ -65,6 +66,7 @@ public class ArenaStats extends BaseCommand {
                         l.getBlockY(),
                         l.getBlockZ()));
             }
+            */
 
             msg(sender, GENERAL, sl.toArray());
 

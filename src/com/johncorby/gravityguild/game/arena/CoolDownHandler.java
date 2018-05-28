@@ -1,13 +1,11 @@
 package com.johncorby.gravityguild.game.arena;
 
 import com.johncorby.gravityguild.MessageHandler;
-import com.johncorby.gravityguild.Utils;
+import com.johncorby.gravityguild.util.Common;
+import com.johncorby.gravityguild.util.Runnable;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-
-import static com.johncorby.gravityguild.GravityGuild.gravityGuild;
 
 public class CoolDownHandler {
     private static ArrayList<Task> coolDowns = new ArrayList<>();
@@ -32,10 +30,10 @@ public class CoolDownHandler {
 
     // Get task by player
     private static Task get(Player player) {
-        return Utils.find(coolDowns, c -> c.p, player);
+        return Common.find(coolDowns, c -> c.p, player);
     }
 
-    private static class Task extends BukkitRunnable {
+    private static class Task extends Runnable {
         private Player p;
         private static final int d = 5;
 
@@ -50,7 +48,7 @@ public class CoolDownHandler {
             MessageHandler.msg(p, MessageHandler.MessageType.GAME, "You are invincible for " + d + " seconds");
 
             this.p = p;
-            runTaskLater(gravityGuild, 20 * d);
+            runTaskLater(20 * d);
         }
 
         @Override

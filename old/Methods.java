@@ -1,7 +1,6 @@
 package old;
 
-import java.util.Random;
-
+import old.Arena.States;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -13,7 +12,7 @@ import org.bukkit.entity.WitherSkull;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import old.Arena.States;
+import java.util.Random;
 
 public class Methods {
 
@@ -23,6 +22,7 @@ public class Methods {
     Commands c;
     TabCompletion t;
     Arena a;
+
     Methods(GravityGuild g, Methods m, Events e, Commands c, TabCompletion t, Arena a) {
         this.g = g;
         this.m = m;
@@ -39,8 +39,11 @@ public class Methods {
 
     // Get int
     Integer getInt(String i) {
-        try {return Integer.parseInt(i);}
-        catch (Exception e) {return null;}
+        try {
+            return Integer.parseInt(i);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     int inArena(Player p) {
@@ -89,15 +92,17 @@ public class Methods {
         p.setInvulnerable(true);
         p.setGlowing(true);
         p.sendMessage(ChatColor.YELLOW + "You are invincible for 5 seconds");
-        new BukkitRunnable() {public void run() {
-            if (inArena(p) < 0) {
-                cancel();
-                return;
+        new BukkitRunnable() {
+            public void run() {
+                if (inArena(p) < 0) {
+                    cancel();
+                    return;
+                }
+                p.setInvulnerable(false);
+                p.setGlowing(false);
+                p.sendMessage(ChatColor.YELLOW + "Invincibility off");
             }
-            p.setInvulnerable(false);
-            p.setGlowing(false);
-            p.sendMessage(ChatColor.YELLOW + "Invincibility off");
-        }}.runTaskLater(g, 20 * 5);
+        }.runTaskLater(g, 20 * 5);
     }
 
     // End game
@@ -120,7 +125,8 @@ public class Methods {
         try {
             for (Player p : g.arena[aI].players)
                 leaveArena(p);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         g.arena[aI].brokenBlocks.clear();
         g.arena[aI].arrows.clear();
@@ -129,10 +135,6 @@ public class Methods {
 
         g.arena[aI].setState(States.STOPPED);
     }
-
-
-
-
 
 
     // broadcast message to players in arena
@@ -167,13 +169,6 @@ public class Methods {
     }
 
 
-
-
-
-
-
-
-
     // Teleport player to lobby
     void tpToLobby(Player p) {
         String[] lC = g.getConfig().getString("Lobby").split(",");
@@ -181,7 +176,6 @@ public class Methods {
         p.teleport(lobbyLoc);
         p.sendMessage(ChatColor.AQUA + "Teleporting to lobby");
     }
-
 
 
     // Set sign from arena index

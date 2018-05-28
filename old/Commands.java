@@ -1,16 +1,19 @@
 package old;
 
-import org.bukkit.*;
+import old.Arena.States;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-
-import old.Arena.States;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.*;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -194,17 +197,6 @@ public class Commands implements CommandExecutor {
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
         // Join arena
         if (cmd.getName().equalsIgnoreCase("ggjoin")) {
             // If wrong amount of arguments
@@ -221,14 +213,17 @@ public class Commands implements CommandExecutor {
                 return false;
             }
 
-            try {if (g.arena[m.getInt(args[0])].state == States.STOPPED) {}} catch(Exception e) {
+            try {
+                if (g.arena[m.getInt(args[0])].state == States.STOPPED) {
+                }
+            } catch (Exception e) {
                 player.sendMessage(ChatColor.RED + "Arena " + args[0] + " does not exist");
                 return false;
             }
 
             // Dont join unless part of bypass players
             if (g.arena[m.getInt(args[0])].state != States.STOPPED && g.arena[m.getInt(args[0])].state != States.STARTING && !bypassPlayers.contains(player.getName().toLowerCase())) {
-                player.sendMessage(ChatColor.RED + "Arena " + args[0]+ " has already started");
+                player.sendMessage(ChatColor.RED + "Arena " + args[0] + " has already started");
                 return false;
             }
 
@@ -290,6 +285,7 @@ public class Commands implements CommandExecutor {
 
                     new BukkitRunnable() {
                         int timer = 10;
+
                         public void run() {
                             if (arena.state != States.STARTING || arena.players.size() <= 0) {
                                 cancel();
@@ -329,7 +325,6 @@ public class Commands implements CommandExecutor {
         }
 
 
-
         // Teleport to lobby
         if (cmd.getName().equalsIgnoreCase("gglobby")) {
             if (m.inArena(player) > -1)
@@ -359,22 +354,6 @@ public class Commands implements CommandExecutor {
 
             player.sendMessage(ChatColor.AQUA + "Lobby set");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         if (cmd.getName().equalsIgnoreCase("ggstat")) {
@@ -425,7 +404,6 @@ public class Commands implements CommandExecutor {
             }
 
         }
-
 
 
         return false;

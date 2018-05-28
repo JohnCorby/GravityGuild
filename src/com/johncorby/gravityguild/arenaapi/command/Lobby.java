@@ -11,21 +11,21 @@ public class Lobby extends BaseCommand {
         super("Teleport to lobby", "", "");
     }
 
-    @Override
-    public boolean onCommand(Player sender, String[] args) {
-        // Leave arena if in one
-        ArenaHandler.Arena aI = ArenaHandler.arenaIn(sender);
-        if (aI != null) return aI.removeEntity(sender);
-        else return lobby(sender);
-    }
-    
     public static boolean lobby(Player player) {
         // Error if no lobby loc
         Location lL = LobbyHandler.get();
-        if (lL == null) return error(player, "No lobby location set");
+        if (lL == null) return MessageHandler.commandError(player, "No lobby location set");
 
         player.teleport(lL);
         MessageHandler.msg(player, MessageHandler.MessageType.GENERAL, "Teleported to lobby");
         return true;
+    }
+
+    @Override
+    public boolean onCommand(Player sender, String[] args) {
+        // Leave arena if in one
+        ArenaHandler.Arena aI = ArenaHandler.arenaIn(sender);
+        if (aI != null) return aI.remove(sender);
+        else return lobby(sender);
     }
 }

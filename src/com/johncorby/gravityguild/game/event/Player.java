@@ -31,7 +31,7 @@ public class Player implements Listener {
             WitherSkull s = (WitherSkull) WORLD.spawnEntity(l, EntityType.WITHER_SKULL);
             s.setVelocity(s.getDirection());
             s.setShooter(p);
-            aI.addEntity(s);
+            aI.add(s);
             event.setCancelled(true);
         }
     }

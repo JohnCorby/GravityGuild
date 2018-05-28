@@ -1,7 +1,5 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
-import com.johncorby.gravityguild.MessageHandler;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public abstract class BaseCommand {
@@ -29,10 +27,5 @@ public abstract class BaseCommand {
 
     public final boolean hasPermission(Player sender) {
         return permission.isEmpty() || sender.isOp() || sender.hasPermission(permission);
-    }
-
-    public static final boolean error(CommandSender to, Object... messages) {
-        MessageHandler.msg(to, MessageHandler.MessageType.ERROR, messages);
-        return false;
     }
 }

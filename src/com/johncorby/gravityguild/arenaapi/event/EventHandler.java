@@ -16,7 +16,7 @@ public class EventHandler {
         register(new Entity());
         register(new com.johncorby.gravityguild.game.event.Block());
 
-        new Any();
+        //new Any();
     }
 
     private static void register(Listener event) {

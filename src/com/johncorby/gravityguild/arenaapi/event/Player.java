@@ -36,7 +36,7 @@ public class Player implements Listener {
             if (!s.getLine(0).equalsIgnoreCase(ChatColor.YELLOW + "[GravityGuild]")) return;
 
             // Try to join game
-            ArenaHandler.get(s.getLine(1)).addEntity(event.getPlayer());
+            ArenaHandler.get(s.getLine(1)).add(event.getPlayer());
         }
     }
 
@@ -47,6 +47,6 @@ public class Player implements Listener {
         org.bukkit.entity.Player player = event.getPlayer();
         // Try to get arena and make player leave it
         ArenaHandler.Arena aI = ArenaHandler.arenaIn(player);
-        if (aI != null) aI.removeEntity(player);
+        if (aI != null) aI.remove(player);
     }
 }

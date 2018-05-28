@@ -1,7 +1,6 @@
 package com.johncorby.gravityguild.arenaapi.arena;
 
 import com.johncorby.gravityguild.MessageHandler;
-import com.johncorby.gravityguild.arenaapi.command.BaseCommand;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -11,12 +10,13 @@ public class SetRegionHandler {
 
     public static boolean add(Player player, String name, boolean add) {
         // Error if arena doesn't exist
-        if (ArenaHandler.get(name) == null && !add) return BaseCommand.error(player, "Arena " + name + " does not exist");
+        if (ArenaHandler.get(name) == null && !add)
+            return MessageHandler.commandError(player, "Arena " + name + " does not exist");
 
         // Error if player already setting region
         SetRegion setRegion = regionSetting(player);
         if (setRegion != null)
-            return BaseCommand.error(player, "You are already setting region for arena " + setRegion.name);
+            return MessageHandler.commandError(player, "You are already setting region for arena " + setRegion.name);
 
         setRegion = new SetRegion(player, name, add);
         setRegions.add(setRegion);

@@ -1,6 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
-import com.johncorby.gravityguild.Utils;
+import com.johncorby.gravityguild.MessageHandler;
+import com.johncorby.gravityguild.util.Common;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,9 +12,7 @@ import java.util.Arrays;
 
 import static com.johncorby.gravityguild.GravityGuild.gravityGuild;
 import static com.johncorby.gravityguild.MessageHandler.MessageType.ERROR;
-import static com.johncorby.gravityguild.MessageHandler.log;
-import static com.johncorby.gravityguild.MessageHandler.msg;
-import static com.johncorby.gravityguild.arenaapi.command.BaseCommand.error;
+import static com.johncorby.gravityguild.MessageHandler.commandError;
 import static org.apache.commons.lang.exception.ExceptionUtils.getStackTrace;
 
 public class CommandHandler implements CommandExecutor {
@@ -33,11 +32,12 @@ public class CommandHandler implements CommandExecutor {
         register(new Add());
         register(new Cancel());
         register(new Delete());
+        register(new SetRegion());
         register(new Update());
         register(new ArenaStats());
         register(new SetLobby());
 
-        TabCompleteHandler.register(getCommand("help"), 0, Utils.toStr(commands.stream().map(BaseCommand::getName).toArray()));
+        TabCompleteHandler.register(getCommand("help"), 0, Common.map(commands, BaseCommand::getName).toArray(new String[0]));
     }
 
     private static void register(BaseCommand command) {
@@ -56,7 +56,7 @@ public class CommandHandler implements CommandExecutor {
         args = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
 
         // If sender not player: say so
-        if (!(sender instanceof Player)) return error(sender, "Sender must be player");
+        if (!(sender instanceof Player)) return MessageHandler.commandError(sender, "Sender must be player");
         Player player = (Player) sender;
 
         // If no args: show help for all commands
@@ -67,20 +67,21 @@ public class CommandHandler implements CommandExecutor {
         BaseCommand baseCommand = getCommand(args[0]);
 
         // If command not found: say so
-        if (baseCommand == null) return error(player, "Command " + args[0] + " not found", "Do /gravityguild help for a list of commands");
+        if (baseCommand == null)
+            return MessageHandler.commandError(player, "Command " + args[0] + " not found", "Do /gravityguild help for a list of commands");
 
         // If no permission: say so
-        if (!baseCommand.hasPermission(player)) return error(player, "No permission");
+        if (!baseCommand.hasPermission(player)) return MessageHandler.commandError(player, "No permission");
 
         args = Arrays.copyOfRange(args, 1, args.length);
 
-        // Try to execute command or show error if error
+        // Try to execute command or show commandError if commandError
         try {
             return baseCommand.onCommand(player, args);
         } catch (Exception e) {
-            msg(player, ERROR, "Error:" + e);
+            commandError(player, ERROR, "Error:" + e);
             //msg(player, ERROR, "Error:", e, "Stack Trace:", getStackTrace(e));
-            log(ERROR, getStackTrace(e));
+            MessageHandler.error(getStackTrace(e));
             return false;
         }
     }

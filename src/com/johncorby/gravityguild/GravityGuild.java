@@ -23,6 +23,7 @@ package com.johncorby.gravityguild;
 import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
 import com.johncorby.gravityguild.arenaapi.command.CommandHandler;
 import com.johncorby.gravityguild.arenaapi.event.EventHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -80,17 +81,10 @@ public class GravityGuild extends JavaPlugin {
 	        for (Player p : a.getPlayers())
                 MessageHandler.msg(p, MessageHandler.MessageType.ERROR, "You have been forced out of the arena because the plugin was reloaded (probably for debugging)");
             a.setState(ArenaHandler.Arena.State.STOPPED);
-
         }
 
-	    /*
-		// End all setRegions
-		for (int i = 0; i < arena.length; i++)
-			if (arena[i] != null) {
-                m.broadcast(i, ChatColor.RED + "You have been forced out of the arena because the plugin was reloaded (probably for debugging)");
-                m.endGame(i);
-            }
-        */
+        // Stop all GravityGuild tasks
+        Bukkit.getScheduler().cancelTasks(this);
 
         MessageHandler.log(MessageHandler.MessageType.GENERAL,"GravityGuild Disabled");
 	}

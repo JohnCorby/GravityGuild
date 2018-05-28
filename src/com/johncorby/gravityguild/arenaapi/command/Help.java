@@ -1,5 +1,6 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
+import com.johncorby.gravityguild.MessageHandler;
 import org.bukkit.entity.Player;
 
 import static com.johncorby.gravityguild.MessageHandler.MessageType;
@@ -22,7 +23,8 @@ public class Help extends BaseCommand {
 
         // Try to get command
         BaseCommand command = getCommand(args[0]);
-        if (command == null) return error(sender, "Command " + args[0] + " not found", "Do /gravityguild help for a list of commands");
+        if (command == null)
+            return MessageHandler.commandError(sender, "Command " + args[0] + " not found", "Do /gravityguild help for a list of commands");
 
         // Get help for command
         getHelp(sender, command);

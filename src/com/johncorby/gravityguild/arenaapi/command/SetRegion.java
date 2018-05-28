@@ -2,11 +2,12 @@ package com.johncorby.gravityguild.arenaapi.command;
 
 import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
+import com.johncorby.gravityguild.arenaapi.arena.SetRegionHandler;
 import org.bukkit.entity.Player;
 
-public class Delete extends BaseCommand {
-    Delete() {
-        super("Delete an arena", "<name>", "gg.admin");
+public class SetRegion extends BaseCommand {
+    SetRegion() {
+        super("Set an arena's region", "<name>", "gg.admin");
         TabCompleteHandler.register(this, 0, ArenaHandler.getNames());
     }
 
@@ -15,12 +16,7 @@ public class Delete extends BaseCommand {
         // Error if no name given
         if (args.length == 0) return MessageHandler.commandError(sender, "You must supply an arena name");
 
-        // Error if arena doesn't exist
-        if (ArenaHandler.get(args[0]) == null)
-            return MessageHandler.commandError(sender, "Arena " + args[0] + " does not exist");
-
-        // Delete arena
-        MessageHandler.msg(sender, MessageHandler.MessageType.GENERAL, "Arena " + args[0] + " deleted");
-        return ArenaHandler.remove(ArenaHandler.get(args[0])) != null;
+        // Try to update region
+        return SetRegionHandler.add(sender, args[0], false);
     }
 }

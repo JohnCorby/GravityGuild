@@ -1,8 +1,8 @@
 package com.johncorby.gravityguild.arenaapi.event;
 
 import com.johncorby.gravityguild.MessageHandler;
-import com.johncorby.gravityguild.Utils;
 import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
+import com.johncorby.gravityguild.util.Common;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 
-import static com.johncorby.gravityguild.arenaapi.command.BaseCommand.error;
+import static com.johncorby.gravityguild.MessageHandler.commandError;
 
 public class Block implements Listener {
     // For setting gravityguild signs
@@ -47,13 +47,13 @@ public class Block implements Listener {
         String aN = event.getLine(1);
         ArenaHandler.Arena a = ArenaHandler.get(aN);
         if (a == null) {
-            error(event.getPlayer(), "Arena " + aN + " doesn't exist");
+            commandError(event.getPlayer(), "Arena " + aN + " doesn't exist");
             return;
         }
 
         // Ignore if arena already has sign
         if (a.getSign() != null) {
-            error(event.getPlayer(), "Arena " + aN + " already has sign");
+            commandError(event.getPlayer(), "Arena " + aN + " already has sign");
             return;
         }
 
@@ -61,7 +61,7 @@ public class Block implements Listener {
         event.setLine(0, ChatColor.YELLOW + "[GravityGuild]");
         event.setLine(1, a.getName());
         event.setLine(2, a.getState().get());
-        event.setLine(3, Utils.toStr(a.getPlayers().size()));
+        event.setLine(3, Common.toStr(a.getPlayers().size()));
         a.setSign((Sign) event.getBlock().getState());
         MessageHandler.msg(event.getPlayer(), MessageHandler.MessageType.GENERAL, "Set sign for " + aN);
     }

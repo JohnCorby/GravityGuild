@@ -8,10 +8,34 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.johncorby.gravityguild.MessageHandler.MessageType.ERROR;
+import static com.johncorby.gravityguild.MessageHandler.MessageType.GENERAL;
+
 public class MessageHandler {
     public static final MessageHandler messageHandler = new MessageHandler();
 
     public static final String prefix = ChatColor.GRAY + "[" + ChatColor.GOLD + "GravityGuild" + ChatColor.GRAY + "] " + ChatColor.RESET;
+
+    private static final boolean DEBUG = true;
+
+    // Print message if debug
+    public static void debug(Object... msgs) {
+        if (DEBUG)
+            for (Object m : msgs)
+                log(GENERAL, ChatColor.AQUA + "[DEBUG] " + ChatColor.RESET + m);
+    }
+
+    // Print commandError is debug
+    public static void error(Object... msgs) {
+        if (DEBUG)
+            for (Object m : msgs)
+                log(ERROR, ChatColor.RED + "[ERROR] " + ChatColor.RESET + m);
+    }
+
+    public static boolean commandError(CommandSender to, Object... messages) {
+        msg(to, MessageType.ERROR, messages);
+        return false;
+    }
 
     public enum MessageType {
 		GENERAL(ChatColor.GRAY),

@@ -1,6 +1,6 @@
 package com.johncorby.gravityguild.arenaapi.event;
 
-import com.johncorby.gravityguild.Utils;
+import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
@@ -17,20 +17,20 @@ public class Any implements Listener {
                 {
                     if (event instanceof BlockEvent) {
                         BlockEvent blockEvent = (BlockEvent) event;
-                        //Utils.debug("Block Event: " + blockEvent.getEventName());
+                        //Common.debug("Block Event: " + blockEvent.getEventName());
 
                         // Ignore if physics (aka block update) event
                         //if (blockEvent.getEventName().equalsIgnoreCase("BlockPhysicsEvent")) return;
 
                         // Ignore if not in arena
-                        ArenaHandler.Arena aI = ArenaHandler.arenaInC(blockEvent.getBlock().getLocation());
+                        ArenaHandler.Arena aI = ArenaHandler.arenaIn(blockEvent.getBlock().getLocation());
                         if (aI == null) return;
 
                         // Add block to arena's changed blocks list
-                        Utils.debug("Block Event in arena: " + blockEvent.getEventName());
-                        aI.addChangedBlock(blockEvent.getBlock().getState());
+                        MessageHandler.debug("Block Event in arena: " + blockEvent.getEventName());
+                        //aI.add(blockEvent.getBlock().getState());
                     } else {
-                        //Utils.debug("Event: " + event.getEventName());
+                        //Common.debug("Event: " + event.getEventName());
                     }
 
                 },

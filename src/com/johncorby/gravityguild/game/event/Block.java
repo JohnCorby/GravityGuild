@@ -13,6 +13,6 @@ public class Block implements Listener {
         if (aI == null) return;
 
         // Add block to arena's changed blocks list
-        //aI.addChangedBlock(event.getBlockReplacedState());
+        //aI.add(event.getBlockReplacedState());
     }
 }

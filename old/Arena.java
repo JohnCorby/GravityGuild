@@ -6,6 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.WitherSkull;
+
 import java.util.ArrayList;
 
 public class Arena {
@@ -16,6 +17,13 @@ public class Arena {
     static Commands c;
     static TabCompletion t;
     static Arena a;
+    States state;
+    ArrayList<Player> players;
+    ArrayList<BrokenBlocks> brokenBlocks;
+    ArrayList<Arrow> arrows;
+    ArrayList<WitherSkull> skulls;
+    int ID;
+
     Arena(GravityGuild g, Methods m, Events e, Commands c, TabCompletion t, Arena a) {
         this.g = g;
         this.m = m;
@@ -25,24 +33,14 @@ public class Arena {
         this.a = a;
     }
 
-	States state;
-	ArrayList<Player> players;
-	ArrayList<BrokenBlocks> brokenBlocks;
-	ArrayList<Arrow> arrows;
-	ArrayList<WitherSkull> skulls;
-
-	enum States {STOPPED, STARTING, STARTED, STOPPING}
-
-	int ID;
-
-	Arena(int ID) {
+    Arena(int ID) {
         this.ID = ID;
 
-		setState(States.STOPPED);
-		players = new ArrayList<>();
-		brokenBlocks = new ArrayList<>();
-		arrows = new ArrayList<>();
-		skulls = new ArrayList<>();
+        setState(States.STOPPED);
+        players = new ArrayList<>();
+        brokenBlocks = new ArrayList<>();
+        arrows = new ArrayList<>();
+        skulls = new ArrayList<>();
 
         m.setSign(ID, 2, "0 Players");
     }
@@ -60,17 +58,20 @@ public class Arena {
     }
 
     public void removePlayer(Player player) {
-	    players.remove(player);
+        players.remove(player);
         m.setSign(ID, 2, "" + players.size() + (players.size() == 1 ? " Player" : " Players"));
         //g.getLogger().info("Arena: " + ID + " - Removed Player: " + player);
-	}
+    }
+
+    enum States {STOPPED, STARTING, STARTED, STOPPING}
 }
 
 class BrokenBlocks {
-	Material mat;
-	Byte data;
-	Location loc;
-	BrokenBlocks(Block block) {
+    Material mat;
+    Byte data;
+    Location loc;
+
+    BrokenBlocks(Block block) {
         mat = block.getType();
         data = block.getData();
         loc = block.getLocation();

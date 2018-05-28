@@ -14,8 +14,7 @@ import org.bukkit.event.entity.*;
 import static com.johncorby.gravityguild.GravityGuild.WORLD;
 import static com.johncorby.gravityguild.MessageHandler.MessageType.GAME;
 import static com.johncorby.gravityguild.MessageHandler.msg;
-import static com.johncorby.gravityguild.Utils.randInt;
-import static com.johncorby.gravityguild.arenaapi.arena.ArenaHandler.broadcast;
+import static com.johncorby.gravityguild.util.Common.randInt;
 
 public class Entity implements Listener {
     @EventHandler
@@ -39,8 +38,8 @@ public class Entity implements Listener {
             if (p.getLevel() > 0) {
                 msg(p, GAME, "You lost a life");
                 msg(p, GAME, "You have " + p.getLevel() + " life/lives left");
-                broadcast(aI, p.getDisplayName() + " has lost a life", p);
-                broadcast(aI, p.getDisplayName() + " has " + p.getLevel() + " life/lives left", p);
+                aI.broadcast(p.getDisplayName() + " has lost a life", p);
+                aI.broadcast(p.getDisplayName() + " has " + p.getLevel() + " life/lives left", p);
 
                 // Teleport to random x/y and highest y
                 int x = randInt(aI.getRegion()[0], aI.getRegion()[2]);
@@ -52,8 +51,8 @@ public class Entity implements Listener {
                 CoolDownHandler.run(p);
             } else {
                 msg(p, GAME, "You have died");
-                broadcast(aI, p.getDisplayName() + " has died", p);
-                aI.removeEntity(p);
+                aI.broadcast(p.getDisplayName() + " has died", p);
+                aI.remove(p);
             }
         }
 
@@ -69,11 +68,11 @@ public class Entity implements Listener {
         if (aI == null) return;
 
         // Remove entity from arena
-        aI.removeEntity(event.getEntity());
+        aI.remove(event.getEntity());
 
         // Add exploded blocks to arena's changed blocks list
         //List<Block> bL = event.blockList();
-        //for (Block b : bL) aI.addChangedBlock(b);
+        //for (Block b : bL) aI.add(b);
     }
 
 
@@ -88,7 +87,7 @@ public class Entity implements Listener {
         // Get arrow, apply stuff, add to arena
         Arrow a = (Arrow) event.getProjectile();
         a.setGravity(false);
-        aI.addEntity(a);
+        aI.add(a);
     }
     */
 
@@ -111,7 +110,7 @@ public class Entity implements Listener {
 
         // Get projectile, apply stuff, add to arena
         event.getEntity().setGravity(false);
-        aI.addEntity(event.getEntity());
+        aI.add(event.getEntity());
     }
 
 
@@ -135,7 +134,7 @@ public class Entity implements Listener {
 
         // Kill and remove entity
         event.getEntity().remove();
-        aI.removeEntity(event.getEntity());
+        aI.remove(event.getEntity());
     }
 
 
@@ -144,9 +143,9 @@ public class Entity implements Listener {
     @EventHandler
     public void onSpawn(EntitySpawnEvent event) {
         //debug("Entity spawn " + event.getEntity().getType());
-        ArenaHandler.Arena aI = ArenaHandler.arenaInC(event.getEntity().getLocation());
+        ArenaHandler.Arena aI = ArenaHandler.arenaIn(event.getEntity().getLocation());
         if (aI == null) return;
-        aI.addEntity(event.getEntity());
+        aI.add(event.getEntity());
     }
 
 
@@ -156,9 +155,9 @@ public class Entity implements Listener {
     @EventHandler
     public void onDeath(EntityDeathEvent event) {
         //debug("Entity death " + event.getEntity().getType());
-        ArenaHandler.Arena aI = ArenaHandler.arenaInC(event.getEntity().getLocation());
+        ArenaHandler.Arena aI = ArenaHandler.arenaIn(event.getEntity().getLocation());
         //ArenaHandler.Arena aI = ArenaHandler.arenaIn(event.getEntity());
         if (aI == null) return;
-        aI.removeEntity(event.getEntity());
+        aI.remove(event.getEntity());
     }
 }
