@@ -6,11 +6,8 @@ import org.bukkit.Location;
 import static com.johncorby.gravityguild.GravityGuild.gravityGuild;
 
 public class LobbyHandler {
-    public static Location lobbyLoc;
-
     // Set lobby loc
     public static void set(Location lobbyLoc) {
-        LobbyHandler.lobbyLoc = lobbyLoc;
         Integer[] iL = new Integer[]{lobbyLoc.getBlockX(), lobbyLoc.getBlockY(), lobbyLoc.getBlockZ(), (int) lobbyLoc.getYaw(), (int) lobbyLoc.getPitch()};
         GravityGuild.CONFIG.set("Lobby", iL);
         gravityGuild.saveConfig();
@@ -21,8 +18,6 @@ public class LobbyHandler {
         // Try to get loc from config
         Integer[] iL = GravityGuild.CONFIG.getIntegerList("Lobby").toArray(new Integer[0]);
         if (iL.length == 0) return null;
-
-        lobbyLoc = new Location(GravityGuild.WORLD, iL[0]+.5, iL[1], iL[2]+.5, iL[3], iL[4]);
-        return lobbyLoc;
+        return new Location(GravityGuild.WORLD, iL[0]+.5, iL[1], iL[2]+.5, iL[3], iL[4]);
     }
 }

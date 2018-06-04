@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.event;
 
-import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
-import com.johncorby.gravityguild.arenaapi.arena.SetRegionHandler;
+import com.johncorby.gravityguild.arenaapi.arena.Arena;
+import com.johncorby.gravityguild.arenaapi.arena.SetRegion;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
@@ -17,7 +17,7 @@ public class Player implements Listener {
         // If left clicked block
         if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
             // If setting region
-            SetRegionHandler.SetRegion setRegion = SetRegionHandler.regionSetting(event.getPlayer());
+            SetRegion setRegion = SetRegion.regionSetting(event.getPlayer());
             if (setRegion != null) {
                 // Call next for region
                 Location loc = event.getClickedBlock().getLocation();
@@ -36,7 +36,7 @@ public class Player implements Listener {
             if (!s.getLine(0).equalsIgnoreCase(ChatColor.YELLOW + "[GravityGuild]")) return;
 
             // Try to join game
-            ArenaHandler.get(s.getLine(1)).add(event.getPlayer());
+            Arena.get(s.getLine(1)).add(event.getPlayer());
         }
     }
 
@@ -46,7 +46,7 @@ public class Player implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         org.bukkit.entity.Player player = event.getPlayer();
         // Try to get arena and make player leave it
-        ArenaHandler.Arena aI = ArenaHandler.arenaIn(player);
+        Arena aI = Arena.arenaIn(player);
         if (aI != null) aI.remove(player);
     }
 }

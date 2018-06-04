@@ -1,7 +1,6 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
 import com.johncorby.gravityguild.MessageHandler;
-import com.johncorby.gravityguild.util.Common;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,9 +8,10 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.johncorby.gravityguild.GravityGuild.gravityGuild;
-import static com.johncorby.gravityguild.MessageHandler.MessageType.ERROR;
 import static com.johncorby.gravityguild.MessageHandler.commandError;
 import static org.apache.commons.lang.exception.ExceptionUtils.getStackTrace;
 
@@ -23,7 +23,7 @@ public class CommandHandler implements CommandExecutor {
         gravityGuild.getCommand("gravityguild").setExecutor(this);
 
         // Register BaseCommands
-        register(new Help());
+        //register(new Help());
         register(new Lobby());
         register(new Join());
         register(new Leave());
@@ -37,11 +37,16 @@ public class CommandHandler implements CommandExecutor {
         register(new ArenaStats());
         register(new SetLobby());
 
-        TabCompleteHandler.register(getCommand("help"), 0, Common.map(commands, BaseCommand::getName).toArray(new String[0]));
+        //TabCompleteHandler.register("help", 0, () -> Common.map(commands, BaseCommand::getName));
     }
 
     private static void register(BaseCommand command) {
         commands.add(command);
+    }
+
+    // Get commands
+    public static List<BaseCommand> getCommands(CommandSender who) {
+        return commands.stream().filter(c -> c.hasPermission(who)).collect(Collectors.toList());
     }
 
     public static BaseCommand getCommand(String name) {
@@ -56,7 +61,7 @@ public class CommandHandler implements CommandExecutor {
         args = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
 
         // If sender not player: say so
-        if (!(sender instanceof Player)) return MessageHandler.commandError(sender, "Sender must be player");
+        if (!(sender instanceof Player)) return commandError(sender, "Sender must be player");
         Player player = (Player) sender;
 
         // If no args: show help for all commands
@@ -66,12 +71,9 @@ public class CommandHandler implements CommandExecutor {
         }
         BaseCommand baseCommand = getCommand(args[0]);
 
-        // If command not found: say so
-        if (baseCommand == null)
-            return MessageHandler.commandError(player, "Command " + args[0] + " not found", "Do /gravityguild help for a list of commands");
-
-        // If no permission: say so
-        if (!baseCommand.hasPermission(player)) return MessageHandler.commandError(player, "No permission");
+        // If command not found or no permission: say so
+        if (baseCommand == null || !baseCommand.hasPermission(player))
+            return commandError(player, "Command " + args[0] + " not found", "Do /gravityguild for a list of commands");
 
         args = Arrays.copyOfRange(args, 1, args.length);
 
@@ -79,9 +81,11 @@ public class CommandHandler implements CommandExecutor {
         try {
             return baseCommand.onCommand(player, args);
         } catch (Exception e) {
-            commandError(player, ERROR, "Error:" + e);
-            //msg(player, ERROR, "Error:", e, "Stack Trace:", getStackTrace(e));
-            MessageHandler.error(getStackTrace(e));
+            commandError(player, e);
+            //MessageHandler.msg(player, ERROR, "Error:", e, "Stack Trace:", getStackTrace(e));
+            //MessageHandler.msg(player, ERROR, getStackTrace(e));
+            //MessageHandler.log(ERROR, getStackTrace(e));
+            MessageHandler.error((Object) getStackTrace(e));
             return false;
         }
     }

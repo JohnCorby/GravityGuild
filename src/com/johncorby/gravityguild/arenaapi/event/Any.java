@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.event;
 
 import com.johncorby.gravityguild.MessageHandler;
-import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
+import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -23,7 +23,7 @@ public class Any implements Listener {
                         //if (blockEvent.getEventName().equalsIgnoreCase("BlockPhysicsEvent")) return;
 
                         // Ignore if not in arena
-                        ArenaHandler.Arena aI = ArenaHandler.arenaIn(blockEvent.getBlock().getLocation());
+                        Arena aI = Arena.arenaIn(blockEvent.getBlock().getLocation());
                         if (aI == null) return;
 
                         // Add block to arena's changed blocks list

@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.event;
 
 import com.johncorby.gravityguild.MessageHandler;
-import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
+import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import com.johncorby.gravityguild.util.Common;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
@@ -24,7 +24,7 @@ public class Block implements Listener {
         if (!s.getLine(0).equalsIgnoreCase(ChatColor.YELLOW + "[GravityGuild]")) return;
 
         // Try to get arena
-        ArenaHandler.Arena a = ArenaHandler.get(s.getLine(1));
+        Arena a = Arena.get(s.getLine(1));
         if (a == null) return;
 
         // Ignore if sign loc doesn't match arena loc
@@ -45,7 +45,7 @@ public class Block implements Listener {
 
         // Try to get arena
         String aN = event.getLine(1);
-        ArenaHandler.Arena a = ArenaHandler.get(aN);
+        Arena a = Arena.get(aN);
         if (a == null) {
             commandError(event.getPlayer(), "Arena " + aN + " doesn't exist");
             return;

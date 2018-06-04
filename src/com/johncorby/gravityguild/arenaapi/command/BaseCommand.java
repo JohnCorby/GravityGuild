@@ -1,5 +1,6 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public abstract class BaseCommand {
@@ -25,7 +26,7 @@ public abstract class BaseCommand {
         return usage;
     }
 
-    public final boolean hasPermission(Player sender) {
+    public final boolean hasPermission(CommandSender sender) {
         return permission.isEmpty() || sender.isOp() || sender.hasPermission(permission);
     }
 }

@@ -1,26 +1,24 @@
 package com.johncorby.gravityguild.game.arena;
 
-import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
+import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import org.bukkit.entity.Player;
 
 public class StateChange {
     // On arena state change
-    public static void on(ArenaHandler.Arena a) {
+    public static void on(Arena a) {
         switch (a.getState()) {
             case OPEN:
                 // Run countdown
-                CountDownHandler.run(a);
+                new CountDown(a);
                 break;
             case RUNNING:
                 // Run cooldown for players
                 for (Player p : a.getPlayers())
-                    CoolDownHandler.run(p);
+                    new CoolDown(p);
                 break;
             case STOPPED:
-                // Stop countdown/cooldown
-                CountDownHandler.cancel(a);
-                for (Player p : a.getPlayers())
-                    CoolDownHandler.cancel(p);
+                // Stop countdown
+                CountDown.dispose(a);
                 break;
         }
     }

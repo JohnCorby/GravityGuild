@@ -1,6 +1,6 @@
 package com.johncorby.gravityguild.game.event;
 
-import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
+import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.WitherSkull;
@@ -16,7 +16,7 @@ public class Player implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         // Ignore if not in arena
-        ArenaHandler.Arena aI = ArenaHandler.arenaIn(event.getPlayer());
+        Arena aI = Arena.arenaIn(event.getPlayer());
         if (aI == null) return;
 
         // If left clicked block

@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
 import com.johncorby.gravityguild.MessageHandler;
-import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
+import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import static com.johncorby.gravityguild.MessageHandler.MessageType.GENERAL;
 import static com.johncorby.gravityguild.MessageHandler.msg;
-import static com.johncorby.gravityguild.arenaapi.arena.ArenaHandler.arenas;
+import static com.johncorby.gravityguild.arenaapi.arena.Arena.arenas;
 
 public class ArenaStats extends BaseCommand {
     ArenaStats() {
@@ -26,7 +26,7 @@ public class ArenaStats extends BaseCommand {
         if (arenas.isEmpty()) return MessageHandler.commandError(sender, "There are no arenas");
 
         // Get stats of each arena
-        for (ArenaHandler.Arena a : arenas) {
+        for (Arena a : arenas) {
             List<String> sl = new ArrayList<>();
             sl.add("Arena " + a.getName() + ":");
             sl.add("    State: " + a.getState().get());

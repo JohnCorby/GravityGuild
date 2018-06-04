@@ -1,92 +1,81 @@
 package com.johncorby.gravityguild.util;
 
-import org.bukkit.scheduler.BukkitRunnable;
+import com.johncorby.gravityguild.MessageHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
 import static com.johncorby.gravityguild.GravityGuild.gravityGuild;
 
-public abstract class Runnable extends BukkitRunnable {
-    /*
-    public synchronized BukkitTask runTask() {
-        return runTask(gravityGuild);
+/**
+ * Convenient version of BukkitRunnable
+ * Unlike BukkitRunnable, you can run it again after it's cancelled
+ */
+public abstract class Runnable implements java.lang.Runnable {
+    private BukkitTask task;
+
+    public synchronized boolean isCancelled() throws IllegalStateException {
+        //checkScheduled();
+        return task.isCancelled();
     }
 
-    public synchronized BukkitTask runTaskAsynchronously() {
-        return runTaskAsynchronously(gravityGuild);
+    public synchronized void cancel() throws IllegalStateException {
+        Bukkit.getScheduler().cancelTask(getTaskId());
+        task = null;
     }
 
-    public synchronized BukkitTask runTaskLater(long delay) {
-        return runTaskLater(gravityGuild, delay);
+    public synchronized BukkitTask runTask() throws IllegalArgumentException, IllegalStateException {
+        checkNotScheduled();
+        return setupTask(Bukkit.getScheduler().runTask(gravityGuild, this));
     }
 
-    public synchronized BukkitTask runTaskLaterAsynchronously(long delay) {
-        return runTaskLaterAsynchronously(gravityGuild, delay);
+    public synchronized BukkitTask runTaskAsynchronously() throws IllegalArgumentException, IllegalStateException {
+        checkNotScheduled();
+        return setupTask(Bukkit.getScheduler().runTaskAsynchronously(gravityGuild, this));
     }
 
-    public synchronized BukkitTask runTaskTimer(long delay, long period) {
-        return runTaskTimer(gravityGuild, delay, period);
+    public synchronized BukkitTask runTaskLater(final long delay) throws IllegalArgumentException, IllegalStateException {
+        checkNotScheduled();
+        return setupTask(Bukkit.getScheduler().runTaskLater(gravityGuild, this, delay));
     }
 
-    public synchronized BukkitTask runTaskTimerAsynchronously(long delay, long period) {
-        return runTaskTimerAsynchronously(gravityGuild, delay, period);
-    }
-    */
-
-
-    public synchronized BukkitTask runTask() {
-        return runTask(gravityGuild);
-
+    public synchronized BukkitTask runTaskLaterAsynchronously(final long delay) throws IllegalArgumentException, IllegalStateException {
+        checkNotScheduled();
+        return setupTask(Bukkit.getScheduler().runTaskLaterAsynchronously(gravityGuild, this, delay));
     }
 
-    public synchronized BukkitTask runTaskAsynchronously() {
-        return runTaskAsynchronously(gravityGuild);
+    public synchronized BukkitTask runTaskTimer(final long delay, final long period) throws IllegalArgumentException, IllegalStateException {
+        checkNotScheduled();
+        return setupTask(Bukkit.getScheduler().runTaskTimer(gravityGuild, this, delay, period));
     }
 
-    public synchronized BukkitTask runTaskLater(long delay) {
-        return runTaskLater(gravityGuild, delay);
+    public synchronized BukkitTask runTaskTimerAsynchronously(final long delay, final long period) throws IllegalArgumentException, IllegalStateException {
+        checkNotScheduled();
+        return setupTask(Bukkit.getScheduler().runTaskTimerAsynchronously(gravityGuild, this, delay, period));
     }
 
-    public synchronized BukkitTask runTaskLaterAsynchronously(long delay) {
-        return runTaskLaterAsynchronously(gravityGuild, delay);
+    public synchronized int getTaskId() throws IllegalStateException {
+        checkScheduled();
+        return task.getTaskId();
     }
 
-    public synchronized BukkitTask runTaskTimer(long delay, long period) {
-        return runTaskTimer(gravityGuild, delay, period);
+    private void checkScheduled() {
+        if (task == null)
+            throw new IllegalStateException("Not scheduled");
     }
 
-    public synchronized BukkitTask runTaskTimerAsynchronously(long delay, long period) {
-        return runTaskTimerAsynchronously(gravityGuild, delay, period);
-    }
-
-    /*
-    private void preRunTask(Long delay, Long period, boolean async) {
-        try {
-            for (BukkitTask t : Bukkit.getScheduler().getPendingTasks())
-                MessageHandler.debug(t.getOwner(), t.getClass().getSimpleName(), t.getTaskId());
-
-            if (!gravityGuild.isEnabled()) {
-                MessageHandler.error("Plugin not enabled");
-                return null;
+    private void checkNotScheduled() {
+        if (task != null)
+            if (!task.isCancelled())
+                throw new IllegalStateException("Still running as task " + getTaskId());
+            else {
+                MessageHandler.debug("Cancelled task " + getTaskId());
+                cancel();
             }
-            BukkitTask task = null;
-            if (!async) task = runTask(gravityGuild);
-            if (async) task = runTaskAsynchronously(gravityGuild);
-            if (delay != null && !async) task = runTaskLater(gravityGuild, delay);
-            if (delay != null && async) task = runTaskLaterAsynchronously(gravityGuild, delay);
-            if (delay != null && period != null && !async) task = runTaskTimer(gravityGuild, delay, period);
-            if (delay != null && period != null && async) task = runTaskTimerAsynchronously(gravityGuild, delay, period);
-            MessageHandler.debug("Scheduled task " + getTaskId());
-            return task;
-        } catch (IllegalStateException e) {
-            // Cancel already scheduled task
-            MessageHandler.error(e.getMessage());
-            String[] sE = e.getMessage().split(" ");
-            Bukkit.getScheduler().cancelTask(Common.toInt(sE[sE.length - 1]));
-            return null;
-        } catch (Exception e) {
-            MessageHandler.error(getStackTrace(e));
-            return null;
-        }
     }
-    */
+
+    private BukkitTask setupTask(final BukkitTask task) {
+        return this.task = task;
+    }
+
+
 }

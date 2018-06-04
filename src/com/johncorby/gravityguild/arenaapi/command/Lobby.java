@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
 import com.johncorby.gravityguild.MessageHandler;
-import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
+import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import com.johncorby.gravityguild.arenaapi.arena.LobbyHandler;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -24,7 +24,7 @@ public class Lobby extends BaseCommand {
     @Override
     public boolean onCommand(Player sender, String[] args) {
         // Leave arena if in one
-        ArenaHandler.Arena aI = ArenaHandler.arenaIn(sender);
+        Arena aI = Arena.arenaIn(sender);
         if (aI != null) return aI.remove(sender);
         else return lobby(sender);
     }

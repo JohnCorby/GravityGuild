@@ -1,13 +1,13 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
 import com.johncorby.gravityguild.MessageHandler;
-import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
+import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import org.bukkit.entity.Player;
 
 public class Update extends BaseCommand {
     Update() {
         super("Update arena blocks", "<name>", "gg.admin");
-        TabCompleteHandler.register(this, 0, ArenaHandler.getNames());
+        TabCompleteHandler.register(getName(), 0, Arena::getNames);
     }
 
     @Override
@@ -16,7 +16,7 @@ public class Update extends BaseCommand {
         if (args.length == 0) return MessageHandler.commandError(sender, "You must supply an arena name");
 
         // Error if arena doesn't exist
-        ArenaHandler.Arena a = ArenaHandler.get(args[0]);
+        Arena a = Arena.get(args[0]);
         if (a == null) return MessageHandler.commandError(sender, "Arena " + args[0] + " does not exist");
 
         // Try to update region

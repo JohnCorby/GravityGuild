@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
 import com.johncorby.gravityguild.MessageHandler;
-import com.johncorby.gravityguild.arenaapi.arena.SetRegionHandler;
+import com.johncorby.gravityguild.arenaapi.arena.SetRegion;
 import org.bukkit.entity.Player;
 
 public class Add extends BaseCommand {
@@ -15,6 +15,6 @@ public class Add extends BaseCommand {
         if (args.length == 0) return MessageHandler.commandError(sender, "You must give a name for the arena");
 
         // Add arena
-        return SetRegionHandler.add(sender, args[0], true);
+        return SetRegion.add(sender, args[0], true);
     }
 }

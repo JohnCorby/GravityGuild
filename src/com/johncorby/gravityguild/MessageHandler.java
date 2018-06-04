@@ -12,28 +12,38 @@ import static com.johncorby.gravityguild.MessageHandler.MessageType.ERROR;
 import static com.johncorby.gravityguild.MessageHandler.MessageType.GENERAL;
 
 public class MessageHandler {
-    public static final MessageHandler messageHandler = new MessageHandler();
-
-    public static final String prefix = ChatColor.GRAY + "[" + ChatColor.GOLD + "GravityGuild" + ChatColor.GRAY + "] " + ChatColor.RESET;
+    private static final String prefix = ChatColor.GRAY + "[" + ChatColor.GOLD + "GravityGuild" + ChatColor.GRAY + "] " + ChatColor.RESET;
 
     private static final boolean DEBUG = true;
 
     // Print message if debug
-    public static void debug(Object... msgs) {
+    public static void debug(String from, Object... msgs) {
         if (DEBUG)
             for (Object m : msgs)
-                log(GENERAL, ChatColor.AQUA + "[DEBUG] " + ChatColor.RESET + m);
+                log(GENERAL, ChatColor.AQUA + "[DEBUG] " +
+                        (from == null ? "" : from + " - ") + m);
     }
 
-    // Print commandError is debug
-    public static void error(Object... msgs) {
+    // Print error (debug)
+    public static void error(String from, Object... msgs) {
         if (DEBUG)
             for (Object m : msgs)
-                log(ERROR, ChatColor.RED + "[ERROR] " + ChatColor.RESET + m);
+                log(ERROR, "[ERROR] " +
+                        (from == null ? "" : from + " - ") + ChatColor.RESET + m);
     }
+
+    public static void debug(Object... msgs) {
+        debug(null, msgs);
+    }
+
+    public static void error(Object... msgs) {
+        error(null, msgs);
+    }
+
 
     public static boolean commandError(CommandSender to, Object... messages) {
-        msg(to, MessageType.ERROR, messages);
+        for (Object m : messages)
+            msg(to, MessageType.ERROR, "Error: " + m);
         return false;
     }
 
@@ -64,12 +74,6 @@ public class MessageHandler {
 	// Log of type to console
 	public static void log(MessageType type, Object... messages) {
         for (Object message : messages) msg(Bukkit.getConsoleSender(), type, messages);
-    }
-
-    // Log of type to console and players
-	public static void superLog(MessageType type, Object... messages) {
-        log(type, messages);
-        broadcast(type, messages);
     }
 
     // Message of type to players

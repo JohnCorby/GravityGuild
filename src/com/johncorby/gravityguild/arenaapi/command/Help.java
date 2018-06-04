@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 
 import static com.johncorby.gravityguild.MessageHandler.MessageType;
 import static com.johncorby.gravityguild.MessageHandler.msg;
-import static com.johncorby.gravityguild.arenaapi.command.CommandHandler.commands;
 import static com.johncorby.gravityguild.arenaapi.command.CommandHandler.getCommand;
+import static com.johncorby.gravityguild.arenaapi.command.CommandHandler.getCommands;
 
 public class Help extends BaseCommand {
     Help() {
@@ -17,7 +17,7 @@ public class Help extends BaseCommand {
     public boolean onCommand(Player sender, String[] args) {
         // If no args: show all help
         if (args.length == 0) {
-            Help.getHelp(sender, commands.toArray(new BaseCommand[0]));
+            Help.getHelp(sender, getCommands(sender).toArray(new BaseCommand[0]));
             return false;
         }
 
@@ -40,8 +40,7 @@ public class Help extends BaseCommand {
 
         // Get help for commands
         for (BaseCommand c : commands) {
-            if (c.hasPermission(sender))
-                msg(sender, MessageType.GENERAL, "/gravityguild " + c.getName() + " " + c.getUsage() + " - " + c.getDescription());
+            msg(sender, MessageType.GENERAL, "/gravityguild " + c.getName() + " " + c.getUsage() + " - " + c.getDescription());
         }
     }
 }

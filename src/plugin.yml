@@ -2,6 +2,8 @@ name: GravityGuild
 main: com.johncorby.gravityguild.GravityGuild
 version: 2.0
 author: JohnCorby
+description: Minigame for my server
+depend: [FastAsyncWorldEdit, PlugMan]
 
 commands:
     gravityguild:

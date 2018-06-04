@@ -1,6 +1,6 @@
 package com.johncorby.gravityguild.game.arena;
 
-import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
+import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class JoinLeave {
     // When player join arena
-    public static void onJoin(Player player, ArenaHandler.Arena arena) {
+    public static void onJoin(Player player, Arena arena) {
         // Set experience to health
         player.setLevel(10);
         player.setExp(0);
@@ -43,8 +43,15 @@ public class JoinLeave {
     }
 
     // When player leave arena
-    public static void onLeave(Player player, ArenaHandler.Arena arena) {
+    public static void onLeave(Player player, Arena arena) {
+        // Make not invincible
+        player.setInvulnerable(false);
+        player.setGlowing(false);
+
+        // Clear invertory
+        player.getInventory().clear();
+
         // Cancel cooldown
-        CoolDownHandler.cancel(player);
+        CoolDown.dispose(player);
     }
 }

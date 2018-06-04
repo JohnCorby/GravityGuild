@@ -1,13 +1,13 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
 import com.johncorby.gravityguild.MessageHandler;
-import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
+import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import org.bukkit.entity.Player;
 
 public class Delete extends BaseCommand {
     Delete() {
         super("Delete an arena", "<name>", "gg.admin");
-        TabCompleteHandler.register(this, 0, ArenaHandler.getNames());
+        TabCompleteHandler.register(getName(), 0, Arena::getNames);
     }
 
     @Override
@@ -16,11 +16,11 @@ public class Delete extends BaseCommand {
         if (args.length == 0) return MessageHandler.commandError(sender, "You must supply an arena name");
 
         // Error if arena doesn't exist
-        if (ArenaHandler.get(args[0]) == null)
+        if (Arena.get(args[0]) == null)
             return MessageHandler.commandError(sender, "Arena " + args[0] + " does not exist");
 
         // Delete arena
         MessageHandler.msg(sender, MessageHandler.MessageType.GENERAL, "Arena " + args[0] + " deleted");
-        return ArenaHandler.remove(ArenaHandler.get(args[0])) != null;
+        return Arena.remove(Arena.get(args[0])) != null;
     }
 }

@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.game.event;
 
-import com.johncorby.gravityguild.arenaapi.arena.ArenaHandler;
-import com.johncorby.gravityguild.game.arena.CoolDownHandler;
+import com.johncorby.gravityguild.arenaapi.arena.Arena;
+import com.johncorby.gravityguild.game.arena.CoolDown;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class Entity implements Listener {
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
         // Ignore if not in arena
-        ArenaHandler.Arena aI = ArenaHandler.arenaIn(event.getEntity());
+        Arena aI = Arena.arenaIn(event.getEntity());
         if (aI == null) return;
 
         // Ignore if not player
@@ -48,7 +48,7 @@ public class Entity implements Listener {
                 p.teleport(new Location(WORLD, x + 0.5, highY, z + 0.5, randInt(-180, 180), 0));
 
                 // Run cooldown
-                CoolDownHandler.run(p);
+                new CoolDown(p);
             } else {
                 msg(p, GAME, "You have died");
                 aI.broadcast(p.getDisplayName() + " has died", p);
@@ -62,44 +62,12 @@ public class Entity implements Listener {
 
 
     @EventHandler
-    public void onExplode(EntityExplodeEvent event) {
-        // Ignore if not in arena
-        ArenaHandler.Arena aI = ArenaHandler.arenaIn(event.getEntity());
-        if (aI == null) return;
-
-        // Remove entity from arena
-        aI.remove(event.getEntity());
-
-        // Add exploded blocks to arena's changed blocks list
-        //List<Block> bL = event.blockList();
-        //for (Block b : bL) aI.add(b);
-    }
-
-
-
-    /*
-    @EventHandler
-    public void onShootBow(EntityShootBowEvent event) {
-        // Ignore if not in arena
-        Arena aI = ArenaHandler.arenaIn(event.getEntity());
-        if (aI == null) return;
-
-        // Get arrow, apply stuff, add to arena
-        Arrow a = (Arrow) event.getProjectile();
-        a.setGravity(false);
-        aI.add(a);
-    }
-    */
-
-
-
-    @EventHandler
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
         Projectile p = event.getEntity();
         org.bukkit.entity.Entity s = (org.bukkit.entity.Entity) p.getShooter();
 
         // Ignore if shooter not in arena
-        ArenaHandler.Arena aI = ArenaHandler.arenaIn(s);
+        Arena aI = Arena.arenaIn(s);
         if (aI == null) return;
 
         // Do cool things with snowballs
@@ -108,9 +76,8 @@ public class Entity implements Listener {
             p.setFireTicks(9999);
         }
 
-        // Get projectile, apply stuff, add to arena
+        // Get projectile and apply stuff
         event.getEntity().setGravity(false);
-        aI.add(event.getEntity());
     }
 
 
@@ -121,7 +88,7 @@ public class Entity implements Listener {
         org.bukkit.entity.Entity s = (org.bukkit.entity.Entity) p.getShooter();
 
         // Ignore if not in arena
-        ArenaHandler.Arena aI = ArenaHandler.arenaIn(p);
+        Arena aI = Arena.arenaIn(p);
         if (aI == null) return;
 
         // Do cool things with snowballs
@@ -132,32 +99,7 @@ public class Entity implements Listener {
                 ((LivingEntity) eh).damage(9999, p);
         }
 
-        // Kill and remove entity
+        // Kill entity
         event.getEntity().remove();
-        aI.remove(event.getEntity());
-    }
-
-
-
-    @Deprecated
-    @EventHandler
-    public void onSpawn(EntitySpawnEvent event) {
-        //debug("Entity spawn " + event.getEntity().getType());
-        ArenaHandler.Arena aI = ArenaHandler.arenaIn(event.getEntity().getLocation());
-        if (aI == null) return;
-        aI.add(event.getEntity());
-    }
-
-
-
-
-    @Deprecated
-    @EventHandler
-    public void onDeath(EntityDeathEvent event) {
-        //debug("Entity death " + event.getEntity().getType());
-        ArenaHandler.Arena aI = ArenaHandler.arenaIn(event.getEntity().getLocation());
-        //ArenaHandler.Arena aI = ArenaHandler.arenaIn(event.getEntity());
-        if (aI == null) return;
-        aI.remove(event.getEntity());
     }
 }
