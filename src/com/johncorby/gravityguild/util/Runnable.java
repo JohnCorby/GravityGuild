@@ -13,47 +13,47 @@ import static com.johncorby.gravityguild.GravityGuild.gravityGuild;
 public abstract class Runnable implements java.lang.Runnable {
     private BukkitTask task;
 
-    public synchronized boolean isCancelled() throws IllegalStateException {
+    public synchronized boolean isCancelled() {
         //checkScheduled();
         return task.isCancelled();
     }
 
-    public synchronized void cancel() throws IllegalStateException {
+    public synchronized void cancel() {
         Bukkit.getScheduler().cancelTask(getTaskId());
         task = null;
     }
 
-    public synchronized BukkitTask runTask() throws IllegalArgumentException, IllegalStateException {
+    public synchronized BukkitTask runTask() {
         checkNotScheduled();
         return setupTask(Bukkit.getScheduler().runTask(gravityGuild, this));
     }
 
-    public synchronized BukkitTask runTaskAsynchronously() throws IllegalArgumentException, IllegalStateException {
+    public synchronized BukkitTask runTaskAsynchronously() {
         checkNotScheduled();
         return setupTask(Bukkit.getScheduler().runTaskAsynchronously(gravityGuild, this));
     }
 
-    public synchronized BukkitTask runTaskLater(final long delay) throws IllegalArgumentException, IllegalStateException {
+    public synchronized BukkitTask runTaskLater(final long delay) {
         checkNotScheduled();
         return setupTask(Bukkit.getScheduler().runTaskLater(gravityGuild, this, delay));
     }
 
-    public synchronized BukkitTask runTaskLaterAsynchronously(final long delay) throws IllegalArgumentException, IllegalStateException {
+    public synchronized BukkitTask runTaskLaterAsynchronously(final long delay) {
         checkNotScheduled();
         return setupTask(Bukkit.getScheduler().runTaskLaterAsynchronously(gravityGuild, this, delay));
     }
 
-    public synchronized BukkitTask runTaskTimer(final long delay, final long period) throws IllegalArgumentException, IllegalStateException {
+    public synchronized BukkitTask runTaskTimer(final long delay, final long period) {
         checkNotScheduled();
         return setupTask(Bukkit.getScheduler().runTaskTimer(gravityGuild, this, delay, period));
     }
 
-    public synchronized BukkitTask runTaskTimerAsynchronously(final long delay, final long period) throws IllegalArgumentException, IllegalStateException {
+    public synchronized BukkitTask runTaskTimerAsynchronously(final long delay, final long period) {
         checkNotScheduled();
         return setupTask(Bukkit.getScheduler().runTaskTimerAsynchronously(gravityGuild, this, delay, period));
     }
 
-    public synchronized int getTaskId() throws IllegalStateException {
+    public synchronized int getTaskId() {
         checkScheduled();
         return task.getTaskId();
     }

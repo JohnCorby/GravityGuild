@@ -5,7 +5,7 @@ import com.johncorby.gravityguild.util.Common;
 import com.johncorby.gravityguild.util.Runnable;
 import com.johncorby.gravityguild.util.Wrapper;
 
-import static com.johncorby.gravityguild.GravityGuild.overridePlayers;
+import static com.johncorby.gravityguild.GravityGuild.getOverridePlayers;
 
 public class CountDown extends Wrapper<Arena> {
     private static final int d = 10;
@@ -37,7 +37,7 @@ public class CountDown extends Wrapper<Arena> {
                 case 0:
                     // Start arena if 2 or more players
                     if (get().getPlayers().size() > 1 ||
-                            Common.containsAny(get().getPlayers(), overridePlayers)) {
+                            Common.containsAny(get().getPlayers(), getOverridePlayers())) {
                         get().setState(Arena.State.RUNNING);
                         cancel();
                     } else {
@@ -106,7 +106,7 @@ class _CountDown {
                 case 0:
                     // Start arena if 2 or more players
                     if (a.getPlayers().size() > 1 ||
-                            Common.containsAny(a.getPlayers(), overridePlayers)) {
+                            Common.containsAny(a.getPlayers(), getOverridePlayers())) {
                         a.setState(Arena.State.RUNNING);
                         CountDown.cancel(a);
                     } else {

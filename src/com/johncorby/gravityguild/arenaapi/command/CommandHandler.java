@@ -16,7 +16,7 @@ import static com.johncorby.gravityguild.MessageHandler.commandError;
 import static org.apache.commons.lang.exception.ExceptionUtils.getStackTrace;
 
 public class CommandHandler implements CommandExecutor {
-    public static ArrayList<BaseCommand> commands = new ArrayList<>();
+    public static List<BaseCommand> commands = new ArrayList<>();
 
     public CommandHandler() {
         // Register base command

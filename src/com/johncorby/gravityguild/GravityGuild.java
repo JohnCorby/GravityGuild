@@ -24,6 +24,7 @@ import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import com.johncorby.gravityguild.arenaapi.command.CommandHandler;
 import com.johncorby.gravityguild.arenaapi.command.TabCompleteHandler;
 import com.johncorby.gravityguild.arenaapi.event.EventHandler;
+import com.johncorby.gravityguild.util.Common;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -31,7 +32,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GravityGuild extends JavaPlugin {
     public static JavaPlugin gravityGuild;
@@ -42,7 +44,11 @@ public class GravityGuild extends JavaPlugin {
     public static FileConfiguration CONFIG;
     public static World WORLD;
 
-    public static ArrayList<Player> overridePlayers = new ArrayList<>();
+    public static String[] overridePlayers = {"johncorby", "funkymunky111"};
+
+    public static List<Player> getOverridePlayers() {
+        return Common.map(Arrays.asList(overridePlayers),p -> Bukkit.getServer().getPlayer(p));
+    }
 
     // When plugin enabled
     @Override
@@ -68,10 +74,6 @@ public class GravityGuild extends JavaPlugin {
             Integer[] signLoc = arena.getIntegerList("SignLoc").toArray(new Integer[0]);
             Arena.add(new Arena(name, region, signLoc));
         }
-
-        // Add override players
-        overridePlayers.add(gravityGuild.getServer().getPlayer("johncorby"));
-        overridePlayers.add(gravityGuild.getServer().getPlayer("funkymunky111"));
 
         MessageHandler.log(MessageHandler.MessageType.GENERAL, "GravityGuild Enabled");
     }

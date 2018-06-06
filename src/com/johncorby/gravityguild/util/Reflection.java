@@ -5,6 +5,7 @@ import org.bukkit.Server;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
+import java.lang.Class;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

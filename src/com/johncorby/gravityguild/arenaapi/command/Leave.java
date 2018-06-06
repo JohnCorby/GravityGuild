@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 public class Leave extends BaseCommand {
     Leave() {
         super("Leave the arena you're in", "", "");
-        TabCompleteHandler.register(getName(), 0, Arena::getNames);
     }
 
     @Override
