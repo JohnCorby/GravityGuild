@@ -32,7 +32,7 @@ public class Block implements Listener {
 
         // Remove sign from arena
         a.setSign(null);
-        MessageHandler.msg(event.getPlayer(), MessageHandler.MessageType.GENERAL, "Removed sign for " + a.getName());
+        MessageHandler.msg(event.getPlayer(), MessageHandler.MessageType.GENERAL, "Removed sign for " + a.get());
     }
 
 
@@ -59,7 +59,7 @@ public class Block implements Listener {
 
         // Set sign for arena
         event.setLine(0, ChatColor.YELLOW + "[GravityGuild]");
-        event.setLine(1, a.getName());
+        event.setLine(1, a.get());
         event.setLine(2, a.getState().get());
         event.setLine(3, Common.toStr(a.getPlayers().size()));
         a.setSign((Sign) event.getBlock().getState());

@@ -72,7 +72,7 @@ public class GravityGuild extends JavaPlugin {
             ConfigurationSection arena = Arena.arenaSection.getConfigurationSection(name);
             Integer[] region = arena.getIntegerList("Region").toArray(new Integer[0]);
             Integer[] signLoc = arena.getIntegerList("SignLoc").toArray(new Integer[0]);
-            Arena.add(new Arena(name, region, signLoc));
+            new Arena(name, region, signLoc);
         }
 
         MessageHandler.log(MessageHandler.MessageType.GENERAL, "GravityGuild Enabled");
@@ -82,7 +82,7 @@ public class GravityGuild extends JavaPlugin {
     @Override
     public void onDisable() {
         // Stop all arenas
-        for (Arena a : Arena.arenas) {
+        for (Arena a : Arena.getArenas()) {
             for (Player p : a.getPlayers())
                 MessageHandler.msg(p, MessageHandler.MessageType.ERROR, "You have been forced out of the arena because the plugin was reloaded (probably for debugging)");
             a.setState(Arena.State.STOPPED);

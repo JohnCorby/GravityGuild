@@ -21,6 +21,6 @@ public class Delete extends BaseCommand {
 
         // Delete arena
         MessageHandler.msg(sender, MessageHandler.MessageType.GENERAL, "Arena " + args[0] + " deleted");
-        return Arena.remove(Arena.get(args[0])) != null;
+        return Arena.get(args[0]).dispose();
     }
 }

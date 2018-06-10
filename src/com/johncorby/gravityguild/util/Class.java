@@ -86,7 +86,7 @@ public class Class {
      * Handy method to show debug messages with us as a prefix
      * @param msgs the messages to show
      */
-    void debug(Object... msgs) {
+    protected void debug(Object... msgs) {
         MessageHandler.debug(toString(), msgs);
     }
 
@@ -94,7 +94,7 @@ public class Class {
      * Handy method to show error messages with us as a prefix
      * @param msgs the messages to show
      */
-    void error(Object... msgs) {
+    protected void error(Object... msgs) {
         MessageHandler.error(toString(), msgs);
     }
 }

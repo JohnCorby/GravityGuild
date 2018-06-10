@@ -11,7 +11,7 @@ import java.util.List;
 
 import static com.johncorby.gravityguild.MessageHandler.MessageType.GENERAL;
 import static com.johncorby.gravityguild.MessageHandler.msg;
-import static com.johncorby.gravityguild.arenaapi.arena.Arena.arenas;
+import static com.johncorby.gravityguild.arenaapi.arena.Arena.getArenas;
 
 public class ArenaStats extends BaseCommand {
     ArenaStats() {
@@ -23,12 +23,12 @@ public class ArenaStats extends BaseCommand {
         msg(sender, GENERAL, "----- Arena stats -----");
 
         // Error if no arenas
-        if (arenas.isEmpty()) return MessageHandler.commandError(sender, "There are no arenas");
+        if (getArenas().isEmpty()) return MessageHandler.commandError(sender, "There are no arenas");
 
         // Get stats of each arena
-        for (Arena a : arenas) {
+        for (Arena a : getArenas()) {
             List<String> sl = new ArrayList<>();
-            sl.add("Arena " + a.getName() + ":");
+            sl.add("Arena " + a.get() + ":");
             sl.add("    State: " + a.getState().get());
 
             /*

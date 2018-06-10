@@ -5,9 +5,18 @@ import com.johncorby.gravityguild.util.Identifiable;
 import org.bukkit.entity.Player;
 
 public class SetRegion extends Identifiable<Player> {
-    /**
-     * Factory/handler
-     */
+    private final boolean add;
+    public int step;
+    public String name;
+    public Integer[] region = new Integer[4];
+
+
+    public SetRegion(Player player, String name, boolean add) {
+        super(player);
+        this.name = name.toLowerCase();
+        this.add = add;
+    }
+
     public static boolean add(Player player, String name, boolean add) {
         // Error if arena doesn't exist
         if (Arena.get(name) == null && !add)
@@ -35,34 +44,6 @@ public class SetRegion extends Identifiable<Player> {
         return dispose(identity, SetRegion.class);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Actual class
-     */
-    public int step;
-    public String name;
-    public Integer[] region = new Integer[4];
-    private final boolean add;
-
-    public SetRegion(Player player, String name, boolean add) {
-        super(player);
-        this.name = name.toLowerCase();
-        this.add = add;
-    }
-
     // Go to next step in region setting
     public void next(int x, int z) {
         switch (step) {
@@ -88,7 +69,7 @@ public class SetRegion extends Identifiable<Player> {
 
                 // Add of update arena region
                 if (add) {
-                    Arena arena = Arena.add(new Arena(name));
+                    Arena arena = new Arena(name);
                     arena.setRegion(region);
                 } else Arena.get(name).setRegion(region);
 
