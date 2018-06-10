@@ -10,6 +10,7 @@ import com.johncorby.gravityguild.util.Class;
 import com.johncorby.gravityguild.util.Common;
 import com.johncorby.gravityguild.util.Identifiable;
 import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.blocks.BlockType;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.regions.CuboidRegion;
@@ -229,12 +230,8 @@ public class Arena extends Identifiable<String> {
             // Leave arena if in one
             if (aI != null) aI.remove(p);
 
-            // Teleport to random x/y and highest y
-            int x = randInt(region[0], region[2]);
-            int z = randInt(region[1], region[3]);
-            int highY = WORLD.getHighestBlockYAt(x, z);
-            debug(x, highY, z);
-            p.teleport(new Location(WORLD, x + 0.5, highY, z + 0.5, randInt(-180, 180), 0));
+            // Teleport to random loc
+            tpToRandom(p);
 
             // Start arena if it's stopped
             if (state == State.STOPPED) setState(State.OPEN);
@@ -243,7 +240,7 @@ public class Arena extends Identifiable<String> {
 
             // Send join messages
             msg(p, MessageHandler.MessageType.GAME, "Joined arena " + get());
-            broadcast(p.getDisplayName() + " joined the arena", p);
+            broadcast(p.getName() + " joined the arena", p);
 
             JoinLeave.onJoin(p, this);
         } else {
@@ -273,7 +270,7 @@ public class Arena extends Identifiable<String> {
             updateSign();
 
             // Send leave messages
-            broadcast(p.getDisplayName() + " left the arena", p);
+            broadcast(p.getName() + " left the arena", p);
             msg(p, MessageHandler.MessageType.GAME, "Left arena " + get());
 
             JoinLeave.onLeave(p, this);
@@ -358,6 +355,65 @@ public class Arena extends Identifiable<String> {
         //state = State.STOPPED;
         //updateSign();
         debug("Set blocks in " + time + " ms");
+    }
+
+    // Edited from FAWE
+    public void tpToRandom(Player player) {
+        Location l = new Location(WORLD,
+                randInt(region[0], region[2]),
+                randInt(0, 255),
+                randInt(region[1], region[3]),
+                randInt(-180, 180),
+                0);
+        player.teleport(l);
+
+        int x = l.getBlockX();
+        int y = l.getBlockY();
+        int z = l.getBlockZ();
+
+        // Tp to unstuck
+        int origY = y;
+
+        byte free = 0;
+
+        while (y <= WORLD.getMaxHeight() + 2) {
+            Block b = WORLD.getBlockAt(x, y, z);
+            if (BlockType.canPassThrough(b.getTypeId(), b.getData())) {
+                ++free;
+            } else {
+                free = 0;
+            }
+
+            if (free == 2) {
+                if (y - 1 != origY) {
+                    b = WORLD.getBlockAt(x, y - 2, z);
+                    l.setX(x + .5);
+                    l.setY(y - 2 + BlockType.centralTopLimit(b.getTypeId(), b.getData()));
+                    l.setZ(z + .5);
+                    player.teleport(l);
+                }
+
+                break;
+            }
+
+            ++y;
+        }
+
+        // Tp to ground
+        while (y >= 0) {
+            Block b = WORLD.getBlockAt(x, y, z);
+            final int id = b.getTypeId();
+            final int data = b.getData();
+            if (!BlockType.canPassThrough(b.getTypeId(), b.getData())) {
+                l.setX(x + .5);
+                l.setY(y + BlockType.centralTopLimit(id, data));
+                l.setZ(z + .5);
+                player.teleport(l);
+                break;
+            }
+
+            --y;
+        }
     }
 
     public enum State {

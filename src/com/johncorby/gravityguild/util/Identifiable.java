@@ -1,10 +1,7 @@
 package com.johncorby.gravityguild.util;
 
-import org.jetbrains.annotations.NotNull;
-
+import javax.annotation.Nonnull;
 import java.lang.ref.WeakReference;
-
-import static com.johncorby.gravityguild.util.Common.run;
 
 /**
  * A class that is identified by another class
@@ -20,7 +17,7 @@ public class Identifiable<I> extends Class {
      * Constructor
      * @param identity our identity
      */
-    public Identifiable(@NotNull I identity) {
+    public Identifiable(@Nonnull I identity) {
         super();
         this.identity = new WeakReference<>(identity);
 //        debug("Added", classes);
@@ -62,8 +59,8 @@ public class Identifiable<I> extends Class {
      * @param clazz class of Identifiable to get
      * @return gotten Identifiable or null if one doesn't exist
      */
-    protected static Identifiable get(@NotNull Object identity,
-                                      @NotNull java.lang.Class<? extends Identifiable> clazz) {
+    protected static Identifiable get(@Nonnull Object identity,
+                                      @Nonnull java.lang.Class<? extends Identifiable> clazz) {
         for (Class c : classes) {
 //            MessageHandler.debug(clazz.toString(),
 //                    c.getClass(),
@@ -82,8 +79,8 @@ public class Identifiable<I> extends Class {
      * @param clazz class of Identifiable to get
      * @return if Identifiable exists
      */
-    protected static boolean contains(@NotNull Object identity,
-                                      @NotNull java.lang.Class<? extends Identifiable> clazz) {
+    protected static boolean contains(@Nonnull Object identity,
+                                      @Nonnull java.lang.Class<? extends Identifiable> clazz) {
         return get(identity, clazz) != null;
     }
 
@@ -93,34 +90,29 @@ public class Identifiable<I> extends Class {
      * @param clazz class of Identifiable to get
      * @return if Identifiable was disposed
      */
-    protected static boolean dispose(@NotNull Object identity,
-                                     @NotNull java.lang.Class<? extends Identifiable> clazz) {
-        Boolean r = run(() -> {
-//            MessageHandler.debug(clazz.toString(), "Disposing Identifiable with identity " + identity, classes);
-            if (!contains(identity, clazz))
-                throw new IllegalStateException("Identifiable with identity " + identity + " doesn't exist");
-            return get(identity, clazz).dispose();
-        });
-        return r == null ? false : r;
+    protected static boolean dispose(@Nonnull Object identity,
+                                     @Nonnull java.lang.Class<? extends Identifiable> clazz) {
+        if (!contains(identity, clazz))
+            return false;
+        return get(identity, clazz).dispose();
     }
 
     /**
      * Get our identity
      * Disposes us if identity is unavailable/nonexistent
      * @return our identity or null if it's unavailable/nonexistent
+     * @throws IllegalStateException if we're already disposed or our reference is unavailable
      */
-    public I get() {
-        return run(() -> {
-            if (isDisposed())
-                throw new IllegalStateException(this + " already disposed");
-            if (identity == null) return null;
-            I i = identity.get();
-            if (i == null) {
-                dispose();
-                throw new IllegalStateException("Identity for " + this + " unavailable");
-            }
-            return i;
-        });
+    public I get() throws IllegalStateException {
+        if (isDisposed())
+            throw new IllegalStateException(this + " already disposed");
+        if (identity == null) return null;
+        I i = identity.get();
+        if (i == null) {
+            dispose();
+            throw new IllegalStateException("Identity for " + this + " unavailable");
+        }
+        return i;
     }
 
     @Override

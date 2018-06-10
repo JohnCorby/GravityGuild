@@ -1,16 +1,16 @@
 /* TODO:
+ * BUGS:
+ * gg cancel always cancels last set arenas
+ * projectiles slow down
  *
- * change arena resetting to replace chunks instead of using events/changed blocks
- * automatically add any created entity to arena list if its coordinately in one
- * automatically dispose any removed entity from arena list if its in it
+ * FEATURES:
+ * wither skull knockback when near others
  *
  *
  * add detailed death stuff
  *
  *
  * scoreboard containing alive players etc etc
- *
- * more metadata (i think its tile entities?) so that chests, banners, signs, etc will store stuff, etc.
  *
  * choose random map like murder except without votes
  * every so often, blocks should regenerate OR regenerate a layer of floor every so often

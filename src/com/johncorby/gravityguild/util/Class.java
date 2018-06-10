@@ -1,12 +1,10 @@
 package com.johncorby.gravityguild.util;
 
 import com.johncorby.gravityguild.MessageHandler;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.johncorby.gravityguild.util.Common.run;
 
 /**
  * Store classes to manage them
@@ -20,13 +18,12 @@ public class Class {
     /**
      * Constructor
      * Adds us to stored classes
+     * @throws IllegalStateException if we're already in stored classes
      */
-    public Class() {
-        run(() -> {
-            if (classes.contains(this))
-                throw new IllegalStateException(this + " already exists");
-            classes.add(this);
-        });
+    public Class() throws IllegalStateException {
+        if (classes.contains(this))
+            throw new IllegalStateException(this + " already exists");
+        classes.add(this);
     }
 
     /**
@@ -42,7 +39,7 @@ public class Class {
      * @param clazz class to check
      * @return if class is in stored classes
      */
-    public static boolean contains(@NotNull Class clazz) {
+    public static boolean contains(@Nonnull Class clazz) {
         return classes.contains(clazz);
     }
 
@@ -57,24 +54,22 @@ public class Class {
     /**
      * Dispose ourselves
      * @return if we've been disposed
+     * @throws IllegalStateException if we aren't in stored classes or were already disposed
      */
-    public boolean dispose() {
-        run(() -> {
-            if (disposed)
-                throw new IllegalStateException(this + " already disposed");
-            if (!classes.contains(this))
-                throw new IllegalStateException(this + " doesn't exist");
-            classes.remove(this);
+    public boolean dispose() throws IllegalStateException {
+        if (disposed)
+            throw new IllegalStateException(this + " already disposed");
+        if (!classes.contains(this))
+            throw new IllegalStateException(this + " doesn't exist");
+        classes.remove(this);
 //            debug("Disposed", classes);
-            disposed = true;
-        });
-        return disposed;
+        return disposed = true;
     }
 
     /**
      * Destructor
      * Also disposes us
-     * @throws Throwable
+     * @throws Throwable if something fails
      */
     @Override
     protected void finalize() throws Throwable {

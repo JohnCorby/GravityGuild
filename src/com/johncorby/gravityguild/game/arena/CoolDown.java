@@ -12,7 +12,7 @@ public class CoolDown extends Identifiable<Player> {
     public CoolDown(Player reference) {
         super(reference);
         get().setInvulnerable(true);
-        get().setGlowing(true);
+//        get().setGlowing(true);
         get().setHealth(reference.getMaxHealth());
         get().setFireTicks(0);
         MessageHandler.msg(get(), MessageHandler.MessageType.GAME, "You are invincible for " + d + " seconds");
@@ -51,7 +51,7 @@ public class CoolDown extends Identifiable<Player> {
 
         private boolean dispose() {
             get().setInvulnerable(false);
-            get().setGlowing(false);
+//            get().setGlowing(false);
             get().setHealth(get().getMaxHealth());
             get().setFireTicks(0);
 
