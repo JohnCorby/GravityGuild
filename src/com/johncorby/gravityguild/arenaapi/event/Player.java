@@ -1,5 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.event;
 
+import com.johncorby.gravityguild.GravityGuild;
+import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import com.johncorby.gravityguild.arenaapi.arena.SetRegion;
 import org.bukkit.ChatColor;
@@ -14,10 +16,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class Player implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
+        MessageHandler.msg(event.getPlayer(),
+                MessageHandler.MessageType.GAME,
+                GravityGuild.WORLD.getHighestBlockAt(event.getPlayer().getLocation()).getY());
+
         // If left clicked block
         if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
             // If setting region
-            SetRegion setRegion = SetRegion.regionSetting(event.getPlayer());
+            SetRegion setRegion = (SetRegion) SetRegion.get(event.getPlayer());
             if (setRegion != null) {
                 // Call next for region
                 Location loc = event.getClickedBlock().getLocation();
@@ -38,6 +44,7 @@ public class Player implements Listener {
             // Try to join game
             Arena.get(s.getLine(1)).add(event.getPlayer());
         }
+
     }
 
 

@@ -1,5 +1,7 @@
 package com.johncorby.gravityguild.util;
 
+import com.johncorby.gravityguild.MessageHandler;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -78,9 +80,9 @@ public class Common {
     }
 
     // String version of array with formatting
-    public static <T> String toStr(T[] array, String format) {
-        assert array.getClass().isArray();
-        return String.format(format, (Object[]) array);
+    public static <T> String toStr(String s, T[] replacements) {
+        //assert replacements.getClass().isArray();
+        return String.format(s, (Object[]) toStr(replacements));
     }
 
     // Find property R of list E and return E that has property R
@@ -128,32 +130,19 @@ public class Common {
     }
 
     // Safely run something and catch exceptions
-    public static void runSilent(java.lang.Runnable action) {
-        try {
-            action.run();
-        } catch (Exception ignore) {
-        }
-    }
     public static void run(java.lang.Runnable action) {
         try {
             action.run();
         } catch (Exception e) {
-            e.printStackTrace();
+            MessageHandler.error(e);
         }
     }
 
-    public static <T> T runSilent(Callable<T> action) {
-        try {
-            return action.call();
-        } catch (Exception e) {
-            return null;
-        }
-    }
     public static <T> T run(Callable<T> action) {
         try {
             return action.call();
         } catch (Exception e) {
-            e.printStackTrace();
+            MessageHandler.error(e);
             return null;
         }
     }

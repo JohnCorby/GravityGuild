@@ -2,12 +2,12 @@ package com.johncorby.gravityguild.game.arena;
 
 import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import com.johncorby.gravityguild.util.Common;
+import com.johncorby.gravityguild.util.Identifiable;
 import com.johncorby.gravityguild.util.Runnable;
-import com.johncorby.gravityguild.util.Wrapper;
 
 import static com.johncorby.gravityguild.GravityGuild.getOverridePlayers;
 
-public class CountDown extends Wrapper<Arena> {
+public class CountDown extends Identifiable<Arena> {
     private static final int d = 10;
     private final Task task = new Task();
     private int t = d;
@@ -17,9 +17,21 @@ public class CountDown extends Wrapper<Arena> {
         task.runTaskTimer(0, 20);
     }
 
+    public static CountDown get(Arena identity) {
+        return (CountDown) get(identity, CountDown.class);
+    }
+
+    public static boolean contains(Arena identity) {
+        return contains(identity, CountDown.class);
+    }
+
+    public static boolean dispose(Arena identity) {
+        return dispose(identity, CountDown.class);
+    }
+
     @Override
-    public void dispose() {
-        task.cancel();
+    public boolean dispose() {
+        return task.dispose();
     }
 
     private class Task extends Runnable {
@@ -49,10 +61,14 @@ public class CountDown extends Wrapper<Arena> {
             t--;
         }
 
+        private boolean dispose() {
+            super.cancel();
+            return CountDown.super.dispose();
+        }
+
         @Override
-        public synchronized void cancel() throws IllegalStateException {
-            if (!isCancelled()) super.cancel();
-            CountDown.super.dispose();
+        public synchronized void cancel() {
+            dispose();
         }
     }
 

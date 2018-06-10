@@ -4,73 +4,95 @@ import com.johncorby.gravityguild.MessageHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
+import javax.annotation.Nullable;
+
 import static com.johncorby.gravityguild.GravityGuild.gravityGuild;
 
 /**
  * Convenient version of BukkitRunnable
  * Unlike BukkitRunnable, you can run it again after it's cancelled
+ * It also won't throw exceptions :)))
  */
 public abstract class Runnable implements java.lang.Runnable {
     private BukkitTask task;
 
     public synchronized boolean isCancelled() {
-        //checkScheduled();
+        if (checkScheduled()) return true;
         return task.isCancelled();
     }
 
     public synchronized void cancel() {
+        if (checkScheduled()) return;
         Bukkit.getScheduler().cancelTask(getTaskId());
         task = null;
     }
 
+    @Nullable
     public synchronized BukkitTask runTask() {
-        checkNotScheduled();
+        if (checkNotScheduled()) return null;
         return setupTask(Bukkit.getScheduler().runTask(gravityGuild, this));
     }
 
+    @Nullable
     public synchronized BukkitTask runTaskAsynchronously() {
-        checkNotScheduled();
+        if (checkNotScheduled()) return null;
         return setupTask(Bukkit.getScheduler().runTaskAsynchronously(gravityGuild, this));
     }
 
+    @Nullable
     public synchronized BukkitTask runTaskLater(final long delay) {
-        checkNotScheduled();
+        if (checkNotScheduled()) return null;
         return setupTask(Bukkit.getScheduler().runTaskLater(gravityGuild, this, delay));
     }
 
+    @Nullable
     public synchronized BukkitTask runTaskLaterAsynchronously(final long delay) {
-        checkNotScheduled();
+        if (checkNotScheduled()) return null;
         return setupTask(Bukkit.getScheduler().runTaskLaterAsynchronously(gravityGuild, this, delay));
     }
 
+    @Nullable
     public synchronized BukkitTask runTaskTimer(final long delay, final long period) {
-        checkNotScheduled();
+        if (checkNotScheduled()) return null;
         return setupTask(Bukkit.getScheduler().runTaskTimer(gravityGuild, this, delay, period));
     }
 
+    @Nullable
     public synchronized BukkitTask runTaskTimerAsynchronously(final long delay, final long period) {
-        checkNotScheduled();
+        if (checkNotScheduled()) return null;
         return setupTask(Bukkit.getScheduler().runTaskTimerAsynchronously(gravityGuild, this, delay, period));
     }
 
     public synchronized int getTaskId() {
-        checkScheduled();
+        if (checkScheduled()) return -1;
         return task.getTaskId();
     }
 
-    private void checkScheduled() {
-        if (task == null)
-            throw new IllegalStateException("Not scheduled");
+    private boolean checkScheduled() {
+        try {
+            if (task == null)
+                throw new IllegalStateException("Not scheduled");
+        } catch (Exception e) {
+            MessageHandler.error(e);
+            return true;
+        }
+        return false;
     }
 
-    private void checkNotScheduled() {
-        if (task != null)
-            if (!task.isCancelled())
-                throw new IllegalStateException("Still running as task " + getTaskId());
-            else {
-                MessageHandler.debug("Cancelled task " + getTaskId());
-                cancel();
-            }
+    private boolean checkNotScheduled() {
+        try {
+            if (task != null)
+                if (!task.isCancelled())
+                    throw new IllegalStateException("Still running as task " + getTaskId());
+                else {
+                    MessageHandler.debug("Cancelled task " + getTaskId());
+                    cancel();
+                }
+        } catch (Exception e) {
+            MessageHandler.error(e);
+            return true;
+        }
+        return false;
     }
 
     private BukkitTask setupTask(final BukkitTask task) {

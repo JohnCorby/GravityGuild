@@ -14,7 +14,7 @@ import static com.johncorby.gravityguild.MessageHandler.MessageType.GENERAL;
 public class MessageHandler {
     private static final String prefix = ChatColor.GRAY + "[" + ChatColor.GOLD + "GravityGuild" + ChatColor.GRAY + "] " + ChatColor.RESET;
 
-    private static final boolean DEBUG = true;
+    public static final boolean DEBUG = true;
 
     // Print message if debug
     public static void debug(String from, Object... msgs) {
@@ -30,6 +30,10 @@ public class MessageHandler {
             for (Object m : msgs)
                 log(ERROR, "[ERROR] " +
                         (from == null ? "" : from + " - ") + ChatColor.RESET + m);
+    }
+
+    public static void error(Exception exception) {
+        if (DEBUG) exception.printStackTrace();
     }
 
     public static void debug(Object... msgs) {
@@ -68,7 +72,14 @@ public class MessageHandler {
 
     // Message of type to player
 	public static void msg(CommandSender to, MessageType type, Object... messages) {
-        for (Object message : messages) to.sendMessage(prefix + type.get() + convert(message));
+        for (Object message : messages) {
+            StringBuilder msg = new StringBuilder();
+            for (String word : convert(message).split(" ")) {
+                msg.append(type.get()).append(word).append(" ");
+            }
+            msg = msg.deleteCharAt(msg.length() - 1);
+            to.sendMessage(prefix + type.get() + msg);
+        }
 	}
 
 	// Log of type to console
@@ -78,11 +89,8 @@ public class MessageHandler {
 
     // Message of type to players
 	public static void broadcast(MessageType type, Object... messages) {
-        for (Object message : messages) {
-            String messageString = convert(message);
-            for (Player player : Bukkit.getServer().getOnlinePlayers())
-                player.sendMessage(prefix + type.get() + messageString);
-        }
+        for (Player player : Bukkit.getServer().getOnlinePlayers())
+                msg(player, type, messages);
 	}
 
 	// Convert arrays to string form

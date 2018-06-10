@@ -12,11 +12,11 @@ public class Cancel extends BaseCommand {
     @Override
     public boolean onCommand(Player sender, String[] args) {
         // Error if setting region
-        SetRegion sR = SetRegion.regionSetting(sender);
+        SetRegion sR = (SetRegion) SetRegion.get(sender);
         if (sR == null) return MessageHandler.commandError(sender, "You're not setting an arena region");
 
         // Remove region setter
         MessageHandler.msg(sender, MessageHandler.MessageType.GENERAL, "Cancelled region setting for arena " + sR.name);
-        return SetRegion.remove(sR);
+        return SetRegion.dispose(sR);
     }
 }

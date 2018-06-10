@@ -1,11 +1,11 @@
 package com.johncorby.gravityguild.game.arena;
 
 import com.johncorby.gravityguild.MessageHandler;
+import com.johncorby.gravityguild.util.Identifiable;
 import com.johncorby.gravityguild.util.Runnable;
-import com.johncorby.gravityguild.util.Wrapper;
 import org.bukkit.entity.Player;
 
-public class CoolDown extends Wrapper<Player> {
+public class CoolDown extends Identifiable<Player> {
     private static final int d = 5;
     private final Task task = new Task();
 
@@ -20,9 +20,21 @@ public class CoolDown extends Wrapper<Player> {
         task.runTaskLater(20 * d);
     }
 
+    public static CoolDown get(Player identity) {
+        return (CoolDown) get(identity, CoolDown.class);
+    }
+
+    public static boolean contains(Player identity) {
+        return contains(identity, CoolDown.class);
+    }
+
+    public static boolean dispose(Player identity) {
+        return dispose(identity, CoolDown.class);
+    }
+
     @Override
-    public void dispose() {
-        task.cancel();
+    public boolean dispose() {
+        return task.dispose();
     }
 
     private class Task extends Runnable {
@@ -33,14 +45,18 @@ public class CoolDown extends Wrapper<Player> {
         }
 
         @Override
-        public synchronized void cancel() throws IllegalStateException {
+        public synchronized void cancel() {
+            dispose();
+        }
+
+        private boolean dispose() {
             get().setInvulnerable(false);
             get().setGlowing(false);
             get().setHealth(get().getMaxHealth());
             get().setFireTicks(0);
 
-            if (!isCancelled()) super.cancel();
-            CoolDown.super.dispose();
+            super.cancel();
+            return CoolDown.super.dispose();
         }
     }
 }

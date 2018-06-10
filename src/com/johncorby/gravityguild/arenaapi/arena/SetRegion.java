@@ -1,45 +1,39 @@
 package com.johncorby.gravityguild.arenaapi.arena;
 
 import com.johncorby.gravityguild.MessageHandler;
+import com.johncorby.gravityguild.util.Identifiable;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SetRegion {
+public class SetRegion extends Identifiable<Player> {
     /**
      * Factory/handler
      */
-    private static List<SetRegion> setRegions = new ArrayList<>();
-
     public static boolean add(Player player, String name, boolean add) {
         // Error if arena doesn't exist
         if (Arena.get(name) == null && !add)
             return MessageHandler.commandError(player, "Arena " + name + " does not exist");
 
         // Error if player already setting region
-        SetRegion setRegion = regionSetting(player);
+        SetRegion setRegion = (SetRegion) get(player);
         if (setRegion != null)
             return MessageHandler.commandError(player, "You are already setting region for arena " + setRegion.name);
 
-        setRegion = new SetRegion(player, name, add);
-        setRegions.add(setRegion);
+        new SetRegion(player, name, add);
         MessageHandler.msg(player, MessageHandler.MessageType.GENERAL, "Left click block to set pos 1");
         return true;
     }
 
-    public static boolean remove(SetRegion setRegion) {
-        return setRegions.remove(setRegion);
+    public static SetRegion get(Player identity) {
+        return (SetRegion) get(identity, SetRegion.class);
     }
 
-    // Try to get region player is setting
-    public static SetRegion regionSetting(Player player) {
-        for (SetRegion setRegion : setRegions) {
-            if (setRegion.player == player) return setRegion;
-        }
-        return null;
+    public static boolean contains(Player identity) {
+        return contains(identity, SetRegion.class);
     }
 
+    public static boolean dispose(Player identity) {
+        return dispose(identity, SetRegion.class);
+    }
 
 
 
@@ -58,21 +52,15 @@ public class SetRegion {
     /**
      * Actual class
      */
-    public Player player;
     public int step;
     public String name;
     public Integer[] region = new Integer[4];
-    private boolean add;
+    private final boolean add;
 
     public SetRegion(Player player, String name, boolean add) {
-        this.player = player;
+        super(player);
         this.name = name.toLowerCase();
         this.add = add;
-    }
-
-    @Override
-    public String toString() {
-        return "SetRegion@" + name;
     }
 
     // Go to next step in region setting
@@ -81,7 +69,7 @@ public class SetRegion {
             case 0: // Set first pos
                 region[0] = x;
                 region[1] = z;
-                MessageHandler.msg(player, MessageHandler.MessageType.GENERAL, "Left click block to set pos 2");
+                MessageHandler.msg(get(), MessageHandler.MessageType.GENERAL, "Left click block to set pos 2");
                 break;
             case 1: // Set second pos
                 region[2] = x;
@@ -104,8 +92,8 @@ public class SetRegion {
                     arena.setRegion(region);
                 } else Arena.get(name).setRegion(region);
 
-                MessageHandler.msg(player, MessageHandler.MessageType.GENERAL, "Arena " + name + " region set");
-                remove(this);
+                MessageHandler.msg(get(), MessageHandler.MessageType.GENERAL, "Arena " + name + " region set");
+                dispose();
                 break;
         }
         step++;
