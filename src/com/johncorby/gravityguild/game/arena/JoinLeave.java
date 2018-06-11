@@ -19,13 +19,13 @@ public class JoinLeave {
 
         // Give items
         ItemStack bow = new ItemStack(Material.BOW);
-        bow.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 1000);
-        bow.addUnsafeEnchantment(Enchantment.ARROW_FIRE, 1);
-        bow.addUnsafeEnchantment(Enchantment.DURABILITY, 1000);
+        bow.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 9999);
+//        bow.addUnsafeEnchantment(Enchantment.ARROW_FIRE, 1);
+        bow.addUnsafeEnchantment(Enchantment.DURABILITY, 9999);
         bow.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
 
         ItemStack elytra = new ItemStack(Material.ELYTRA);
-        elytra.addUnsafeEnchantment(Enchantment.DURABILITY, 1000);
+        elytra.addUnsafeEnchantment(Enchantment.DURABILITY, 9999);
         elytra.addUnsafeEnchantment(Enchantment.BINDING_CURSE, 1);
 
         ItemStack endRod = new ItemStack(Material.END_ROD);
@@ -40,6 +40,10 @@ public class JoinLeave {
         // Make invincible
         player.setInvulnerable(true);
         player.setGlowing(true);
+
+        // For override players
+        if (arena.getState() == Arena.State.RUNNING)
+            new CoolDown(player);
     }
 
     // When player leave arena

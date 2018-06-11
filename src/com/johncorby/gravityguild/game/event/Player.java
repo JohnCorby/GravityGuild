@@ -45,7 +45,7 @@ public class Player implements Listener {
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
         if (Arena.arenaIn(event.getEntity()) != null)
-            event.setCancelled(true);;
+            event.setCancelled(true);
     }
 
     @EventHandler
@@ -69,6 +69,7 @@ public class Player implements Listener {
         deathMsg = deathMsg.replace(p.getName(), "You")
                 .replace("You was", "You were");
         msg(p, GAME, deathMsg);
+
 
         p.setLevel(p.getLevel() - 1);
 

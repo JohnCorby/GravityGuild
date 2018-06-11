@@ -1,21 +1,6 @@
-/* TODO:
- * BUGS:
- * gg cancel always cancels last set arenas
- * projectiles slow down
- *
- * FEATURES:
- * wither skull knockback when near others
- *
- *
- * add detailed death stuff
- *
- *
- * scoreboard containing alive players etc etc
- *
- * choose random map like murder except without votes
- * every so often, blocks should regenerate OR regenerate a layer of floor every so often
- *
- * TEAM MODE
+/* TODO: https://github.com/JohnCorby/GravityGuild/issues
+ * BUGS: https://github.com/JohnCorby/GravityGuild/issues?q=is%3Aopen+is%3Aissue+label%3Abug
+ * FEATURES: https://github.com/JohnCorby/GravityGuild/issues?q=is%3Aopen+is%3Aissue+label%3Afeature
  */
 
 package com.johncorby.gravityguild;

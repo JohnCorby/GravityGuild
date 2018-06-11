@@ -1,6 +1,5 @@
 package com.johncorby.gravityguild.game.event;
 
-import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Player;
@@ -9,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.projectiles.ProjectileSource;
 
 import static com.johncorby.gravityguild.GravityGuild.WORLD;
 
@@ -18,9 +16,7 @@ public class Entity implements Listener {
     @EventHandler
     public void onDamageByEntity(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof WitherSkull)) return;
-        ProjectileSource s = ((WitherSkull) event.getDamager()).getShooter();
-        MessageHandler.debug(s);
-        if (!(s instanceof Player)) return;
+        if (!(((WitherSkull) event.getDamager()).getShooter() instanceof Player)) return;
         event.setDamage(0);
     }
 

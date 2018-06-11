@@ -167,7 +167,6 @@ public class Arena extends Identifiable<String> {
                 for (Entity e : getEntities())
                     remove(e);
 
-                // This probably wont work lol
                 setBlocks();
 
                 this.state = state;
@@ -188,8 +187,6 @@ public class Arena extends Identifiable<String> {
         configLoc.set("Region", region);
         gravityGuild.saveConfig();
 
-
-        // This probably wont work lol
         getBlocks();
     }
 
