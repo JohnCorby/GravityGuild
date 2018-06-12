@@ -17,6 +17,6 @@ public class Cancel extends BaseCommand {
 
         // Remove region setter
         MessageHandler.msg(sender, MessageHandler.MessageType.GENERAL, "Cancelled region setting for arena " + sR.name);
-        return SetRegion.dispose(sR);
+        return SetRegion.dispose(sender);
     }
 }

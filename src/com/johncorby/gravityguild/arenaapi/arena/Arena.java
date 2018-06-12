@@ -113,11 +113,10 @@ public class Arena extends Identifiable<String> {
 
     @Override
     public boolean dispose() {
-        if (super.dispose()) {
-            arenaSection.set(get(), null);
-            gravityGuild.saveConfig();
-        }
-        return isDisposed();
+        arenaSection.set(get(), null);
+        gravityGuild.saveConfig();
+
+        return super.dispose();
     }
 
     // Message of type to players in arena
@@ -411,6 +410,34 @@ public class Arena extends Identifiable<String> {
 
             --y;
         }
+    }
+
+    @Override
+    public List<String> getDebug() {
+        List<String> r = new ArrayList<>();
+        r.add(toString());
+
+        r.add("State: " + state.get());
+
+        Location s = sign == null ? null : sign.getLocation();
+        r.add("Region: " +
+                (region == null ? "N/A" : String.format("(%s, %s), (%s, %s)", region[0], region[1], region[2], region[3])));
+        r.add("SignLoc: " +
+                (sign == null ? "N/A" : String.format("(%s, %s, %s)", s.getBlockX(), s.getBlockY(), s.getBlockZ())));
+
+        List<Entity> el = getEntities();
+        r.add("Entities: " + (el.isEmpty() ? "None" : ""));
+        for (Entity e : el) {
+            Location l = e.getLocation();
+            r.add(String.format("%s {(%s, %s, %s), (%s, %s)}",
+                    e.getType(),
+                    l.getBlockX(),
+                    l.getBlockY(),
+                    l.getBlockZ(),
+                    (int) l.getPitch(),
+                    (int) l.getYaw()));
+        }
+        return r;
     }
 
     public enum State {

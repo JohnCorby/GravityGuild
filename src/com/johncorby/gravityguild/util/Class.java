@@ -92,5 +92,15 @@ public class Class {
     protected void error(Object... msgs) {
         MessageHandler.error(toString(), msgs);
     }
+
+    /**
+     * Gets debug to print out on /gg debug
+     * @return the result to print
+     */
+    public List<String> getDebug() {
+        List<String> r = new ArrayList<>();
+        r.add(toString());
+        return r;
+    }
 }
 

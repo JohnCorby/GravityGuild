@@ -34,7 +34,7 @@ public class CommandHandler implements CommandExecutor {
         register(new Delete());
         register(new SetRegion());
         register(new Update());
-        register(new ArenaStats());
+        register(new Debug());
         register(new SetLobby());
 
         //TabCompleteHandler.register("help", 0, () -> Common.map(commands, BaseCommand::getName));
@@ -82,9 +82,6 @@ public class CommandHandler implements CommandExecutor {
             return baseCommand.onCommand(player, args);
         } catch (Exception e) {
             commandError(player, e);
-            //MessageHandler.msg(player, ERROR, "Error:", e, "Stack Trace:", getStackTrace(e));
-            //MessageHandler.msg(player, ERROR, getStackTrace(e));
-            //MessageHandler.log(ERROR, getStackTrace(e));
             MessageHandler.error((Object) getStackTrace(e));
             return false;
         }

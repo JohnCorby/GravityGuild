@@ -23,7 +23,7 @@ public class SetRegion extends Identifiable<Player> {
             return MessageHandler.commandError(player, "Arena " + name + " does not exist");
 
         // Error if player already setting region
-        SetRegion setRegion = (SetRegion) get(player);
+        SetRegion setRegion = get(player);
         if (setRegion != null)
             return MessageHandler.commandError(player, "You are already setting region for arena " + setRegion.name);
 
