@@ -316,6 +316,9 @@ public class Arena extends Identifiable<String> {
 
         long time = Common.time(() -> {
             try {
+                for (Entity e : getEntities())
+                    if (!(e instanceof Player)) e.remove();
+
                 File file = new File(gravityGuild.getDataFolder() + "/" + get() + ".schematic");
                 World world = new BukkitWorld(WORLD);
                 Vector pos1 = new Vector(region[0], 0, region[1]);
