@@ -3,7 +3,6 @@ package com.johncorby.gravityguild.game.event;
 import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import com.johncorby.gravityguild.game.arena.CoolDown;
 import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +13,6 @@ import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-import static com.johncorby.gravityguild.GravityGuild.WORLD;
 import static com.johncorby.gravityguild.MessageHandler.MessageType.GAME;
 import static com.johncorby.gravityguild.MessageHandler.msg;
 
@@ -32,12 +30,8 @@ public class Player implements Listener {
             org.bukkit.entity.Player p = event.getPlayer();
             Location l = p.getEyeLocation();
             Vector d = p.getLocation().getDirection();
-            l.add(d);
             //WORLD.createExplosion(l, 4);
-            WitherSkull s = (WitherSkull) WORLD.spawnEntity(l, EntityType.WITHER_SKULL);
-            s.setVelocity(s.getDirection());
-            s.setShooter(p);
-            aI.add(s);
+            p.launchProjectile(WitherSkull.class, d);
             event.setCancelled(true);
         }
     }

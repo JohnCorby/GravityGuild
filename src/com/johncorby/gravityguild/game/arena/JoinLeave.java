@@ -37,8 +37,6 @@ public class JoinLeave {
         player.getInventory().setChestplate(elytra);
         player.getInventory().setHelmet(endRod);
 
-        // Make invincible
-        player.setInvulnerable(true);
         player.setGlowing(true);
 
         // For override players
@@ -48,8 +46,6 @@ public class JoinLeave {
 
     // When player leave arena
     public static void onLeave(Player player, Arena arena) {
-        // Make not invincible
-        player.setInvulnerable(false);
         player.setGlowing(false);
 
         // Clear invertory

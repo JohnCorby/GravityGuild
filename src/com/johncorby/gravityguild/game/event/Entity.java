@@ -1,6 +1,7 @@
 package com.johncorby.gravityguild.game.event;
 
 import com.johncorby.gravityguild.arenaapi.arena.Arena;
+import com.johncorby.gravityguild.game.arena.ProjectileWrapper;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,7 +39,8 @@ public class Entity implements Listener {
         }
 
         // Get projectile and apply stuff
-        event.getEntity().setGravity(false);
+        p.setGravity(false);
+        new ProjectileWrapper(p);
     }
 
 
@@ -61,6 +63,7 @@ public class Entity implements Listener {
         }
 
         // Kill entity
-        event.getEntity().remove();
+        p.remove();
+        ProjectileWrapper.get(p).dispose();
     }
 }

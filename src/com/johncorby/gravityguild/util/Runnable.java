@@ -16,7 +16,7 @@ import static com.johncorby.gravityguild.GravityGuild.gravityGuild;
 public abstract class Runnable implements java.lang.Runnable {
     private BukkitTask task;
 
-    public synchronized boolean isCancelled() {
+    public final synchronized boolean isCancelled() {
         if (checkScheduled()) return true;
         return task.isCancelled();
     }
@@ -28,42 +28,42 @@ public abstract class Runnable implements java.lang.Runnable {
     }
 
     @Nullable
-    public synchronized BukkitTask runTask() {
+    public final synchronized BukkitTask runTask() {
         if (checkNotScheduled()) return null;
         return setupTask(Bukkit.getScheduler().runTask(gravityGuild, this));
     }
 
     @Nullable
-    public synchronized BukkitTask runTaskAsynchronously() {
+    public final synchronized BukkitTask runTaskAsynchronously() {
         if (checkNotScheduled()) return null;
         return setupTask(Bukkit.getScheduler().runTaskAsynchronously(gravityGuild, this));
     }
 
     @Nullable
-    public synchronized BukkitTask runTaskLater(final long delay) {
+    public final synchronized BukkitTask runTaskLater(final long delay) {
         if (checkNotScheduled()) return null;
         return setupTask(Bukkit.getScheduler().runTaskLater(gravityGuild, this, delay));
     }
 
     @Nullable
-    public synchronized BukkitTask runTaskLaterAsynchronously(final long delay) {
+    public final synchronized BukkitTask runTaskLaterAsynchronously(final long delay) {
         if (checkNotScheduled()) return null;
         return setupTask(Bukkit.getScheduler().runTaskLaterAsynchronously(gravityGuild, this, delay));
     }
 
     @Nullable
-    public synchronized BukkitTask runTaskTimer(final long delay, final long period) {
+    public final synchronized BukkitTask runTaskTimer(final long delay, final long period) {
         if (checkNotScheduled()) return null;
         return setupTask(Bukkit.getScheduler().runTaskTimer(gravityGuild, this, delay, period));
     }
 
     @Nullable
-    public synchronized BukkitTask runTaskTimerAsynchronously(final long delay, final long period) {
+    public final synchronized BukkitTask runTaskTimerAsynchronously(final long delay, final long period) {
         if (checkNotScheduled()) return null;
         return setupTask(Bukkit.getScheduler().runTaskTimerAsynchronously(gravityGuild, this, delay, period));
     }
 
-    public synchronized int getTaskId() {
+    public final synchronized int getTaskId() {
         if (checkScheduled()) return -1;
         return task.getTaskId();
     }
@@ -98,6 +98,4 @@ public abstract class Runnable implements java.lang.Runnable {
     private BukkitTask setupTask(final BukkitTask task) {
         return this.task = task;
     }
-
-
 }

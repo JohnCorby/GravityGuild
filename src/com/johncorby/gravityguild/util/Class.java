@@ -47,7 +47,7 @@ public class Class {
      * Check if we've been disposed
      * @return if we've been disposed
      */
-    public boolean isDisposed() {
+    public final boolean isDisposed() {
         return disposed;
     }
 
@@ -81,7 +81,7 @@ public class Class {
      * Handy method to show debug messages with us as a prefix
      * @param msgs the messages to show
      */
-    protected void debug(Object... msgs) {
+    protected final void debug(Object... msgs) {
         MessageHandler.debug(toString(), msgs);
     }
 
@@ -89,7 +89,7 @@ public class Class {
      * Handy method to show error messages with us as a prefix
      * @param msgs the messages to show
      */
-    protected void error(Object... msgs) {
+    protected final void error(Object... msgs) {
         MessageHandler.error(toString(), msgs);
     }
 

@@ -316,6 +316,8 @@ public class Arena extends Identifiable<String> {
 
         long time = Common.time(() -> {
             try {
+                // Remove entities so they aren't saved in the schematic
+                // Except not players because that causes issues
                 for (Entity e : getEntities())
                     if (!(e instanceof Player)) e.remove();
 

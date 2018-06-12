@@ -103,7 +103,7 @@ public class Identifiable<I> extends Class {
      * @return our identity or null if it's unavailable/nonexistent
      * @throws IllegalStateException if we're already disposed or our reference is unavailable
      */
-    public I get() throws IllegalStateException {
+    public final I get() throws IllegalStateException {
         if (isDisposed())
             throw new IllegalStateException(this + " already disposed");
         if (identity == null) return null;
