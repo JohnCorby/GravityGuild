@@ -17,8 +17,7 @@ public abstract class Runnable implements java.lang.Runnable {
     private BukkitTask task;
 
     public final synchronized boolean isCancelled() {
-        if (checkScheduled()) return true;
-        return task.isCancelled();
+        return task == null || task.isCancelled();
     }
 
     public synchronized void cancel() {

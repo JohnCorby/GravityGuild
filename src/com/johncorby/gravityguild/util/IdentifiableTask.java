@@ -1,11 +1,10 @@
 package com.johncorby.gravityguild.util;
 
 public abstract class IdentifiableTask<I> extends Identifiable<I> {
-    protected final Task task = new Task();
+    protected Task task;
 
     public IdentifiableTask(I identity) {
         super(identity);
-        setup();
     }
 
     public static IdentifiableTask get(Object identity) {
@@ -20,26 +19,24 @@ public abstract class IdentifiableTask<I> extends Identifiable<I> {
         return dispose(identity, IdentifiableTask.class);
     }
 
-    protected void setup() {
-        task.runTask();
+    // TODO: Override this in subclasses
+    protected boolean create(I identity) {
+        if (!super.create(identity)) return false;
+        task = new Task();
+        return true;
     }
 
     // TODO: Override this in subclasses
     protected void run() {
     }
 
-    // TODO: Override this in subclasses
-    protected void cancel() {
-    }
-
     @Override
-    public final boolean dispose() {
-        task.cancel();
-        return isDisposed();
+    public boolean dispose() {
+        if (!task.isCancelled()) task.cancel();
+        return exists();
     }
 
     protected final class Task extends Runnable {
-
         @Override
         public final void run() {
             IdentifiableTask.this.run();
@@ -47,7 +44,6 @@ public abstract class IdentifiableTask<I> extends Identifiable<I> {
 
         @Override
         public final synchronized void cancel() {
-            IdentifiableTask.this.cancel();
             super.cancel();
             IdentifiableTask.super.dispose();
         }

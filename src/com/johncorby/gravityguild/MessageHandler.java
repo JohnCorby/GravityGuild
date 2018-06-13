@@ -12,9 +12,11 @@ import static com.johncorby.gravityguild.MessageHandler.MessageType.ERROR;
 import static com.johncorby.gravityguild.MessageHandler.MessageType.GENERAL;
 
 public class MessageHandler {
+    public static final boolean DEBUG = true;
     private static final String prefix = ChatColor.GRAY + "[" + ChatColor.GOLD + "GravityGuild" + ChatColor.GRAY + "] " + ChatColor.RESET;
 
-    public static final boolean DEBUG = true;
+    private MessageHandler() {
+    }
 
     // Print message if debug
     public static void debug(String from, Object... msgs) {
@@ -44,34 +46,14 @@ public class MessageHandler {
         error(null, msgs);
     }
 
-
     public static boolean commandError(CommandSender to, Object... messages) {
         for (Object m : messages)
             msg(to, MessageType.ERROR, "Error: " + m);
         return false;
     }
 
-    public enum MessageType {
-		GENERAL(ChatColor.GRAY),
-        GAME(ChatColor.YELLOW),
-		ERROR(ChatColor.RED);
-
-		private ChatColor color;
-
-		MessageType(ChatColor color) {
-			this.color = color;
-		}
-
-        public ChatColor get() {
-            return color;
-        }
-    }
-
-
-    private MessageHandler() {}
-
     // Message of type to player
-	public static void msg(CommandSender to, MessageType type, Object... messages) {
+    public static void msg(CommandSender to, MessageType type, Object... messages) {
         for (Object message : messages) {
             StringBuilder msg = new StringBuilder();
             for (String word : convert(message).split(" ")) {
@@ -80,23 +62,39 @@ public class MessageHandler {
             msg = msg.deleteCharAt(msg.length() - 1);
             to.sendMessage(prefix + type.get() + msg);
         }
-	}
+    }
 
-	// Log of type to console
-	public static void log(MessageType type, Object... messages) {
+    // Log of type to console
+    public static void log(MessageType type, Object... messages) {
         for (Object message : messages) msg(Bukkit.getConsoleSender(), type, messages);
     }
 
     // Message of type to players
-	public static void broadcast(MessageType type, Object... messages) {
+    public static void broadcast(MessageType type, Object... messages) {
         for (Player player : Bukkit.getServer().getOnlinePlayers())
-                msg(player, type, messages);
-	}
+            msg(player, type, messages);
+    }
 
-	// Convert arrays to string form
-	private static String convert(Object message) {
+    // Convert arrays to string form
+    private static String convert(Object message) {
         if (message instanceof List) return Arrays.toString(((List) message).toArray());
         if (message instanceof Object[]) return Arrays.toString((Object[]) message);
         return message.toString();
+    }
+
+    public enum MessageType {
+        GENERAL(ChatColor.GRAY),
+        GAME(ChatColor.YELLOW),
+        ERROR(ChatColor.RED);
+
+        private ChatColor color;
+
+        MessageType(ChatColor color) {
+            this.color = color;
+        }
+
+        public ChatColor get() {
+            return color;
+        }
     }
 }

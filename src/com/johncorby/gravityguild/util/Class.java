@@ -8,26 +8,25 @@ import java.util.List;
 
 /**
  * Store classes to manage them
- *
+ * <p>
  * i don't like exceptions so i just made it send an error message and then return so code execution will continue lol
  */
 public class Class {
     protected static final List<Class> classes = new ArrayList<>();
-    private boolean disposed = false;
+    private boolean exists = false;
 
     /**
-     * Constructor
-     * Adds us to stored classes
+     * Actual constructor
+     *
      * @throws IllegalStateException if we're already in stored classes
      */
     public Class() throws IllegalStateException {
-        if (classes.contains(this))
-            throw new IllegalStateException(this + " already exists");
-        classes.add(this);
+        create();
     }
 
     /**
      * Get stored classes
+     *
      * @return stored classes
      */
     public static List<Class> getClasses() {
@@ -36,6 +35,7 @@ public class Class {
 
     /**
      * Check if class is in stored classes
+     *
      * @param clazz class to check
      * @return if class is in stored classes
      */
@@ -44,41 +44,57 @@ public class Class {
     }
 
     /**
-     * Check if we've been disposed
-     * @return if we've been disposed
+     * Constructor
+     * Adds us to stored classes
+     *
+     * @return if we've been created
+     * @throws IllegalStateException if we're already in stored classes
      */
-    public final boolean isDisposed() {
-        return disposed;
+    protected boolean create() throws IllegalStateException {
+        if (exists()) return false;
+            //throw new IllegalStateException(this + " already exists");
+        classes.add(this);
+        debug("Created");
+        return exists = true;
     }
 
     /**
-     * Dispose ourselves
-     * @return if we've been disposed
-     * @throws IllegalStateException if we aren't in stored classes or were already disposed
+     * Check if we exist
+     *
+     * @return if we exist
      */
-    public boolean dispose() throws IllegalStateException {
-        if (disposed)
-            throw new IllegalStateException(this + " already disposed");
-        if (!classes.contains(this))
-            throw new IllegalStateException(this + " doesn't exist");
-        classes.remove(this);
-//            debug("Disposed", classes);
-        return disposed = true;
+    public final boolean exists() {
+        return exists || classes.contains(this);
     }
 
     /**
      * Destructor
-     * Also disposes us
+     * Dispose ourselves
+     *
+     * @return if we've been disposed
+     * @throws IllegalStateException if we aren't in stored classes
+     */
+    public boolean dispose() throws IllegalStateException {
+        if (!exists()) return false;
+        classes.remove(this);
+        debug("Disposed");
+        return exists = false;
+    }
+
+    /**
+     * Actual destructor
+     *
      * @throws Throwable if something fails
      */
     @Override
     protected void finalize() throws Throwable {
-        if (!disposed) dispose();
+        dispose();
         super.finalize();
     }
 
     /**
      * Handy method to show debug messages with us as a prefix
+     *
      * @param msgs the messages to show
      */
     protected final void debug(Object... msgs) {
@@ -87,6 +103,7 @@ public class Class {
 
     /**
      * Handy method to show error messages with us as a prefix
+     *
      * @param msgs the messages to show
      */
     protected final void error(Object... msgs) {
@@ -95,6 +112,7 @@ public class Class {
 
     /**
      * Gets debug to print out on /gg debug
+     *
      * @return the result to print
      */
     public List<String> getDebug() {

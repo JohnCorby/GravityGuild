@@ -18,6 +18,6 @@ public class LobbyHandler {
         // Try to get loc from config
         Integer[] iL = GravityGuild.CONFIG.getIntegerList("Lobby").toArray(new Integer[0]);
         if (iL.length == 0) return null;
-        return new Location(GravityGuild.WORLD, iL[0]+.5, iL[1], iL[2]+.5, iL[3], iL[4]);
+        return new Location(GravityGuild.WORLD, iL[0] + .5, iL[1], iL[2] + .5, iL[3], iL[4]);
     }
 }

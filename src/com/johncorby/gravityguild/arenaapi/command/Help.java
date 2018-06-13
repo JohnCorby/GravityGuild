@@ -13,6 +13,19 @@ public class Help extends BaseCommand {
         super("Display help", "[command]", "");
     }
 
+    static void getHelp(Player sender, BaseCommand... commands) {
+        // Header
+        if (commands.length == 1)
+            msg(sender, MessageType.GENERAL, "----- Help for command " + commands[0].getName() + " -----");
+        else
+            msg(sender, MessageType.GENERAL, "----- Help for commands -----");
+
+        // Get help for commands
+        for (BaseCommand c : commands) {
+            msg(sender, MessageType.GENERAL, "/gravityguild " + c.getName() + " " + c.getUsage() + " - " + c.getDescription());
+        }
+    }
+
     @Override
     public boolean onCommand(Player sender, String[] args) {
         // If no args: show all help
@@ -29,18 +42,5 @@ public class Help extends BaseCommand {
         // Get help for command
         getHelp(sender, command);
         return true;
-    }
-
-    static void getHelp(Player sender, BaseCommand... commands) {
-        // Header
-        if (commands.length == 1)
-            msg(sender, MessageType.GENERAL, "----- Help for command " + commands[0].getName() + " -----");
-        else
-            msg(sender, MessageType.GENERAL, "----- Help for commands -----");
-
-        // Get help for commands
-        for (BaseCommand c : commands) {
-            msg(sender, MessageType.GENERAL, "/gravityguild " + c.getName() + " " + c.getUsage() + " - " + c.getDescription());
-        }
     }
 }

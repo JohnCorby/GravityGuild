@@ -16,6 +16,6 @@ public class SetRegion extends BaseCommand {
         if (args.length == 0) return MessageHandler.commandError(sender, "You must supply an arena name");
 
         // Try to update region
-        return com.johncorby.gravityguild.arenaapi.arena.SetRegion.add(sender, args[0], false);
+        return new com.johncorby.gravityguild.arenaapi.arena.SetRegion(sender, args[0], false).exists();
     }
 }

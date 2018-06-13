@@ -14,13 +14,28 @@ public class CountDown extends IdentifiableTask<Arena> {
         super(identity);
     }
 
+    public static CountDown get(Arena identity) {
+        return (CountDown) get(identity, CountDown.class);
+    }
+
+    public static boolean contains(Arena identity) {
+        return contains(identity, CountDown.class);
+    }
+
+    public static boolean dispose(Arena identity) {
+        return dispose(identity, CountDown.class);
+    }
+
     @Override
-    protected void setup() {
+    protected boolean create(Arena identity) {
+        if (!super.create(identity)) return false;
         task.runTaskTimer(0, 20);
+        return true;
     }
 
     @Override
     protected void run() {
+        super.run();
         switch (t) {
             case 10:
             case 5:
@@ -37,24 +52,12 @@ public class CountDown extends IdentifiableTask<Arena> {
                     get().setState(Arena.State.RUNNING);
                     dispose();
                 } else {
-                    get().broadcast("Arena needs 2 or more players to start");
+                    get().broadcast("Arena needs 2 or more players to create");
                     t = d;
                 }
                 break;
         }
         t--;
-    }
-
-    public static CountDown get(Arena identity) {
-        return (CountDown) get(identity, CountDown.class);
-    }
-
-    public static boolean contains(Arena identity) {
-        return contains(identity, CountDown.class);
-    }
-
-    public static boolean dispose(Arena identity) {
-        return dispose(identity, CountDown.class);
     }
 
 }

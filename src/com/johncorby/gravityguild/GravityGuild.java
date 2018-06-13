@@ -32,7 +32,7 @@ public class GravityGuild extends JavaPlugin {
     public static String[] overridePlayers = {"johncorby", "funkymunky111"};
 
     public static List<Player> getOverridePlayers() {
-        return Common.map(Arrays.asList(overridePlayers),p -> Bukkit.getServer().getPlayer(p));
+        return Common.map(Arrays.asList(overridePlayers), p -> Bukkit.getServer().getPlayer(p));
     }
 
     // When plugin enabled

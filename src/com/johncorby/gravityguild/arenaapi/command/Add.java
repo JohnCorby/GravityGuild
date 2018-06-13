@@ -15,6 +15,6 @@ public class Add extends BaseCommand {
         if (args.length == 0) return MessageHandler.commandError(sender, "You must give a name for the arena");
 
         // Add arena
-        return SetRegion.add(sender, args[0], true);
+        return new SetRegion(sender, args[0], true).exists();
     }
 }

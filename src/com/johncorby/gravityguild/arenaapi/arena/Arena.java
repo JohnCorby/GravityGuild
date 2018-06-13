@@ -44,15 +44,15 @@ public class Arena extends Identifiable<String> {
     private Integer[] region;
     private ConfigurationSection configLoc;
 
-    public Arena(String name) {
-        super(name.toLowerCase());
-        configLoc = arenaSection.createSection(get());
+    public Arena(String identity) {
+        super(identity.toLowerCase());
+        configLoc = arenaSection.createSection(identity);
     }
 
     // Constructor and sets config
-    public Arena(String name, Integer[] region, Integer[] signLoc) {
-        super(name.toLowerCase());
-        configLoc = arenaSection.getConfigurationSection(get());
+    public Arena(String identity, Integer[] region, Integer[] signLoc) {
+        super(identity.toLowerCase());
+        configLoc = arenaSection.getConfigurationSection(identity);
 
         setRegion(region);
 
@@ -116,6 +116,8 @@ public class Arena extends Identifiable<String> {
         arenaSection.set(get(), null);
         gravityGuild.saveConfig();
 
+        new File(gravityGuild.getDataFolder() + "/" + get() + ".schematic").delete();
+
         return super.dispose();
     }
 
@@ -152,14 +154,12 @@ public class Arena extends Identifiable<String> {
         if (this.state == state) return;
         switch (state) {
             case OPEN:
-                this.state = state;
-                StateChange.on(this);
+                StateChange.on(this, state);
                 break;
             case RUNNING:
-                broadcast("Game start");
+                broadcast("Game create");
 
-                this.state = state;
-                StateChange.on(this);
+                StateChange.on(this, state);
                 break;
             case STOPPED:
                 // Remove entities
@@ -168,8 +168,7 @@ public class Arena extends Identifiable<String> {
 
                 setBlocks();
 
-                this.state = state;
-                StateChange.on(this);
+                StateChange.on(this, state);
                 break;
         }
         this.state = state;
@@ -362,7 +361,7 @@ public class Arena extends Identifiable<String> {
     public void tpToRandom(Player player) {
         Location l = new Location(WORLD,
                 randInt(region[0], region[2]),
-                randInt(0, 255),
+                randInt(0, 255 - 2),
                 randInt(region[1], region[3]),
                 randInt(-180, 180),
                 0);

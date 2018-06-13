@@ -11,30 +11,6 @@ public class CoolDown extends IdentifiableTask<Player> {
         super(identity);
     }
 
-    @Override
-    protected void setup() {
-        get().setInvulnerable(true);
-//        get().setGlowing(true);
-        get().setHealth(get().getMaxHealth());
-        get().setFireTicks(0);
-        MessageHandler.msg(get(), MessageHandler.MessageType.GAME, "You are invincible for " + d + " seconds");
-        task.runTaskLater(20 * d);
-    }
-
-    @Override
-    protected void run() {
-        MessageHandler.msg(get(), MessageHandler.MessageType.GAME, "You are no longer invincible");
-        dispose();
-    }
-
-    @Override
-    protected void cancel() {
-        get().setInvulnerable(false);
-//        get().setGlowing(false);
-        get().setHealth(get().getMaxHealth());
-        get().setFireTicks(0);
-    }
-
     public static CoolDown get(Player identity) {
         return (CoolDown) get(identity, CoolDown.class);
     }
@@ -45,5 +21,33 @@ public class CoolDown extends IdentifiableTask<Player> {
 
     public static boolean dispose(Player identity) {
         return dispose(identity, CoolDown.class);
+    }
+
+    @Override
+    protected boolean create(Player identity) {
+        if (!super.create(identity)) return false;
+        identity.setInvulnerable(true);
+//        get().setGlowing(true);
+        identity.setHealth(identity.getMaxHealth());
+        identity.setFireTicks(0);
+        MessageHandler.msg(identity, MessageHandler.MessageType.GAME, "You are invincible for " + d + " seconds");
+        task.runTaskLater(20 * d);
+        return true;
+    }
+
+    @Override
+    protected void run() {
+        super.run();
+        MessageHandler.msg(get(), MessageHandler.MessageType.GAME, "You are no longer invincible");
+        dispose();
+    }
+
+    @Override
+    public boolean dispose() {
+        get().setInvulnerable(false);
+//        get().setGlowing(false);
+        get().setHealth(get().getMaxHealth());
+        get().setFireTicks(0);
+        return super.dispose();
     }
 }

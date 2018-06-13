@@ -36,7 +36,6 @@ public class Block implements Listener {
     }
 
 
-
     // For setting gravityguild signs
     @EventHandler
     public void onSignChange(SignChangeEvent event) {

@@ -103,32 +103,6 @@ public class Common {
         return false;
     }
 
-    // Iterate through items "async" using Runnables
-    public static abstract class RunnableIterator<E> extends Runnable implements Consumer<E> {
-        private Iterator<E> iterator;
-        private int itemsPerTick;
-
-        public RunnableIterator(List<E> items, int itemsPerTick) {
-            iterator = items.iterator();
-            this.itemsPerTick = itemsPerTick;
-        }
-
-        public void go() {
-            runTaskTimer(0, 0);
-        }
-
-        @Override
-        public void run() {
-            for (int i = 0; i < itemsPerTick; i++) {
-                if (!iterator.hasNext()) {
-                    cancel();
-                    return;
-                }
-                accept(iterator.next());
-            }
-        }
-    }
-
     // Safely run something and catch exceptions
     public static void run(java.lang.Runnable action) {
         try {
@@ -161,5 +135,31 @@ public class Common {
             return e.getClass() == exception.getClass();
         }
         return false;
+    }
+
+    // Iterate through items "async" using Runnables
+    public static abstract class RunnableIterator<E> extends Runnable implements Consumer<E> {
+        private Iterator<E> iterator;
+        private int itemsPerTick;
+
+        public RunnableIterator(List<E> items, int itemsPerTick) {
+            iterator = items.iterator();
+            this.itemsPerTick = itemsPerTick;
+        }
+
+        public void go() {
+            runTaskTimer(0, 0);
+        }
+
+        @Override
+        public void run() {
+            for (int i = 0; i < itemsPerTick; i++) {
+                if (!iterator.hasNext()) {
+                    cancel();
+                    return;
+                }
+                accept(iterator.next());
+            }
+        }
     }
 }

@@ -15,17 +15,6 @@ public class ProjectileWrapper extends IdentifiableTask<Projectile> {
         super(identity);
     }
 
-    @Override
-    protected void setup() {
-        startVel = get().getVelocity();
-        task.runTaskTimer(0, d);
-    }
-
-    @Override
-    protected void run() {
-        get().setVelocity(startVel);
-    }
-
     public static ProjectileWrapper get(Projectile identity) {
         return (ProjectileWrapper) get(identity, ProjectileWrapper.class);
     }
@@ -36,6 +25,20 @@ public class ProjectileWrapper extends IdentifiableTask<Projectile> {
 
     public static boolean dispose(Projectile identity) {
         return dispose(identity, ProjectileWrapper.class);
+    }
+
+    @Override
+    protected boolean create(Projectile identity) {
+        if (!super.create(identity)) return false;
+        startVel = identity.getVelocity();
+        task.runTaskTimer(d, d);
+        return true;
+    }
+
+    @Override
+    protected void run() {
+        super.run();
+        get().setVelocity(startVel);
     }
 
     @Override

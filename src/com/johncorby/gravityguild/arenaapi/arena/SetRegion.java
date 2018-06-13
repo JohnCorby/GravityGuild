@@ -5,31 +5,15 @@ import com.johncorby.gravityguild.util.Identifiable;
 import org.bukkit.entity.Player;
 
 public class SetRegion extends Identifiable<Player> {
-    private final boolean add;
     public int step;
     public String name;
     public Integer[] region = new Integer[4];
+    private boolean add;
 
 
-    public SetRegion(Player player, String name, boolean add) {
-        super(player);
-        this.name = name.toLowerCase();
-        this.add = add;
-    }
-
-    public static boolean add(Player player, String name, boolean add) {
-        // Error if arena doesn't exist
-        if (Arena.get(name) == null && !add)
-            return MessageHandler.commandError(player, "Arena " + name + " does not exist");
-
-        // Error if player already setting region
-        SetRegion setRegion = get(player);
-        if (setRegion != null)
-            return MessageHandler.commandError(player, "You are already setting region for arena " + setRegion.name);
-
-        new SetRegion(player, name, add);
-        MessageHandler.msg(player, MessageHandler.MessageType.GENERAL, "Left click block to set pos 1");
-        return true;
+    public SetRegion(Player identity, String name, boolean add) {
+        super(identity);
+        create(identity, name, add);
     }
 
     public static SetRegion get(Player identity) {
@@ -42,6 +26,28 @@ public class SetRegion extends Identifiable<Player> {
 
     public static boolean dispose(Player identity) {
         return dispose(identity, SetRegion.class);
+    }
+
+    protected boolean create(Player identity, String name, boolean add) throws IllegalStateException {
+        // Error if arena doesn't exist
+        if (Arena.get(name) == null && !add)
+            return MessageHandler.commandError(identity, "Arena " + name + " does not exist");
+
+        // Error if player already setting region
+        SetRegion sR = get(identity);
+        if (sR != null)
+            return MessageHandler.commandError(identity, "You are already setting region for arena " + sR.name);
+
+        MessageHandler.msg(identity, MessageHandler.MessageType.GENERAL, "Left click block to set pos 1");
+
+        this.name = name.toLowerCase();
+        this.add = add;
+        return super.create(identity);
+    }
+
+    @Override
+    protected boolean create(Player identity) {
+        return true;
     }
 
     // Go to next step in region setting

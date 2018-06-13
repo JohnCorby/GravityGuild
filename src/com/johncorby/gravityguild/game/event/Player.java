@@ -36,17 +36,20 @@ public class Player implements Listener {
         }
     }
 
+
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
         if (Arena.arenaIn(event.getEntity()) != null)
             event.setCancelled(true);
     }
 
+
     @EventHandler
     public void onExpChange(PlayerExpChangeEvent event) {
         if (Arena.arenaIn(event.getPlayer()) != null)
             event.setAmount(0);
     }
+
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {

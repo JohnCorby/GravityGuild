@@ -47,7 +47,6 @@ public class Player implements Listener {
     }
 
 
-
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         org.bukkit.entity.Player player = event.getPlayer();
