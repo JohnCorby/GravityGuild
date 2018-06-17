@@ -1,8 +1,8 @@
 package com.johncorby.gravityguild.arenaapi.event;
 
-import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import com.johncorby.gravityguild.util.Common;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
@@ -10,17 +10,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 
-import static com.johncorby.gravityguild.MessageHandler.commandError;
-
 public class Block implements Listener {
-    // For setting gravityguild signs
+    // For setting virtualredstone signs
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
         // Ignore if not sign
         if (!(event.getBlock().getState() instanceof Sign)) return;
         Sign s = (Sign) event.getBlock().getState();
 
-        // Ignore if not gravityguild sign
+        // Ignore if not virtualredstone sign
         if (!s.getLine(0).equalsIgnoreCase(ChatColor.YELLOW + "[GravityGuild]")) return;
 
         // Try to get arena
@@ -36,23 +34,23 @@ public class Block implements Listener {
     }
 
 
-    // For setting gravityguild signs
+    // For setting virtualredstone signs
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
         // Ignore normal signs
-        if (!event.getLine(0).equalsIgnoreCase("[gravityguild]")) return;
+        if (!event.getLine(0).equalsIgnoreCase("[virtualredstone]")) return;
 
         // Try to get arena
         String aN = event.getLine(1);
         Arena a = Arena.get(aN);
         if (a == null) {
-            commandError(event.getPlayer(), "Arena " + aN + " doesn't exist");
+            MessageHandler.commandError(event.getPlayer(), "Arena " + aN + " doesn't exist");
             return;
         }
 
         // Ignore if arena already has sign
         if (a.getSign() != null) {
-            commandError(event.getPlayer(), "Arena " + aN + " already has sign");
+            MessageHandler.commandError(event.getPlayer(), "Arena " + aN + " already has sign");
             return;
         }
 

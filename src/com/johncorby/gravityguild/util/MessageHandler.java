@@ -1,4 +1,4 @@
-package com.johncorby.gravityguild;
+package com.johncorby.gravityguild.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.johncorby.gravityguild.MessageHandler.MessageType.ERROR;
-import static com.johncorby.gravityguild.MessageHandler.MessageType.GENERAL;
+import static com.johncorby.gravityguild.util.MessageHandler.MessageType.ERROR;
+import static com.johncorby.gravityguild.util.MessageHandler.MessageType.GENERAL;
 
 public class MessageHandler {
     public static final boolean DEBUG = true;

@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
-import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.arenaapi.arena.SetRegion;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.bukkit.entity.Player;
 
 public class Cancel extends BaseCommand {
@@ -12,7 +12,7 @@ public class Cancel extends BaseCommand {
     @Override
     public boolean onCommand(Player sender, String[] args) {
         // Error if setting region
-        SetRegion sR = (SetRegion) SetRegion.get(sender);
+        com.johncorby.gravityguild.arenaapi.arena.SetRegion sR = SetRegion.get(sender);
         if (sR == null) return MessageHandler.commandError(sender, "You're not setting an arena region");
 
         // Remove region setter

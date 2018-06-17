@@ -1,6 +1,6 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
-import com.johncorby.gravityguild.MessageHandler;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.bukkit.entity.Player;
 
 import static org.bukkit.Bukkit.getConsoleSender;

@@ -2,13 +2,13 @@ package com.johncorby.gravityguild.arenaapi.arena;
 
 import com.boydti.fawe.object.schematic.Schematic;
 import com.johncorby.gravityguild.GravityGuild;
-import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.arenaapi.command.Lobby;
 import com.johncorby.gravityguild.game.arena.JoinLeave;
 import com.johncorby.gravityguild.game.arena.StateChange;
 import com.johncorby.gravityguild.util.Class;
 import com.johncorby.gravityguild.util.Common;
 import com.johncorby.gravityguild.util.Identifiable;
+import com.johncorby.gravityguild.util.MessageHandler;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.blocks.BlockType;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
@@ -31,8 +31,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.johncorby.gravityguild.GravityGuild.*;
-import static com.johncorby.gravityguild.MessageHandler.commandError;
-import static com.johncorby.gravityguild.MessageHandler.msg;
 import static com.johncorby.gravityguild.util.Common.map;
 import static com.johncorby.gravityguild.util.Common.randInt;
 import static org.apache.commons.lang.exception.ExceptionUtils.getStackTrace;
@@ -64,10 +62,6 @@ public class Arena extends Identifiable<String> {
 
     public static Arena get(String identity) {
         return (Arena) get(identity, Arena.class);
-    }
-
-    public static boolean contains(String identity) {
-        return contains(identity, Arena.class);
     }
 
     public static boolean dispose(String identity) {
@@ -157,7 +151,7 @@ public class Arena extends Identifiable<String> {
                 StateChange.on(this, state);
                 break;
             case RUNNING:
-                broadcast("Game create");
+                broadcast("Game start");
 
                 StateChange.on(this, state);
                 break;
@@ -217,11 +211,11 @@ public class Arena extends Identifiable<String> {
 
             // Error if arena has started
             if (state == State.RUNNING && !getOverridePlayers().contains(p))
-                return commandError(p, "Arena " + get() + " isn't joinable");
+                return MessageHandler.commandError(p, "Arena " + get() + " isn't joinable");
 
             // Don't join arena if in it
             if (aI == this && !getOverridePlayers().contains(p))
-                return commandError(p, "You're already in arena " + get());
+                return MessageHandler.commandError(p, "You're already in arena " + get());
             // Leave arena if in one
             if (aI != null) aI.remove(p);
 
@@ -234,7 +228,7 @@ public class Arena extends Identifiable<String> {
             updateSign();
 
             // Send join messages
-            msg(p, MessageHandler.MessageType.GAME, "Joined arena " + get());
+            MessageHandler.msg(p, MessageHandler.MessageType.GAME, "Joined arena " + get());
             broadcast(p.getName() + " joined the arena", p);
 
             JoinLeave.onJoin(p, this);
@@ -266,7 +260,7 @@ public class Arena extends Identifiable<String> {
 
             // Send leave messages
             broadcast(p.getName() + " left the arena", p);
-            msg(p, MessageHandler.MessageType.GAME, "Left arena " + get());
+            MessageHandler.msg(p, MessageHandler.MessageType.GAME, "Left arena " + get());
 
             JoinLeave.onLeave(p, this);
         } else entity.remove();
@@ -317,8 +311,10 @@ public class Arena extends Identifiable<String> {
             try {
                 // Remove entities so they aren't saved in the schematic
                 // Except not players because that causes issues
+                state = State.OPEN;
                 for (Entity e : getEntities())
                     if (!(e instanceof Player)) e.remove();
+                state = State.STOPPED;
 
                 File file = new File(gravityGuild.getDataFolder() + "/" + get() + ".schematic");
                 World world = new BukkitWorld(WORLD);
@@ -361,11 +357,10 @@ public class Arena extends Identifiable<String> {
     public void tpToRandom(Player player) {
         Location l = new Location(WORLD,
                 randInt(region[0], region[2]),
-                randInt(0, 255 - 2),
+                randInt(0, 250),
                 randInt(region[1], region[3]),
                 randInt(-180, 180),
                 0);
-        player.teleport(l);
 
         int x = l.getBlockX();
         int y = l.getBlockY();
@@ -390,7 +385,6 @@ public class Arena extends Identifiable<String> {
                     l.setX(x + .5);
                     l.setY(y - 2 + BlockType.centralTopLimit(b.getTypeId(), b.getData()));
                     l.setZ(z + .5);
-                    player.teleport(l);
                 }
 
                 break;
@@ -408,12 +402,13 @@ public class Arena extends Identifiable<String> {
                 l.setX(x + .5);
                 l.setY(y + BlockType.centralTopLimit(id, data));
                 l.setZ(z + .5);
-                player.teleport(l);
                 break;
             }
 
             --y;
         }
+
+        player.teleport(l);
     }
 
     @Override

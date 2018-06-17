@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
-import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.arenaapi.arena.SetRegion;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.bukkit.entity.Player;
 
 public class Add extends BaseCommand {

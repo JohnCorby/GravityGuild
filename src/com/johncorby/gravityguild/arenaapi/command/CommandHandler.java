@@ -1,6 +1,6 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
-import com.johncorby.gravityguild.MessageHandler;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.johncorby.gravityguild.GravityGuild.gravityGuild;
-import static com.johncorby.gravityguild.MessageHandler.commandError;
 import static org.apache.commons.lang.exception.ExceptionUtils.getStackTrace;
 
 public class CommandHandler implements CommandExecutor {
@@ -20,7 +19,7 @@ public class CommandHandler implements CommandExecutor {
 
     public CommandHandler() {
         // Register base command
-        gravityGuild.getCommand("gravityguild").setExecutor(this);
+        gravityGuild.getCommand("virtualredstone").setExecutor(this);
 
         // Register BaseCommands
         //register(new Help());
@@ -61,7 +60,7 @@ public class CommandHandler implements CommandExecutor {
         args = Arrays.stream(args).map(String::toLowerCase).toArray(String[]::new);
 
         // If sender not player: say so
-        if (!(sender instanceof Player)) return commandError(sender, "Sender must be player");
+        if (!(sender instanceof Player)) return MessageHandler.commandError(sender, "Sender must be player");
         Player player = (Player) sender;
 
         // If no args: show help for all commands
@@ -73,7 +72,7 @@ public class CommandHandler implements CommandExecutor {
 
         // If command not found or no permission: say so
         if (baseCommand == null || !baseCommand.hasPermission(player))
-            return commandError(player, "Command " + args[0] + " not found", "Do /gravityguild for a list of commands");
+            return MessageHandler.commandError(player, "Command " + args[0] + " not found", "Do /virtualredstone for a list of commands");
 
         args = Arrays.copyOfRange(args, 1, args.length);
 
@@ -81,7 +80,7 @@ public class CommandHandler implements CommandExecutor {
         try {
             return baseCommand.onCommand(player, args);
         } catch (Exception e) {
-            commandError(player, e);
+            MessageHandler.commandError(player, e);
             MessageHandler.error((Object) getStackTrace(e));
             return false;
         }

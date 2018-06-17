@@ -2,6 +2,7 @@ package com.johncorby.gravityguild.game.event;
 
 import com.johncorby.gravityguild.arenaapi.arena.Arena;
 import com.johncorby.gravityguild.game.arena.CoolDown;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.bukkit.Location;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.EventHandler;
@@ -12,9 +13,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
-
-import static com.johncorby.gravityguild.MessageHandler.MessageType.GAME;
-import static com.johncorby.gravityguild.MessageHandler.msg;
 
 public class Player implements Listener {
     @EventHandler
@@ -65,14 +63,14 @@ public class Player implements Listener {
 
         deathMsg = deathMsg.replace(p.getName(), "You")
                 .replace("You was", "You were");
-        msg(p, GAME, deathMsg);
+        MessageHandler.msg(p, MessageHandler.MessageType.GAME, deathMsg);
 
 
         p.setLevel(p.getLevel() - 1);
 
         if (p.getLevel() > 0) {
-            msg(p, GAME, "You lost a life");
-            msg(p, GAME, "You have " + p.getLevel() + " life/lives left");
+            MessageHandler.msg(p, MessageHandler.MessageType.GAME, "You lost a life");
+            MessageHandler.msg(p, MessageHandler.MessageType.GAME, "You have " + p.getLevel() + " life/lives left");
             aI.broadcast(p.getName() + " has lost a life", p);
             aI.broadcast(p.getName() + " has " + p.getLevel() + " life/lives left", p);
 
@@ -82,7 +80,7 @@ public class Player implements Listener {
             // Run cooldown
             new CoolDown(p);
         } else {
-            msg(p, GAME, "You have died");
+            MessageHandler.msg(p, MessageHandler.MessageType.GAME, "You have died");
             aI.broadcast(p.getName() + " has died", p);
             aI.remove(p);
         }

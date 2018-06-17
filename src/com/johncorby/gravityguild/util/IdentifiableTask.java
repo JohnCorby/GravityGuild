@@ -1,6 +1,6 @@
 package com.johncorby.gravityguild.util;
 
-public abstract class IdentifiableTask<I> extends Identifiable<I> {
+public class IdentifiableTask<I> extends Identifiable<I> {
     protected Task task;
 
     public IdentifiableTask(I identity) {
@@ -11,15 +11,10 @@ public abstract class IdentifiableTask<I> extends Identifiable<I> {
         return (IdentifiableTask) get(identity, IdentifiableTask.class);
     }
 
-    public static boolean contains(Object identity) {
-        return contains(identity, IdentifiableTask.class);
-    }
-
     public static boolean dispose(Object identity) {
         return dispose(identity, IdentifiableTask.class);
     }
 
-    // TODO: Override this in subclasses
     protected boolean create(I identity) {
         if (!super.create(identity)) return false;
         task = new Task();

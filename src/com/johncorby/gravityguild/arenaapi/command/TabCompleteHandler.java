@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import static com.johncorby.gravityguild.GravityGuild.gravityGuild;
-import static com.johncorby.gravityguild.arenaapi.command.CommandHandler.getCommands;
 
 // It's broken I give up
 // No it's not
@@ -20,7 +19,7 @@ public class TabCompleteHandler implements TabCompleter {
 
     public TabCompleteHandler() {
         // Register tab completer
-        gravityGuild.getCommand("gravityguild").setTabCompleter(this);
+        gravityGuild.getCommand("virtualredstone").setTabCompleter(this);
     }
 
     public static void register(String command, int argPos, Supplier<List<String>> results) {
@@ -35,7 +34,7 @@ public class TabCompleteHandler implements TabCompleter {
         List<String> results = TabResult.getResults(args);
         // If no BaseCommand, match BaseCommands
         if (results == null) {
-            return TabResult.match(args[0], Common.map(getCommands(sender), BaseCommand::getName));
+            return TabResult.match(args[0], Common.map(CommandHandler.getCommands(sender), BaseCommand::getName));
         }
 
         // Return matching TabResult

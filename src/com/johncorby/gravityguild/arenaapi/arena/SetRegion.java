@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.arena;
 
-import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.util.Identifiable;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.bukkit.entity.Player;
 
 public class SetRegion extends Identifiable<Player> {
@@ -18,10 +18,6 @@ public class SetRegion extends Identifiable<Player> {
 
     public static SetRegion get(Player identity) {
         return (SetRegion) get(identity, SetRegion.class);
-    }
-
-    public static boolean contains(Player identity) {
-        return contains(identity, SetRegion.class);
     }
 
     public static boolean dispose(Player identity) {

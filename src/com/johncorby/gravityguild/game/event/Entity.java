@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.game.event;
 
 import com.johncorby.gravityguild.arenaapi.arena.Arena;
-import com.johncorby.gravityguild.game.arena.ProjectileWrapper;
+import com.johncorby.gravityguild.game.arena.ProjVelSet;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,7 +27,9 @@ public class Entity implements Listener {
             if (p instanceof Arrow && s == h) event.setDamage(0);
 
             // Don't damage if shot with witherskull from player
-            if (p instanceof WitherSkull && s instanceof Player) event.setDamage(0);
+            if (p instanceof WitherSkull && s instanceof Player) {
+                event.setDamage(0);
+            }
         }
     }
 
@@ -49,7 +51,7 @@ public class Entity implements Listener {
 
         // Get projectile and apply stuff
         p.setGravity(false);
-        new ProjectileWrapper(p);
+        new ProjVelSet(p);
     }
 
 
@@ -71,6 +73,6 @@ public class Entity implements Listener {
 
         // Kill entity
         p.remove();
-        ProjectileWrapper.dispose(p);
+        ProjVelSet.dispose(p);
     }
 }

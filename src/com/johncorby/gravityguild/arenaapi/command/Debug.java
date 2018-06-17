@@ -1,12 +1,9 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
 import com.johncorby.gravityguild.util.Class;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.entity.Player;
-
-import static com.johncorby.gravityguild.MessageHandler.MessageType.GENERAL;
-import static com.johncorby.gravityguild.MessageHandler.debug;
-import static com.johncorby.gravityguild.MessageHandler.msg;
 
 public class Debug extends BaseCommand {
     Debug() {
@@ -18,11 +15,11 @@ public class Debug extends BaseCommand {
         //debug(Thread.getAllStackTraces());
         for (Class c : Class.getClasses())
             try {
-                debug((Object[]) c.getDebug().toArray());
+                MessageHandler.debug((Object[]) c.getDebug().toArray());
             } catch (Exception e) {
-                debug("Error getting debug for " + c + ": " + ExceptionUtils.getStackTrace(e));
+                MessageHandler.debug("Error getting debug for " + c + ": " + ExceptionUtils.getStackTrace(e));
             }
-        msg(sender, GENERAL, "See console");
+        MessageHandler.msg(sender, MessageHandler.MessageType.GENERAL, "See console");
         return true;
     }
 }

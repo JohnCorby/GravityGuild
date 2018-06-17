@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
-import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.arenaapi.arena.LobbyHandler;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.bukkit.entity.Player;
 
 public class SetLobby extends BaseCommand {

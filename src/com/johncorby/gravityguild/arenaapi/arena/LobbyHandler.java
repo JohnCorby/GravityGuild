@@ -3,14 +3,12 @@ package com.johncorby.gravityguild.arenaapi.arena;
 import com.johncorby.gravityguild.GravityGuild;
 import org.bukkit.Location;
 
-import static com.johncorby.gravityguild.GravityGuild.gravityGuild;
-
 public class LobbyHandler {
     // Set lobby loc
     public static void set(Location lobbyLoc) {
         Integer[] iL = new Integer[]{lobbyLoc.getBlockX(), lobbyLoc.getBlockY(), lobbyLoc.getBlockZ(), (int) lobbyLoc.getYaw(), (int) lobbyLoc.getPitch()};
         GravityGuild.CONFIG.set("Lobby", iL);
-        gravityGuild.saveConfig();
+        GravityGuild.gravityGuild.saveConfig();
     }
 
     // Get lobby loc

@@ -1,6 +1,5 @@
 package com.johncorby.gravityguild.util;
 
-import com.johncorby.gravityguild.MessageHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 

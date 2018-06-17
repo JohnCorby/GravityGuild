@@ -37,6 +37,7 @@ public class JoinLeave {
         player.getInventory().setChestplate(elytra);
         player.getInventory().setHelmet(endRod);
 
+        CoolDown.heal(player);
         player.setInvulnerable(true);
         player.setGlowing(true);
 
@@ -47,6 +48,7 @@ public class JoinLeave {
 
     // When player leave arena
     public static void onLeave(Player player, Arena arena) {
+        CoolDown.heal(player);
         player.setInvulnerable(false);
         player.setGlowing(false);
 

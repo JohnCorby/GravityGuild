@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.command;
 
-import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.arenaapi.arena.Arena;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.bukkit.entity.Player;
 
 public class Update extends BaseCommand {
@@ -21,7 +21,7 @@ public class Update extends BaseCommand {
 
         // Try to update region
         a.setRegion(a.getRegion());
-        MessageHandler.msg(sender, MessageHandler.MessageType.GENERAL, "Updating arena blocks");
+        MessageHandler.msg(sender, MessageHandler.MessageType.GENERAL, "Updated arena blocks");
         return true;
     }
 }

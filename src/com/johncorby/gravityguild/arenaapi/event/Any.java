@@ -1,7 +1,7 @@
 package com.johncorby.gravityguild.arenaapi.event;
 
-import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.arenaapi.arena.Arena;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;

@@ -1,8 +1,3 @@
-/*
- * TODO BUGS: https://github.com/JohnCorby/GravityGuild/issues?q=is%3Aopen+is%3Aissue+label%3Abug
- * TODO FEATURES: https://github.com/JohnCorby/GravityGuild/issues?q=is%3Aopen+is%3Aissue+label%3Afeature
- */
-
 package com.johncorby.gravityguild;
 
 import com.johncorby.gravityguild.arenaapi.arena.Arena;
@@ -10,6 +5,7 @@ import com.johncorby.gravityguild.arenaapi.command.CommandHandler;
 import com.johncorby.gravityguild.arenaapi.command.TabCompleteHandler;
 import com.johncorby.gravityguild.arenaapi.event.EventHandler;
 import com.johncorby.gravityguild.util.Common;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -20,8 +16,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * TODO BUGS: https://github.com/JohnCorby/GravityGuild/issues?q=is%3Aopen+is%3Aissue+label%3Abug
+ * TODO FEATURES: https://github.com/JohnCorby/GravityGuild/issues?q=is%3Aopen+is%3Aissue+label%3Afeature
+ */
 public class GravityGuild extends JavaPlugin {
-    public static JavaPlugin gravityGuild;
+    public static GravityGuild gravityGuild;
     public static CommandHandler commandCommandHandler;
     public static TabCompleteHandler tabCompleteHandler;
     public static EventHandler eventEventHandler;
@@ -39,7 +39,7 @@ public class GravityGuild extends JavaPlugin {
     @Override
     public void onEnable() {
         // Init classes
-        gravityGuild = getPlugin(GravityGuild.class);
+        gravityGuild = this;
         CONFIG = getConfig();
 
         commandCommandHandler = new CommandHandler();

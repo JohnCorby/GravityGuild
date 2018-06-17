@@ -1,7 +1,5 @@
 package com.johncorby.gravityguild.util;
 
-import com.johncorby.gravityguild.MessageHandler;
-
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;

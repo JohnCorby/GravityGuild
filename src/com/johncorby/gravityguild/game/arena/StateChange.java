@@ -24,7 +24,7 @@ public class StateChange {
 
                 // Stop ProjectileWrappers
                 for (Entity e : a.getEntities())
-                    if (e instanceof Projectile) ProjectileWrapper.dispose((Projectile) e);
+                    if (e instanceof Projectile) ProjVelSet.dispose((Projectile) e);
                 break;
         }
     }

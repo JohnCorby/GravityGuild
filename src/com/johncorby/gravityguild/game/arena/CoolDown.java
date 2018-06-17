@@ -1,8 +1,9 @@
 package com.johncorby.gravityguild.game.arena;
 
-import com.johncorby.gravityguild.MessageHandler;
 import com.johncorby.gravityguild.util.IdentifiableTask;
+import com.johncorby.gravityguild.util.MessageHandler;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
 
 public class CoolDown extends IdentifiableTask<Player> {
     private static final int d = 5;
@@ -15,24 +16,16 @@ public class CoolDown extends IdentifiableTask<Player> {
         return (CoolDown) get(identity, CoolDown.class);
     }
 
-    public static boolean contains(Player identity) {
-        return contains(identity, CoolDown.class);
-    }
-
     public static boolean dispose(Player identity) {
         return dispose(identity, CoolDown.class);
     }
 
-    @Override
-    protected boolean create(Player identity) {
-        if (!super.create(identity)) return false;
-        identity.setInvulnerable(true);
-//        get().setGlowing(true);
-        identity.setHealth(identity.getMaxHealth());
-        identity.setFireTicks(0);
-        MessageHandler.msg(identity, MessageHandler.MessageType.GAME, "You are invincible for " + d + " seconds");
-        task.runTaskLater(20 * d);
-        return true;
+    public static void heal(Player p) {
+        p.setHealth(p.getMaxHealth());
+        p.setFoodLevel(20);
+        p.setFireTicks(0);
+        for (PotionEffect e : p.getActivePotionEffects())
+            p.removePotionEffect(e.getType());
     }
 
     @Override
@@ -46,8 +39,17 @@ public class CoolDown extends IdentifiableTask<Player> {
     public boolean dispose() {
         get().setInvulnerable(false);
 //        get().setGlowing(false);
-        get().setHealth(get().getMaxHealth());
-        get().setFireTicks(0);
         return super.dispose();
+    }
+
+    @Override
+    protected boolean create(Player identity) {
+        if (!super.create(identity)) return false;
+        heal(identity);
+        identity.setInvulnerable(true);
+//        get().setGlowing(true);
+        MessageHandler.msg(identity, MessageHandler.MessageType.GAME, "You are invincible for " + d + " seconds");
+        task.runTaskLater(20 * d);
+        return true;
     }
 }
