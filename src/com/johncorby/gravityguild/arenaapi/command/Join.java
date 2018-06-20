@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 public class Join extends BaseCommand {
     Join() {
-        super("JoinLeave an arena", "<name>", "");
+        super("Join an arena", "<name>", "");
         TabCompleteHandler.register(getName(), 0, Arena::getNames);
     }
 

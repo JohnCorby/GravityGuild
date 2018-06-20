@@ -27,7 +27,6 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.johncorby.gravityguild.GravityGuild.*;
@@ -68,15 +67,15 @@ public class Arena extends Identifiable<String> {
         return dispose(identity, Arena.class);
     }
 
-    public static List<Arena> getArenas() {
-        List<Arena> r = new ArrayList<>();
+    public static ArrayList<Arena> getArenas() {
+        ArrayList<Arena> r = new ArrayList<>();
         for (Class c : classes)
             if (c instanceof Arena) r.add((Arena) c);
         return r;
     }
 
     // Get arena names
-    public static List<String> getNames() {
+    public static ArrayList<String> getNames() {
         //if (arenas == null) return null;
         return map(getArenas(), a -> a.get());
     }
@@ -128,12 +127,12 @@ public class Arena extends Identifiable<String> {
                 MessageHandler.msg(entity, MessageHandler.MessageType.GAME, message);
     }
 
-    public List<Entity> getEntities() {
+    public ArrayList<Entity> getEntities() {
         return WORLD.getEntities().stream().filter(this::contains).collect(Collectors.toList());
     }
 
-    public List<Player> getPlayers() {
-        List<Player> p = new ArrayList<>();
+    public ArrayList<Player> getPlayers() {
+        ArrayList<Player> p = new ArrayList<>();
         for (Entity e : getEntities()) {
             if (e instanceof Player) p.add((Player) e);
         }
@@ -412,8 +411,8 @@ public class Arena extends Identifiable<String> {
     }
 
     @Override
-    public List<String> getDebug() {
-        List<String> r = new ArrayList<>();
+    public ArrayList<String> getDebug() {
+        ArrayList<String> r = new ArrayList<>();
         r.add(toString());
 
         r.add("State: " + state.get());
@@ -424,7 +423,7 @@ public class Arena extends Identifiable<String> {
         r.add("SignLoc: " +
                 (sign == null ? "N/A" : String.format("(%s, %s, %s)", s.getBlockX(), s.getBlockY(), s.getBlockZ())));
 
-        List<Entity> el = getEntities();
+        ArrayList<Entity> el = getEntities();
         r.add("Entities: " + (el.isEmpty() ? "None" : ""));
         for (Entity e : el) {
             Location l = e.getLocation();

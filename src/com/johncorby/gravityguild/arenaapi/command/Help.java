@@ -32,7 +32,7 @@ public class Help extends BaseCommand {
         // Try to get command
         BaseCommand command = CommandHandler.getCommand(args[0]);
         if (command == null)
-            return MessageHandler.commandError(sender, "Command " + args[0] + " not found", "Do /virtualredstone help for a list of commands");
+            return MessageHandler.commandError(sender, "Command " + args[0] + " not found", "Do /virtualredstone help for a ArrayList of commands");
 
         // Get help for command
         getHelp(sender, command);

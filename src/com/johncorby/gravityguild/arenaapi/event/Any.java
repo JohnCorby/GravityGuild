@@ -26,7 +26,7 @@ public class Any implements Listener {
                         Arena aI = Arena.arenaIn(blockEvent.getBlock().getLocation());
                         if (aI == null) return;
 
-                        // Add block to arena's changed blocks list
+                        // Add block to arena's changed blocks ArrayList
                         MessageHandler.debug("Block Event in arena: " + blockEvent.getEventName());
                         //aI.add(blockEvent.getBlock().getState());
                     } else {

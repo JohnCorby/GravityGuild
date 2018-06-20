@@ -1,8 +1,8 @@
 package com.johncorby.gravityguild.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
@@ -10,12 +10,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Common {
-    // Convert array to list and vice versa
-    public static <T> List<T> toList(T[] o) {
+    // Convert array to ArrayList and vice versa
+    public static <T> ArrayList<T> toList(T[] o) {
         return Arrays.asList(o);
     }
 
-    public static <T> T[] toArray(List<T> l, T[] i) {
+    public static <T> T[] toArray(ArrayList<T> l, T[] i) {
         return l.toArray(i);
     }
 
@@ -29,7 +29,7 @@ public class Common {
     }
 
     // Convert string to int
-    public static <T> List<String> toStr(List<T> ol) {
+    public static <T> ArrayList<String> toStr(ArrayList<T> ol) {
         return map(ol, Common::toStr);
     }
 
@@ -45,17 +45,17 @@ public class Common {
         return Arrays.stream(oa).map(Common::toInt).toArray(Integer[]::new);
     }
 
-    public static <T> List<Integer> toInt(List<T> ol) {
+    public static <T> ArrayList<Integer> toInt(ArrayList<T> ol) {
         return map(ol, Common::toInt);
     }
 
-    // Map list/array
+    // Map ArrayList/array
     public static <T, R> R[] map(T[] array, Function<? super T, ? extends R> function, R[] instance) {
         return toArray(Arrays.stream(array).map(function).collect(Collectors.toList()), instance);
     }
 
-    public static <T, R> List<R> map(List<T> list, Function<? super T, ? extends R> function) {
-        return list.stream().map(function).collect(Collectors.toList());
+    public static <T, R> ArrayList<R> map(ArrayList<T> ArrayList, Function<? super T, ? extends R> function) {
+        return ArrayList.stream().map(function).collect(Collectors.toList());
     }
 
     // Get a random int from min to max, inclusive
@@ -63,12 +63,12 @@ public class Common {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
-    // Gets random element from array/list
+    // Gets random element from array/ArrayList
     public static <T> T randChoice(T[] array) {
         return array[randInt(0, array.length - 1)];
     }
 
-    public static <T> T randChoice(List<T> array) {
+    public static <T> T randChoice(ArrayList<T> array) {
         return array.get(randInt(0, array.size() - 1));
     }
 
@@ -83,19 +83,19 @@ public class Common {
         return String.format(s, (Object[]) toStr(replacements));
     }
 
-    // Find property R of list E and return E that has property R
+    // Find property R of ArrayList E and return E that has property R
     public static <T, R> T find(T[] array, T[] instance, Function<? super T, ? extends R> function, R element) {
         return find(Arrays.asList(array), function, element);
     }
 
-    public static <T, R> T find(List<T> list, Function<? super T, ? extends R> function, R element) {
-        int i = map(list, function).indexOf(element);
-        return i < 0 ? null : list.get(i);
+    public static <T, R> T find(ArrayList<T> ArrayList, Function<? super T, ? extends R> function, R element) {
+        int i = map(ArrayList, function).indexOf(element);
+        return i < 0 ? null : ArrayList.get(i);
     }
 
 
-    // See if one list has an item from another
-    public static <T> boolean containsAny(List<T> list1, List<T> list2) {
+    // See if one ArrayList has an item from another
+    public static <T> boolean containsAny(ArrayList<T> list1, ArrayList<T> list2) {
         for (T e : list2)
             if (list1.contains(e)) return true;
         return false;
@@ -140,7 +140,7 @@ public class Common {
         private Iterator<E> iterator;
         private int itemsPerTick;
 
-        public RunnableIterator(List<E> items, int itemsPerTick) {
+        public RunnableIterator(ArrayList<E> items, int itemsPerTick) {
             iterator = items.iterator();
             this.itemsPerTick = itemsPerTick;
         }

@@ -8,14 +8,13 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.johncorby.gravityguild.GravityGuild.gravityGuild;
 import static org.apache.commons.lang.exception.ExceptionUtils.getStackTrace;
 
 public class CommandHandler implements CommandExecutor {
-    public static List<BaseCommand> commands = new ArrayList<>();
+    public static ArrayList<BaseCommand> commands = new ArrayList<>();
 
     public CommandHandler() {
         // Register base command
@@ -44,7 +43,7 @@ public class CommandHandler implements CommandExecutor {
     }
 
     // Get commands
-    public static List<BaseCommand> getCommands(CommandSender who) {
+    public static ArrayList<BaseCommand> getCommands(CommandSender who) {
         return commands.stream().filter(c -> c.hasPermission(who)).collect(Collectors.toList());
     }
 
@@ -72,7 +71,7 @@ public class CommandHandler implements CommandExecutor {
 
         // If command not found or no permission: say so
         if (baseCommand == null || !baseCommand.hasPermission(player))
-            return MessageHandler.commandError(player, "Command " + args[0] + " not found", "Do /virtualredstone for a list of commands");
+            return MessageHandler.commandError(player, "Command " + args[0] + " not found", "Do /virtualredstone for a ArrayList of commands");
 
         args = Arrays.copyOfRange(args, 1, args.length);
 

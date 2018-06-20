@@ -5,7 +5,6 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProjVelSet extends IdentifiableTask<Projectile> {
     private static final int d = 20;
@@ -38,8 +37,8 @@ public class ProjVelSet extends IdentifiableTask<Projectile> {
     }
 
     @Override
-    public List<String> getDebug() {
-        List<String> r = new ArrayList<>();
+    public ArrayList<String> getDebug() {
+        ArrayList<String> r = new ArrayList<>();
         r.add(toString());
         r.add("StartVel: " + startVel);
         return r;

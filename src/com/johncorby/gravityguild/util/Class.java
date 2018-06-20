@@ -1,25 +1,23 @@
 package com.johncorby.gravityguild.util;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Store classes to manage them
  */
 public class Class {
-    protected static final List<Class> classes = new ArrayList<>();
+    protected static final ArrayList<Class> classes = new ArrayList<>();
     private boolean exists = false;
 
     public Class() throws IllegalStateException {
         create();
     }
 
-    public static List<Class> getClasses() {
+    public static ArrayList<Class> getClasses() {
         return classes;
     }
 
-    public static boolean contains(@Nonnull Class clazz) {
+    public static boolean contains(Class clazz) {
         return classes.contains(clazz);
     }
 
@@ -56,8 +54,8 @@ public class Class {
         MessageHandler.error(toString(), msgs);
     }
 
-    public List<String> getDebug() {
-        List<String> r = new ArrayList<>();
+    public ArrayList<String> getDebug() {
+        ArrayList<String> r = new ArrayList<>();
         r.add(toString());
         return r;
     }

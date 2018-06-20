@@ -1,6 +1,5 @@
 package com.johncorby.gravityguild.util;
 
-import javax.annotation.Nonnull;
 import java.util.Objects;
 
 /**
@@ -10,7 +9,7 @@ import java.util.Objects;
 public class Identifiable<I> extends Class {
     private I identity;
 
-    public Identifiable(@Nonnull I identity) {
+    public Identifiable(I identity) {
         super();
         create(identity);
     }
@@ -23,8 +22,8 @@ public class Identifiable<I> extends Class {
         return dispose(identity, Identifiable.class);
     }
 
-    protected static Identifiable get(@Nonnull Object identity,
-                                      @Nonnull java.lang.Class<? extends Identifiable> clazz) {
+    protected static Identifiable get(Object identity,
+                                      java.lang.Class<? extends Identifiable> clazz) {
         for (Class c : classes) {
 //            MessageHandler.debug(toString(identity, clazz), "Search " + c,
 //                    c.getClass().equals(clazz),
@@ -38,14 +37,14 @@ public class Identifiable<I> extends Class {
         return null;
     }
 
-    protected static boolean dispose(@Nonnull Object identity,
-                                     @Nonnull java.lang.Class<? extends Identifiable> clazz) {
+    protected static boolean dispose(Object identity,
+                                     java.lang.Class<? extends Identifiable> clazz) {
         Identifiable i = get(identity, clazz);
         return i != null && i.dispose();
     }
 
-    public static String toString(@Nonnull Object identity,
-                                  @Nonnull java.lang.Class<? extends Identifiable> clazz) {
+    public static String toString(Object identity,
+                                  java.lang.Class<? extends Identifiable> clazz) {
         return clazz.getSimpleName() + "<" + identity + ">";
     }
 

@@ -13,8 +13,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * TODO BUGS: https://github.com/JohnCorby/GravityGuild/issues?q=is%3Aopen+is%3Aissue+label%3Abug
@@ -31,7 +31,7 @@ public class GravityGuild extends JavaPlugin {
 
     public static String[] overridePlayers = {"johncorby", "funkymunky111"};
 
-    public static List<Player> getOverridePlayers() {
+    public static ArrayList<Player> getOverridePlayers() {
         return Common.map(Arrays.asList(overridePlayers), p -> Bukkit.getServer().getPlayer(p));
     }
 

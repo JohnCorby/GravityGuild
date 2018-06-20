@@ -284,7 +284,7 @@ public class Reflection {
                 else if (e instanceof String) classes[t++] = getRefClass((String) e).getRealClass();
                 else throw new IllegalArgumentException(e + " not a Class or RefClass");
             }
-            List<Method> methods = new ArrayList<Method>();
+            ArrayList<Method> methods = new ArrayList<Method>();
             Collections.addAll(methods, clazz.getMethods());
             Collections.addAll(methods, clazz.getDeclaredMethods());
             findMethod:
@@ -331,7 +331,7 @@ public class Reflection {
                 vars = new String[1];
                 vars[0] = pattern;
             }
-            List<Method> methods = new ArrayList<Method>();
+            ArrayList<Method> methods = new ArrayList<Method>();
             Collections.addAll(methods, clazz.getMethods());
             Collections.addAll(methods, clazz.getDeclaredMethods());
             for (Method m : methods) {
@@ -384,7 +384,7 @@ public class Reflection {
         public <Z> RefMethod<Z> findMethodByReturnType(Class<Z>... types) {
             for (Class<Z> type : types) {
                 if (type == null) type = (Class<Z>) void.class;
-                List<Method> methods = new ArrayList<Method>();
+                ArrayList<Method> methods = new ArrayList<Method>();
                 Collections.addAll(methods, clazz.getMethods());
                 Collections.addAll(methods, clazz.getDeclaredMethods());
                 for (Method m : methods) {
@@ -406,7 +406,7 @@ public class Reflection {
          */
         @SuppressWarnings("unchecked")
         public RefConstructor<T> findConstructor(int number) {
-            List<Constructor> constructors = new ArrayList<Constructor>();
+            ArrayList<Constructor> constructors = new ArrayList<Constructor>();
             Collections.addAll(constructors, clazz.getConstructors());
             Collections.addAll(constructors, clazz.getDeclaredConstructors());
             for (Constructor m : constructors) {
@@ -466,7 +466,7 @@ public class Reflection {
         @SuppressWarnings("unchecked")
         public <P> RefField<P> findField(Class<P> type) {
             if (type == null) type = (Class<P>) void.class;
-            List<Field> fields = new ArrayList<Field>();
+            ArrayList<Field> fields = new ArrayList<Field>();
             Collections.addAll(fields, clazz.getFields());
             Collections.addAll(fields, clazz.getDeclaredFields());
             for (Field f : fields) {
@@ -485,7 +485,7 @@ public class Reflection {
         private boolean checkForge;
         private boolean forge;
         private Class returnType;
-        private List<Class> types;
+        private ArrayList<Class> types;
         private int index = -1;
         private boolean checkAbstract = false;
         private boolean modAbstract;
@@ -583,7 +583,7 @@ public class Reflection {
         }
 
         private RefMethod find(Class clazz) {
-            List<Method> methods = new ArrayList<Method>();
+            ArrayList<Method> methods = new ArrayList<Method>();
             for (Method m : clazz.getMethods()) if (!methods.contains(m)) methods.add(m);
             for (Method m : clazz.getDeclaredMethods()) if (!methods.contains(m)) methods.add(m);
 

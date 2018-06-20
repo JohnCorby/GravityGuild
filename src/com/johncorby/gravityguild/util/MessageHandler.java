@@ -5,8 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static com.johncorby.gravityguild.util.MessageHandler.MessageType.ERROR;
 import static com.johncorby.gravityguild.util.MessageHandler.MessageType.GENERAL;
@@ -77,7 +77,7 @@ public class MessageHandler {
 
     // Convert arrays to string form
     private static String convert(Object message) {
-        if (message instanceof List) return Arrays.toString(((List) message).toArray());
+        if (message instanceof ArrayList) return Arrays.toString(((ArrayList) message).toArray());
         if (message instanceof Object[]) return Arrays.toString((Object[]) message);
         return message.toString();
     }
