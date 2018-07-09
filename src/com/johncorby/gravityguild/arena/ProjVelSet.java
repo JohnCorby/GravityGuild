@@ -1,12 +1,12 @@
-package com.johncorby.gravityguild.game.arena;
+package com.johncorby.gravityguild.arena;
 
-import com.johncorby.gravityguild.util.IdentifiableTask;
+import com.johncorby.coreapi.util.storedclass.IdentTask;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 
-public class ProjVelSet extends IdentifiableTask<Projectile> {
+public class ProjVelSet extends IdentTask<Projectile> {
     private static final int d = 20;
     private Vector startVel;
 
@@ -15,11 +15,7 @@ public class ProjVelSet extends IdentifiableTask<Projectile> {
     }
 
     public static ProjVelSet get(Projectile identity) {
-        return (ProjVelSet) get(identity, ProjVelSet.class);
-    }
-
-    public static boolean dispose(Projectile identity) {
-        return dispose(identity, ProjVelSet.class);
+        return (ProjVelSet) get(ProjVelSet.class, identity);
     }
 
     @Override
@@ -32,7 +28,6 @@ public class ProjVelSet extends IdentifiableTask<Projectile> {
 
     @Override
     protected void run() {
-        super.run();
         get().setVelocity(startVel);
     }
 

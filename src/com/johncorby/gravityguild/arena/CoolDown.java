@@ -1,11 +1,11 @@
-package com.johncorby.gravityguild.game.arena;
+package com.johncorby.gravityguild.arena;
 
-import com.johncorby.gravityguild.util.IdentifiableTask;
-import com.johncorby.gravityguild.util.MessageHandler;
+import com.johncorby.coreapi.util.MessageHandler;
+import com.johncorby.coreapi.util.storedclass.IdentTask;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
-public class CoolDown extends IdentifiableTask<Player> {
+public class CoolDown extends IdentTask<Player> {
     private static final int d = 5;
 
     public CoolDown(Player identity) {
@@ -13,11 +13,7 @@ public class CoolDown extends IdentifiableTask<Player> {
     }
 
     public static CoolDown get(Player identity) {
-        return (CoolDown) get(identity, CoolDown.class);
-    }
-
-    public static boolean dispose(Player identity) {
-        return dispose(identity, CoolDown.class);
+        return (CoolDown) get(CoolDown.class, identity);
     }
 
     public static void heal(Player p) {
@@ -30,8 +26,7 @@ public class CoolDown extends IdentifiableTask<Player> {
 
     @Override
     protected void run() {
-        super.run();
-        MessageHandler.msg(get(), MessageHandler.MessageType.GAME, "You are no longer invincible");
+        MessageHandler.info(get(), "You are no longer invincible");
         dispose();
     }
 
@@ -48,7 +43,7 @@ public class CoolDown extends IdentifiableTask<Player> {
         heal(identity);
         identity.setInvulnerable(true);
 //        get().setGlowing(true);
-        MessageHandler.msg(identity, MessageHandler.MessageType.GAME, "You are invincible for " + d + " seconds");
+        MessageHandler.info(identity, "You are invincible for " + d + " seconds");
         task.runTaskLater(20 * d);
         return true;
     }

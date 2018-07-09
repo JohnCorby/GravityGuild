@@ -1,4 +1,3 @@
-.idea
-bin
-GravityGuild.iml
-META-INF
+
+*.iml
+*.MF

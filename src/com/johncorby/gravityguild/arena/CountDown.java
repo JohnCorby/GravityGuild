@@ -1,11 +1,11 @@
-package com.johncorby.gravityguild.game.arena;
+package com.johncorby.gravityguild.arena;
 
+import com.johncorby.arenaapi.arena.Arena;
+import com.johncorby.coreapi.util.Common;
+import com.johncorby.coreapi.util.storedclass.IdentTask;
 import com.johncorby.gravityguild.GravityGuild;
-import com.johncorby.gravityguild.arenaapi.arena.Arena;
-import com.johncorby.gravityguild.util.Common;
-import com.johncorby.gravityguild.util.IdentifiableTask;
 
-public class CountDown extends IdentifiableTask<Arena> {
+public class CountDown extends IdentTask<Arena> {
     private static final int d = 10;
     private int t = d;
 
@@ -14,11 +14,7 @@ public class CountDown extends IdentifiableTask<Arena> {
     }
 
     public static CountDown get(Arena identity) {
-        return (CountDown) get(identity, CountDown.class);
-    }
-
-    public static boolean dispose(Arena identity) {
-        return dispose(identity, CountDown.class);
+        return (CountDown) get(CountDown.class, identity);
     }
 
     @Override
@@ -30,7 +26,6 @@ public class CountDown extends IdentifiableTask<Arena> {
 
     @Override
     protected void run() {
-        super.run();
         switch (t) {
             case 10:
             case 5:

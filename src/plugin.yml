@@ -13,4 +13,4 @@ commands:
 permissions:
     gravityguild.admin:
         description: You can do everything.
-        default: false
+        default: op

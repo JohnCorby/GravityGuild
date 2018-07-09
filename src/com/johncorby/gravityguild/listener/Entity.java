@@ -1,7 +1,7 @@
-package com.johncorby.gravityguild.game.event;
+package com.johncorby.gravityguild.listener;
 
-import com.johncorby.gravityguild.arenaapi.arena.Arena;
-import com.johncorby.gravityguild.game.arena.ProjVelSet;
+import com.johncorby.arenaapi.arena.Arena;
+import com.johncorby.gravityguild.arena.ProjVelSet;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -73,6 +73,6 @@ public class Entity implements Listener {
 
         // Kill entity
         p.remove();
-        ProjVelSet.dispose(p);
+        ProjVelSet.get(p).dispose();
     }
 }

@@ -1,15 +1,41 @@
-package com.johncorby.gravityguild.game.arena;
+package com.johncorby.gravityguild.arena;
 
-import com.johncorby.gravityguild.arenaapi.arena.Arena;
+import com.johncorby.arenaapi.arena.Arena;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 
-public class JoinLeave {
-    // When player join arena
-    public static void onJoin(Player player, Arena arena) {
+public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
+    @Override
+    public void onOpen(Arena arena) {
+        // Run countdown
+        new CountDown(arena);
+    }
+
+    @Override
+    public void onRunning(Arena arena) {
+        // Run cooldown for players
+        for (Player p : arena.getPlayers())
+            new CoolDown(p);
+    }
+
+    @Override
+    public void onStopped(Arena arena) {
+        // Stop countdown
+        CountDown.get(arena).dispose();
+
+        // Stop ProjectileWrappers
+        for (Entity e : arena.getEntities())
+            if (e instanceof Projectile)
+                ProjVelSet.get((Projectile) e).dispose();
+    }
+
+    @Override
+    public void onJoin(Arena arena, Player player) {
         // Set experience to health
         player.setLevel(10);
         player.setExp(0);
@@ -37,6 +63,7 @@ public class JoinLeave {
         player.getInventory().setChestplate(elytra);
         player.getInventory().setHelmet(endRod);
 
+        // Heal
         CoolDown.heal(player);
         player.setInvulnerable(true);
         player.setGlowing(true);
@@ -46,16 +73,16 @@ public class JoinLeave {
             new CoolDown(player);
     }
 
-    // When player leave arena
-    public static void onLeave(Player player, Arena arena) {
+    @Override
+    public void onLeave(Arena arena, Player player) {
         CoolDown.heal(player);
         player.setInvulnerable(false);
         player.setGlowing(false);
 
-        // Clear invertory
+        // Clear inventory
         player.getInventory().clear();
 
         // Cancel cooldown
-        CoolDown.dispose(player);
+        CoolDown.get(player).dispose();
     }
 }
