@@ -1,6 +1,7 @@
 package com.johncorby.gravityguild.arena;
 
 import com.johncorby.arenaapi.arena.Arena;
+import com.johncorby.coreapi.util.Common;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -26,7 +27,7 @@ public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
     @Override
     public void onStopped(Arena arena) {
         // Stop countdown
-        CountDown.get(arena).dispose();
+        Common.run(CountDown.get(arena)::dispose);
 
         // Stop ProjectileWrappers
         for (Entity e : arena.getEntities())
@@ -83,6 +84,6 @@ public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
         player.getInventory().clear();
 
         // Cancel cooldown
-        CoolDown.get(player).dispose();
+        Common.run(CoolDown.get(player)::dispose);
     }
 }
