@@ -15,7 +15,7 @@ public class ProjVelSet extends IdentTask<Projectile> {
     }
 
     public static ProjVelSet get(Projectile identity) {
-        return (ProjVelSet) get(ProjVelSet.class, identity);
+        return get(ProjVelSet.class, identity);
     }
 
     @Override

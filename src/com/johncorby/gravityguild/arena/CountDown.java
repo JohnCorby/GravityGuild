@@ -14,7 +14,7 @@ public class CountDown extends IdentTask<Arena> {
     }
 
     public static CountDown get(Arena identity) {
-        return (CountDown) get(CountDown.class, identity);
+        return get(CountDown.class, identity);
     }
 
     @Override

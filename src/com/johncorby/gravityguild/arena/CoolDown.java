@@ -13,7 +13,7 @@ public class CoolDown extends IdentTask<Player> {
     }
 
     public static CoolDown get(Player identity) {
-        return (CoolDown) get(CoolDown.class, identity);
+        return get(CoolDown.class, identity);
     }
 
     public static void heal(Player p) {
