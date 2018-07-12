@@ -27,7 +27,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.boydti:fawe:RELEASE">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../FastAsyncWorldEdit-bukkit-18.05.25-4049014-1138-20.1.8.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/boydti/fawe/RELEASE/fawe-RELEASE.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
