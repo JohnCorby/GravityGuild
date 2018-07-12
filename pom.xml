@@ -39,6 +39,15 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>org.spigotmc</exclude>
+                                    <exclude>org.jetbrains</exclude>
+                                    <exclude>com.sk89q</exclude>
+                                    <exclude>com.boydti</exclude>
+                                </excludes>
+                            </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>com.johncorby.coreapi</pattern>
@@ -52,6 +61,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <outputDirectory>E:/Everything Else/Singleplayer Server/plugins</outputDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>

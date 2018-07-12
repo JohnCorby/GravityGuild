@@ -11,6 +11,8 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
     @Override
     public void onOpen(Arena arena) {
@@ -28,12 +30,12 @@ public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
     @Override
     public void onStopped(@NotNull Arena arena) {
         // Stop countdown
-        Common.run(CountDown.get(arena)::dispose);
+        Common.run(Objects.requireNonNull(CountDown.get(arena))::dispose);
 
         // Stop ProjectileWrappers
         for (Entity e : arena.getEntities())
             if (e instanceof Projectile)
-                ProjVelSet.get((Projectile) e).dispose();
+                Objects.requireNonNull(ProjVelSet.get((Projectile) e)).dispose();
     }
 
     @Override
@@ -85,6 +87,6 @@ public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
         player.getInventory().clear();
 
         // Cancel cooldown
-        Common.run(CoolDown.get(player)::dispose);
+        Common.run(Objects.requireNonNull(CoolDown.get(player))::dispose);
     }
 }
