@@ -4,6 +4,7 @@ import com.johncorby.arenaapi.arena.Arena;
 import com.johncorby.coreapi.util.Common;
 import com.johncorby.coreapi.util.storedclass.IdentTask;
 import com.johncorby.gravityguild.GravityGuild;
+import org.jetbrains.annotations.Nullable;
 
 public class CountDown extends IdentTask<Arena> {
     private static final int d = 10;
@@ -13,6 +14,7 @@ public class CountDown extends IdentTask<Arena> {
         super(identity);
     }
 
+    @Nullable
     public static CountDown get(Arena identity) {
         return get(CountDown.class, identity);
     }

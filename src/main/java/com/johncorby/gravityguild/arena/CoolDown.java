@@ -4,6 +4,8 @@ import com.johncorby.coreapi.util.MessageHandler;
 import com.johncorby.coreapi.util.storedclass.IdentTask;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CoolDown extends IdentTask<Player> {
     private static final int d = 5;
@@ -12,6 +14,7 @@ public class CoolDown extends IdentTask<Player> {
         super(identity);
     }
 
+    @Nullable
     public static CoolDown get(Player identity) {
         return get(CoolDown.class, identity);
     }
@@ -38,7 +41,7 @@ public class CoolDown extends IdentTask<Player> {
     }
 
     @Override
-    protected boolean create(Player identity) {
+    protected boolean create(@NotNull Player identity) {
         if (!super.create(identity)) return false;
         heal(identity);
         identity.setInvulnerable(true);

@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.jetbrains.annotations.NotNull;
 
 import static com.johncorby.gravityguild.GravityGuild.WORLD;
 
@@ -16,7 +17,7 @@ public class Entity implements Listener {
     // Revert witherskull damage from players
     // And arrow damage to yourself
     @EventHandler
-    public void onDamageByEntity(EntityDamageByEntityEvent event) {
+    public void onDamageByEntity(@NotNull EntityDamageByEntityEvent event) {
         org.bukkit.entity.Entity e = event.getDamager();
         if (e instanceof Projectile) {
             Projectile p = (Projectile) e;
@@ -35,7 +36,7 @@ public class Entity implements Listener {
 
 
     @EventHandler
-    public void onProjectileLaunch(ProjectileLaunchEvent event) {
+    public void onProjectileLaunch(@NotNull ProjectileLaunchEvent event) {
         Projectile p = event.getEntity();
         org.bukkit.entity.Entity s = (org.bukkit.entity.Entity) p.getShooter();
 
@@ -56,7 +57,7 @@ public class Entity implements Listener {
 
 
     @EventHandler
-    public void onProjectileHit(ProjectileHitEvent event) {
+    public void onProjectileHit(@NotNull ProjectileHitEvent event) {
         Projectile p = event.getEntity();
         org.bukkit.entity.Entity h = event.getHitEntity();
 
