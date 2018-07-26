@@ -3,8 +3,7 @@ package com.johncorby.gravityguild.listener;
 import com.johncorby.arenaapi.arena.Arena;
 import com.johncorby.coreapi.util.MessageHandler;
 import com.johncorby.gravityguild.arena.CoolDown;
-import org.bukkit.Location;
-import org.bukkit.entity.WitherSkull;
+import org.bukkit.entity.LargeFireball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -13,11 +12,10 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 
 public class Player implements Listener {
     @EventHandler
-    public void onInteract(@NotNull PlayerInteractEvent event) {
+    public void onInteract(PlayerInteractEvent event) {
         // Ignore if not in arena
         Arena aI = Arena.arenaIn(event.getPlayer());
         if (aI == null) return;
@@ -25,33 +23,32 @@ public class Player implements Listener {
         // If left clicked block
         if (event.getAction() == Action.LEFT_CLICK_AIR ||
                 event.getAction() == Action.LEFT_CLICK_BLOCK) {
-            // Spawn wither skull in front of player
+            // Spawn fireball in front of player
             org.bukkit.entity.Player p = event.getPlayer();
-            Location l = p.getEyeLocation();
             Vector d = p.getLocation().getDirection();
             //WORLD.createExplosion(l, 4);
-            p.launchProjectile(WitherSkull.class, d);
+            p.launchProjectile(LargeFireball.class, d);
             event.setCancelled(true);
         }
     }
 
 
     @EventHandler
-    public void onFoodLevelChange(@NotNull FoodLevelChangeEvent event) {
+    public void onFoodLevelChange(FoodLevelChangeEvent event) {
         if (Arena.arenaIn(event.getEntity()) != null)
             event.setCancelled(true);
     }
 
 
     @EventHandler
-    public void onExpChange(@NotNull PlayerExpChangeEvent event) {
+    public void onExpChange(PlayerExpChangeEvent event) {
         if (Arena.arenaIn(event.getPlayer()) != null)
             event.setAmount(0);
     }
 
 
     @EventHandler
-    public void onDeath(@NotNull PlayerDeathEvent event) {
+    public void onDeath(PlayerDeathEvent event) {
         // Ignore if not in arena
         Arena aI = Arena.arenaIn(event.getEntity());
         if (aI == null) return;
@@ -62,10 +59,10 @@ public class Player implements Listener {
         String deathMsg = event.getDeathMessage();
         aI.broadcast(event.getDeathMessage(), p);
 
-        deathMsg = deathMsg.replace(p.getName(), "You")
+        deathMsg = deathMsg
+                .replace(p.getName(), "You")
                 .replace("You was", "You were");
         MessageHandler.info(p, deathMsg);
-
 
         p.setLevel(p.getLevel() - 1);
 

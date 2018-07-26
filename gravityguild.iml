@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/old" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -27,7 +28,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.boydti:fawe:RELEASE">
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/com/boydti/fawe/RELEASE/fawe-RELEASE.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../FastAsyncWorldEdit-bukkit-18.05.25-4049014-1138-20.1.8.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

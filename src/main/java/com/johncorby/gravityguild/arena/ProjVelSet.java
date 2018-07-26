@@ -3,10 +3,8 @@ package com.johncorby.gravityguild.arena;
 import com.johncorby.coreapi.util.storedclass.IdentTask;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ProjVelSet extends IdentTask<Projectile> {
     private static final int d = 20;
@@ -14,17 +12,18 @@ public class ProjVelSet extends IdentTask<Projectile> {
 
     public ProjVelSet(Projectile identity) {
         super(identity);
+        create();
     }
 
-    @Nullable
     public static ProjVelSet get(Projectile identity) {
         return get(ProjVelSet.class, identity);
     }
 
     @Override
-    protected boolean create(@NotNull Projectile identity) {
-        if (!super.create(identity)) return false;
+    public boolean create() {
+        if (!super.create()) return false;
         startVel = identity.getVelocity();
+
         task.runTaskTimer(d, d);
         return true;
     }
@@ -34,11 +33,10 @@ public class ProjVelSet extends IdentTask<Projectile> {
         get().setVelocity(startVel);
     }
 
-    @NotNull
+
     @Override
-    public ArrayList<String> getDebug() {
-        ArrayList<String> r = new ArrayList<>();
-        r.add(toString());
+    public List<String> getDebug() {
+        List<String> r = super.getDebug();
         r.add("StartVel: " + startVel);
         return r;
     }

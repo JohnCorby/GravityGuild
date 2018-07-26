@@ -9,7 +9,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -21,14 +20,14 @@ public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
     }
 
     @Override
-    public void onRunning(@NotNull Arena arena) {
+    public void onRunning(Arena arena) {
         // Run cooldown for players
         for (Player p : arena.getPlayers())
             new CoolDown(p);
     }
 
     @Override
-    public void onStopped(@NotNull Arena arena) {
+    public void onStopped(Arena arena) {
         // Stop countdown
         Common.run(Objects.requireNonNull(CountDown.get(arena))::dispose);
 
@@ -39,7 +38,7 @@ public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
     }
 
     @Override
-    public void onJoin(@NotNull Arena arena, @NotNull Player player) {
+    public void onJoin(Arena arena, Player player) {
         // Set experience to health
         player.setLevel(10);
         player.setExp(0);
@@ -78,7 +77,7 @@ public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
     }
 
     @Override
-    public void onLeave(Arena arena, @NotNull Player player) {
+    public void onLeave(Arena arena, Player player) {
         CoolDown.heal(player);
         player.setInvulnerable(false);
         player.setGlowing(false);

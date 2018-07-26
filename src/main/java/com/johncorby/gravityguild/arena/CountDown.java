@@ -4,7 +4,6 @@ import com.johncorby.arenaapi.arena.Arena;
 import com.johncorby.coreapi.util.Common;
 import com.johncorby.coreapi.util.storedclass.IdentTask;
 import com.johncorby.gravityguild.GravityGuild;
-import org.jetbrains.annotations.Nullable;
 
 public class CountDown extends IdentTask<Arena> {
     private static final int d = 10;
@@ -12,16 +11,16 @@ public class CountDown extends IdentTask<Arena> {
 
     public CountDown(Arena identity) {
         super(identity);
+        create();
     }
 
-    @Nullable
     public static CountDown get(Arena identity) {
         return get(CountDown.class, identity);
     }
 
     @Override
-    protected boolean create(Arena identity) {
-        if (!super.create(identity)) return false;
+    public boolean create() {
+        if (!super.create()) return false;
         task.runTaskTimer(0, 20);
         return true;
     }
@@ -44,7 +43,7 @@ public class CountDown extends IdentTask<Arena> {
                     get().setState(Arena.State.RUNNING);
                     dispose();
                 } else {
-                    get().broadcast("Arena needs 2 or more players to create");
+                    get().broadcast("Arena needs 2 or more players to join");
                     t = d;
                 }
                 break;

@@ -9,6 +9,8 @@
     <version>2.0</version>
     <packaging>jar</packaging>
 
+    <name>GravityGuild</name>
+
     <dependencies>
         <dependency>
             <groupId>com.johncorby</groupId>
@@ -67,7 +69,9 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
+                    <finalName>${name}</finalName>
                     <outputDirectory>E:/Everything Else/Singleplayer Server/plugins</outputDirectory>
+                    <forceCreation>true</forceCreation>
                 </configuration>
             </plugin>
         </plugins>

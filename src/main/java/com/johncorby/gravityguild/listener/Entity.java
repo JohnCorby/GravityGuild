@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.jetbrains.annotations.NotNull;
 
 import static com.johncorby.gravityguild.GravityGuild.WORLD;
 
@@ -17,7 +16,7 @@ public class Entity implements Listener {
     // Revert witherskull damage from players
     // And arrow damage to yourself
     @EventHandler
-    public void onDamageByEntity(@NotNull EntityDamageByEntityEvent event) {
+    public void onDamageByEntity(EntityDamageByEntityEvent event) {
         org.bukkit.entity.Entity e = event.getDamager();
         if (e instanceof Projectile) {
             Projectile p = (Projectile) e;
@@ -36,7 +35,7 @@ public class Entity implements Listener {
 
 
     @EventHandler
-    public void onProjectileLaunch(@NotNull ProjectileLaunchEvent event) {
+    public void onProjectileLaunch(ProjectileLaunchEvent event) {
         Projectile p = event.getEntity();
         org.bukkit.entity.Entity s = (org.bukkit.entity.Entity) p.getShooter();
 
@@ -57,7 +56,7 @@ public class Entity implements Listener {
 
 
     @EventHandler
-    public void onProjectileHit(@NotNull ProjectileHitEvent event) {
+    public void onProjectileHit(ProjectileHitEvent event) {
         Projectile p = event.getEntity();
         org.bukkit.entity.Entity h = event.getHitEntity();
 
@@ -67,7 +66,7 @@ public class Entity implements Listener {
 
         // Do cool things with snowballs
         if (p instanceof Snowball) {
-            WORLD.strikeLightningEffect(p.getLocation());
+            WORLD.strikeLightning(p.getLocation());
             if (h instanceof Damageable)
                 ((Damageable) h).damage(9999, p);
         }

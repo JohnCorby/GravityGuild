@@ -4,17 +4,15 @@ import com.johncorby.coreapi.util.MessageHandler;
 import com.johncorby.coreapi.util.storedclass.IdentTask;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class CoolDown extends IdentTask<Player> {
     private static final int d = 5;
 
     public CoolDown(Player identity) {
         super(identity);
+        create();
     }
 
-    @Nullable
     public static CoolDown get(Player identity) {
         return get(CoolDown.class, identity);
     }
@@ -28,26 +26,28 @@ public class CoolDown extends IdentTask<Player> {
     }
 
     @Override
-    protected void run() {
-        MessageHandler.info(get(), "You are no longer invincible");
-        dispose();
-    }
-
-    @Override
-    public boolean dispose() {
-        get().setInvulnerable(false);
-//        get().setGlowing(false);
-        return super.dispose();
-    }
-
-    @Override
-    protected boolean create(@NotNull Player identity) {
-        if (!super.create(identity)) return false;
+    public boolean create() {
+        if (!super.create()) return false;
         heal(identity);
         identity.setInvulnerable(true);
 //        get().setGlowing(true);
         MessageHandler.info(identity, "You are invincible for " + d + " seconds");
+
         task.runTaskLater(20 * d);
         return true;
+    }
+
+    @Override
+    public boolean dispose() {
+        if (!super.dispose()) return false;
+        get().setInvulnerable(false);
+//        get().setGlowing(false);
+        return true;
+    }
+
+    @Override
+    protected void run() {
+        MessageHandler.info(get(), "You are no longer invincible");
+        dispose();
     }
 }
