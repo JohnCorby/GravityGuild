@@ -12,10 +12,11 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
-public class Player implements Listener {
+public class PlayerListeners implements Listener {
     @EventHandler
-    public void onInteract(PlayerInteractEvent event) {
+    public void onInteract(@NotNull PlayerInteractEvent event) {
         // Ignore if not in arena
         Arena aI = Arena.arenaIn(event.getPlayer());
         if (aI == null) return;
@@ -34,21 +35,21 @@ public class Player implements Listener {
 
 
     @EventHandler
-    public void onFoodLevelChange(FoodLevelChangeEvent event) {
+    public void onFoodLevelChange(@NotNull FoodLevelChangeEvent event) {
         if (Arena.arenaIn(event.getEntity()) != null)
             event.setCancelled(true);
     }
 
 
     @EventHandler
-    public void onExpChange(PlayerExpChangeEvent event) {
+    public void onExpChange(@NotNull PlayerExpChangeEvent event) {
         if (Arena.arenaIn(event.getPlayer()) != null)
             event.setAmount(0);
     }
 
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent event) {
+    public void onDeath(@NotNull PlayerDeathEvent event) {
         // Ignore if not in arena
         Arena aI = Arena.arenaIn(event.getEntity());
         if (aI == null) return;

@@ -4,6 +4,7 @@ import com.johncorby.coreapi.util.MessageHandler;
 import com.johncorby.coreapi.util.storedclass.IdentTask;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
+import org.jetbrains.annotations.Nullable;
 
 public class CoolDown extends IdentTask<Player> {
     private static final int d = 5;
@@ -13,6 +14,7 @@ public class CoolDown extends IdentTask<Player> {
         create();
     }
 
+    @Nullable
     public static CoolDown get(Player identity) {
         return get(CoolDown.class, identity);
     }
@@ -30,7 +32,7 @@ public class CoolDown extends IdentTask<Player> {
         if (!super.create()) return false;
         heal(identity);
         identity.setInvulnerable(true);
-//        get().setGlowing(true);
+//        identity.setGlowing(true);
         MessageHandler.info(identity, "You are invincible for " + d + " seconds");
 
         task.runTaskLater(20 * d);
@@ -40,8 +42,8 @@ public class CoolDown extends IdentTask<Player> {
     @Override
     public boolean dispose() {
         if (!super.dispose()) return false;
-        get().setInvulnerable(false);
-//        get().setGlowing(false);
+        identity.setInvulnerable(false);
+//        identity.setGlowing(false);
         return true;
     }
 

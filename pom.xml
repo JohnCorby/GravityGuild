@@ -24,16 +24,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.0</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>10</source>
+                    <target>10</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -70,7 +70,7 @@
                 <version>3.1.0</version>
                 <configuration>
                     <finalName>${name}</finalName>
-                    <outputDirectory>E:/Everything Else/Singleplayer Server/plugins</outputDirectory>
+                    <outputDirectory>D:/Everything Else/Singleplayer Server/plugins</outputDirectory>
                     <forceCreation>true</forceCreation>
                 </configuration>
             </plugin>

@@ -3,6 +3,7 @@ package com.johncorby.gravityguild.arena;
 import com.johncorby.coreapi.util.storedclass.IdentTask;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class ProjVelSet extends IdentTask<Projectile> {
         create();
     }
 
+    @Nullable
     public static ProjVelSet get(Projectile identity) {
         return get(ProjVelSet.class, identity);
     }
@@ -30,6 +32,7 @@ public class ProjVelSet extends IdentTask<Projectile> {
 
     @Override
     protected void run() {
+        if (get().isDead()) dispose();
         get().setVelocity(startVel);
     }
 

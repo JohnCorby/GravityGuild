@@ -1,14 +1,12 @@
 package com.johncorby.gravityguild.arena;
 
 import com.johncorby.arenaapi.arena.Arena;
-import com.johncorby.coreapi.util.Common;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -20,25 +18,23 @@ public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
     }
 
     @Override
-    public void onRunning(Arena arena) {
+    public void onRunning(@NotNull Arena arena) {
         // Run cooldown for players
         for (Player p : arena.getPlayers())
             new CoolDown(p);
     }
 
     @Override
-    public void onStopped(Arena arena) {
+    public void onStopped(@NotNull Arena arena) {
         // Stop countdown
-        Common.run(Objects.requireNonNull(CountDown.get(arena))::dispose);
-
-        // Stop ProjectileWrappers
-        for (Entity e : arena.getEntities())
-            if (e instanceof Projectile)
-                Objects.requireNonNull(ProjVelSet.get((Projectile) e)).dispose();
+        try {
+            Objects.requireNonNull(CountDown.get(arena)).dispose();
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
-    public void onJoin(Arena arena, Player player) {
+    public void onJoin(@NotNull Arena arena, @NotNull Player player) {
         // Set experience to health
         player.setLevel(10);
         player.setExp(0);
@@ -77,7 +73,7 @@ public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
     }
 
     @Override
-    public void onLeave(Arena arena, Player player) {
+    public void onLeave(Arena arena, @NotNull Player player) {
         CoolDown.heal(player);
         player.setInvulnerable(false);
         player.setGlowing(false);
@@ -86,6 +82,9 @@ public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
         player.getInventory().clear();
 
         // Cancel cooldown
-        Common.run(Objects.requireNonNull(CoolDown.get(player))::dispose);
+        try {
+            Objects.requireNonNull(CoolDown.get(player)).dispose();
+        } catch (Exception ignored) {
+        }
     }
 }
