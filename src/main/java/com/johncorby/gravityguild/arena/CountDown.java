@@ -1,10 +1,11 @@
 package com.johncorby.gravityguild.arena;
 
 import com.johncorby.arenaapi.arena.Arena;
-import com.johncorby.coreapi.util.Common;
 import com.johncorby.coreapi.util.storedclass.IdentTask;
 import com.johncorby.gravityguild.GravityGuild;
 import org.jetbrains.annotations.Nullable;
+
+import static com.johncorby.coreapi.util.Collections.containsAny;
 
 public class CountDown extends IdentTask<Arena> {
     private static final int d = 10;
@@ -41,7 +42,7 @@ public class CountDown extends IdentTask<Arena> {
             case 0:
                 // Start arena if 2 or more players
                 if (get().getPlayers().size() > 1 ||
-                        Common.containsAny(get().getPlayers(), GravityGuild.getOverridePlayers())) {
+                        containsAny(get().getPlayers(), GravityGuild.getOverridePlayers())) {
                     get().setState(Arena.State.RUNNING);
                     dispose();
                 } else {
