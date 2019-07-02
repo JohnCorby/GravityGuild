@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class ArenaEvents extends com.johncorby.arenaapi.arena.ArenaEvents {
+public class ArenaEvents implements com.johncorby.arenaapi.arena.ArenaEvents {
     @Override
     public void onOpen(Arena arena) {
         // Run countdown

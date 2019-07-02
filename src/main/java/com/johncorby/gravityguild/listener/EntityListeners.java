@@ -3,7 +3,6 @@ package com.johncorby.gravityguild.listener;
 import com.johncorby.arenaapi.arena.Arena;
 import com.johncorby.coreapi.util.Runnable;
 import com.johncorby.gravityguild.arena.ProjVelSet;
-import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;

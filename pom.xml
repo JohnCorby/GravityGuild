@@ -24,16 +24,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>LATEST</version>
                 <configuration>
-                    <source>10</source>
-                    <target>10</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>LATEST</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -44,10 +44,9 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <artifactSet>
                                 <excludes>
-                                    <exclude>org.spigotmc</exclude>
-                                    <exclude>org.jetbrains</exclude>
-                                    <exclude>com.sk89q</exclude>
+                                    <exclude>com.destroystokyo.paper</exclude>
                                     <exclude>com.boydti</exclude>
+                                    <exclude>org.jetbrains</exclude>
                                 </excludes>
                             </artifactSet>
                             <relocations>
@@ -67,7 +66,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>LATEST</version>
                 <configuration>
                     <finalName>${name}</finalName>
                     <outputDirectory>D:/Everything Else/Singleplayer Server/plugins</outputDirectory>

@@ -4,26 +4,26 @@ version: 1.0
 author: JohnCorby
 
 commands:
-    ggadd:
-        description: Add an arena.
-    ggdel:
-        description: Delete an arena
-    ggupdate:
-        description: Updates the arena map
-    ggcancel:
-        description: Cancel arena region setting if you're setting one
-    ggjoin:
-        description: Join an arena
-    ggleave:
-        description: Leave arena if you're in one
-    gglobby:
-        description: Teleport to lobby
-    ggsetlobby:
-        description: Set the lobby
-    ggstat:
-        description: View and set stats of arena
+  ggadd:
+    description: Add an arena.
+  ggdel:
+    description: Delete an arena
+  ggupdate:
+    description: Updates the arena map
+  ggcancel:
+    description: Cancel arena region setting if you're setting one
+  ggjoin:
+    description: Join an arena
+  ggleave:
+    description: Leave arena if you're in one
+  gglobby:
+    description: Teleport to lobby
+  ggsetlobby:
+    description: Set the lobby
+  ggstat:
+    description: View and set stats of arena
 
 permissions:
-    og.admin:
-        description: You can do everything.
-        default: false
+  og.admin:
+    description: You can do everything.
+    default: false

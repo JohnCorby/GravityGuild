@@ -6,11 +6,11 @@ description: Minigame for my server
 depend: [FastAsyncWorldEdit, PlugMan]
 
 commands:
-    gravityguild:
-        description: Base GravityGuild command.
-        aliases: gg
+  gravityguild:
+    description: Base GravityGuild command.
+    aliases: gg
 
 permissions:
-    gravityguild.admin:
-        description: You can do everything.
-        default: op
+  gravityguild.admin:
+    description: You can do everything.
+    default: op
